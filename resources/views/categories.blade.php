@@ -69,7 +69,46 @@
                         <div class="pager hidden-xs">
                             <div class="pages">
                                 <ul class="pagination">
-                                    {{ $core->links()}}
+                                    {{-- {{ $core->links()}} --}}
+                                    @if ($core->hasPages())
+                                    <ul class="pagination pagination">
+                                        {{-- Previous Page Link --}}
+                                        @if ($core->onFirstPage())
+                                            <li class="disabled"><span>«</span></li>
+                                        @else
+                                            <li><a href="{{ $core->previousPageUrl() }}" rel="prev">«</a></li>
+                                        @endif
+
+                                        @if($core->currentPage() > 3)
+                                            <li class="hidden-xs"><a href="{{ $core->url(1) }}">1</a></li>
+                                        @endif
+                                        @if($core->currentPage() > 4)
+                                            <li><span>...</span></li>
+                                        @endif
+                                        @foreach(range(1, $core->lastPage()) as $i)
+                                            @if($i >= $core->currentPage() - 2 && $i <= $core->currentPage() + 2)
+                                                @if ($i == $core->currentPage())
+                                                    <li class="active"><span>{{ $i }}</span></li>
+                                                @else
+                                                    <li><a href="{{ $core->url($i) }}">{{ $i }}</a></li>
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                        @if($core->currentPage() < $core->lastPage() - 3)
+                                            <li><span>...</span></li>
+                                        @endif
+                                        @if($core->currentPage() < $core->lastPage() - 2)
+                                            <li class="hidden-xs"><a href="{{ $core->url($core->lastPage()) }}">{{ $core->lastPage() }}</a></li>
+                                        @endif
+
+                                        {{-- Next Page Link --}}
+                                        @if ($core->hasMorePages())
+                                            <li><a href="{{ $core->nextPageUrl() }}" rel="next">»</a></li>
+                                        @else
+                                            <li class="disabled"><span>»</span></li>
+                                        @endif
+                                    </ul>
+                                @endif
                                 </ul>
                             </div>
                         </div>
@@ -106,7 +145,7 @@
                                                                         foreach($category_data[$j]["variants"] as $variants){
                                                                             
                                                                         }
-                                                                        echo $variants[0]["variant_id"];
+                                                                        echo $variants["variant_id"][0];
                                                                         //echo "test";
                                                                     }else{
                                                                         foreach($category_data[$j]["variants"] as $variants){
@@ -259,7 +298,45 @@
                                     <div class="pages">
                                         <label>Page:</label>
                                         <ul class="pagination">
-                                            {{ $core->links() }}
+                                                @if ($core->hasPages())
+                                                <ul class="pagination pagination">
+                                                    {{-- Previous Page Link --}}
+                                                    @if ($core->onFirstPage())
+                                                        <li class="disabled"><span>«</span></li>
+                                                    @else
+                                                        <li><a href="{{ $core->previousPageUrl() }}" rel="prev">«</a></li>
+                                                    @endif
+            
+                                                    @if($core->currentPage() > 3)
+                                                        <li class="hidden-xs"><a href="{{ $core->url(1) }}">1</a></li>
+                                                    @endif
+                                                    @if($core->currentPage() > 4)
+                                                        <li><span>...</span></li>
+                                                    @endif
+                                                    @foreach(range(1, $core->lastPage()) as $i)
+                                                        @if($i >= $core->currentPage() - 2 && $i <= $core->currentPage() + 2)
+                                                            @if ($i == $core->currentPage())
+                                                                <li class="active"><span>{{ $i }}</span></li>
+                                                            @else
+                                                                <li><a href="{{ $core->url($i) }}">{{ $i }}</a></li>
+                                                            @endif
+                                                        @endif
+                                                    @endforeach
+                                                    @if($core->currentPage() < $core->lastPage() - 3)
+                                                        <li><span>...</span></li>
+                                                    @endif
+                                                    @if($core->currentPage() < $core->lastPage() - 2)
+                                                        <li class="hidden-xs"><a href="{{ $core->url($core->lastPage()) }}">{{ $core->lastPage() }}</a></li>
+                                                    @endif
+            
+                                                    {{-- Next Page Link --}}
+                                                    @if ($core->hasMorePages())
+                                                        <li><a href="{{ $core->nextPageUrl() }}" rel="next">»</a></li>
+                                                    @else
+                                                        <li class="disabled"><span>»</span></li>
+                                                    @endif
+                                                </ul>
+                                            @endif
                                         </ul>
                                     </div>
                                 </div>

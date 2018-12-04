@@ -123,7 +123,7 @@ class Categories extends ParentController
         $core = DB::table('product_core')
         ->selectRaw('id, product_name, product_discount, product_thumbnail, product_description')
         ->whereRaw('product_category_id = (SELECT id FROM product_categories WHERE category_name = "'.$category_name.'")')
-        ->paginate(3);
+        ->paginate(6);
 
         $variants = DB::table('product_variants as pv')
             ->selectRaw('id, product_id, product_sale_price, product_color, product_size,
@@ -270,7 +270,7 @@ class Categories extends ParentController
                 $core = DB::table('product_core as pc')
                 ->selectRaw('id, product_name, product_discount, product_thumbnail')
                 ->whereRaw('id IN (Select product_id from product_variants where product_sale_price  <= "'.$split_val[1].'" AND is_active > 0)  ')
-                ->paginate(3);
+                ->paginate(6);
     
                 $variants = DB::table('product_variants as pv')
                     ->selectRaw('id, product_id, product_sale_price, product_color, product_size,
@@ -499,7 +499,7 @@ class Categories extends ParentController
                 $core = DB::table('product_core as pc')
                 ->selectRaw('id, product_name, product_discount, product_thumbnail, product_description')
                 ->whereRaw('id IN (Select product_id from product_variants where product_sale_price  <= "'.$split_val[1].'" AND is_active > 0)  ')
-                ->paginate(3);
+                ->paginate(6);
     
                 $variants = DB::table('product_variants as pv')
                     ->selectRaw('id, product_id, product_sale_price, product_color, product_size,

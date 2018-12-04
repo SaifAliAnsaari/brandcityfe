@@ -50,7 +50,47 @@
                         <div class="pager hidden-xs">
                             <div class="pages">
                                 <ul class="pagination">
-                                    {{ $campaign_data->links() }}
+                                 
+                                    @if ($campaign_data->hasPages())
+                                        <ul class="pagination pagination">
+                                            {{-- Previous Page Link --}}
+                                            @if ($campaign_data->onFirstPage())
+                                                <li class="disabled"><span>«</span></li>
+                                            @else
+                                                <li><a href="{{ $campaign_data->previousPageUrl() }}" rel="prev">«</a></li>
+                                            @endif
+    
+                                            @if($campaign_data->currentPage() > 3)
+                                                <li class="hidden-xs"><a href="{{ $campaign_data->url(1) }}">1</a></li>
+                                            @endif
+                                            @if($campaign_data->currentPage() > 4)
+                                                <li><span>...</span></li>
+                                            @endif
+                                            @foreach(range(1, $campaign_data->lastPage()) as $i)
+                                                @if($i >= $campaign_data->currentPage() - 2 && $i <= $campaign_data->currentPage() + 2)
+                                                    @if ($i == $campaign_data->currentPage())
+                                                        <li class="active"><span>{{ $i }}</span></li>
+                                                    @else
+                                                        <li><a href="{{ $campaign_data->url($i) }}">{{ $i }}</a></li>
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                            @if($campaign_data->currentPage() < $campaign_data->lastPage() - 3)
+                                                <li><span>...</span></li>
+                                            @endif
+                                            @if($campaign_data->currentPage() < $campaign_data->lastPage() - 2)
+                                                <li class="hidden-xs"><a href="{{ $campaign_data->url($campaign_data->lastPage()) }}">{{ $campaign_data->lastPage() }}</a></li>
+                                            @endif
+    
+                                            {{-- Next Page Link --}}
+                                            @if ($campaign_data->hasMorePages())
+                                                <li><a href="{{ $campaign_data->nextPageUrl() }}" rel="next">»</a></li>
+                                            @else
+                                                <li class="disabled"><span>»</span></li>
+                                            @endif
+                                        </ul>
+                                    @endif
+
                                 </ul>
                             </div>
                         </div>
@@ -196,7 +236,45 @@
                                     <div class="pages">
                                         <label>Page:</label>
                                         <ul class="pagination">
-                                            {{ $campaign_data->links() }}
+                                                @if ($campaign_data->hasPages())
+                                                <ul class="pagination pagination">
+                                                    {{-- Previous Page Link --}}
+                                                    @if ($campaign_data->onFirstPage())
+                                                        <li class="disabled"><span>«</span></li>
+                                                    @else
+                                                        <li><a href="{{ $campaign_data->previousPageUrl() }}" rel="prev">«</a></li>
+                                                    @endif
+            
+                                                    @if($campaign_data->currentPage() > 3)
+                                                        <li class="hidden-xs"><a href="{{ $campaign_data->url(1) }}">1</a></li>
+                                                    @endif
+                                                    @if($campaign_data->currentPage() > 4)
+                                                        <li><span>...</span></li>
+                                                    @endif
+                                                    @foreach(range(1, $campaign_data->lastPage()) as $i)
+                                                        @if($i >= $campaign_data->currentPage() - 2 && $i <= $campaign_data->currentPage() + 2)
+                                                            @if ($i == $campaign_data->currentPage())
+                                                                <li class="active"><span>{{ $i }}</span></li>
+                                                            @else
+                                                                <li><a href="{{ $campaign_data->url($i) }}">{{ $i }}</a></li>
+                                                            @endif
+                                                        @endif
+                                                    @endforeach
+                                                    @if($campaign_data->currentPage() < $campaign_data->lastPage() - 3)
+                                                        <li><span>...</span></li>
+                                                    @endif
+                                                    @if($campaign_data->currentPage() < $campaign_data->lastPage() - 2)
+                                                        <li class="hidden-xs"><a href="{{ $campaign_data->url($campaign_data->lastPage()) }}">{{ $campaign_data->lastPage() }}</a></li>
+                                                    @endif
+            
+                                                    {{-- Next Page Link --}}
+                                                    @if ($campaign_data->hasMorePages())
+                                                        <li><a href="{{ $campaign_data->nextPageUrl() }}" rel="next">»</a></li>
+                                                    @else
+                                                        <li class="disabled"><span>»</span></li>
+                                                    @endif
+                                                </ul>
+                                            @endif
                                         </ul>
                                     </div>
                                 </div>

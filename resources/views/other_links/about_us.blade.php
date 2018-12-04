@@ -70,7 +70,7 @@
                             <li class="item odd"><strong>About Us</strong></li>
                             <li class="item even"><a href="/site_map">Sitemap</a></li>
                             <li class="item  odd"><a href="#">Terms of Service</a></li>
-                            <li class="item even"><a href="#">Search Terms</a></li>
+                            {{-- <li class="item even"><a href="#">Search Terms</a></li> --}}
                             <li class="item last"><a href="/contact_us">Contact Us</a></li>
                         </ol>
                     </div>

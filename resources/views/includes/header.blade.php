@@ -31,8 +31,8 @@
                                     <li role="presentation"><a href="#"> Customer Service </a> </li>
                                     <li role="presentation"><a href="#"> Privacy Policy </a> </li>
                                     <li role="presentation"><a href="/site_map">Site Map </a> </li>
-                                    <li role="presentation"><a href="#">Search Terms </a> </li>
-                                    <li role="presentation"><a href="#">Advanced Search </a> </li>
+                                    {{-- <li role="presentation"><a href="#">Search Terms </a> </li>
+                                    <li role="presentation"><a href="#">Advanced Search </a> </li> --}}
                                 </ul>
                             </div>
                             <!-- End Header Company -->
