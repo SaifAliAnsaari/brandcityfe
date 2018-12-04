@@ -65,7 +65,7 @@
                 </div>
               </div>
               <article class="col-main">
-                <h2 class="page-heading"> <span class="page-heading-title">Smartphones</span> </h2>
+                <h2 class="page-heading"> <span class="page-heading-title"><?= $product_category ?></span> </h2>
                 <div class="display-product-option">
                   <div class="pager hidden-xs">
                     <div class="pages">
