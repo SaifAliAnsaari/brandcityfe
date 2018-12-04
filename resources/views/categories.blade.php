@@ -81,6 +81,7 @@
                     <div class="category-products">
                             <?php if($category_data){
                                 $counter = 0;
+                                //Commiting Changes
                                 $totalRows = ceil(sizeof($category_data)/3);
                                 for($i = 0; $i < $totalRows; $i++){ ?>
                                     <ul class="products-grid">
