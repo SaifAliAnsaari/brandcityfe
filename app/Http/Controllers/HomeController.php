@@ -257,22 +257,60 @@ class HomeController extends ParentController
             ->whereRaw('id = (SELECT product_category_id FROM product_core WHERE id = "'.$product_id.'")')
             ->first();
 
-        $related_products = DB::table('product_core AS pc')->selectRaw('`id`, `product_name`, `product_brand`, `product_discount`, `product_thumbnail`, `product_description`,  
-            (SELECT count(*) from product_variants where product_id = pc.id) as total_variants,
-            (Case when (SELECT count(*) from product_variants where product_id = pc.id) = 1 then (Select product_sale_price from product_variants where product_id = pc.id) Else NULL 
-                    End) as price,
-            (Select AVG(quality) from ratting where product_id = (Select id from product_variants where product_id = pc.id)) as average_rating,
-            (Case when (SELECT count(*) from product_variants where product_id = pc.id) = 1 then 
-            (Select id from product_variants where product_id = pc.id) Else NULL 
-                    End) as wishlist_id')
-            ->whereRaw ('(Select is_active from product_variants where product_id = pc.id) = 1 AND product_category_id ='.$categories->id)
+        // $related_products = DB::table('product_core AS pc')->selectRaw('`id`, `product_name`, `product_brand`, `product_discount`, `product_thumbnail`, `product_description`,  
+        //     (SELECT count(*) from product_variants where product_id = pc.id) as total_variants,
+        //     (Case when (SELECT count(*) from product_variants where product_id = pc.id) = 1 then (Select product_sale_price from product_variants where product_id = pc.id) Else NULL 
+        //             End) as price,
+        //     (Select AVG(quality) from ratting where product_id = (Select id from product_variants where product_id = pc.id)) as average_rating,
+        //     (Case when (SELECT count(*) from product_variants where product_id = pc.id) = 1 then 
+        //     (Select id from product_variants where product_id = pc.id) Else NULL 
+        //             End) as wishlist_id')
+        //     ->whereRaw ('(Select is_active from product_variants where product_id = pc.id) = 1 AND product_category_id ='.$categories->id)
+        //     ->get();
+
+        $related_core = DB::table('product_core')
+            ->selectRaw('id, product_name, product_discount, product_thumbnail')
+            ->whereRaw('product_category_id ='.$categories->id)
             ->get();
 
+        $related_variants = DB::table('product_variants as pv')
+            ->selectRaw('id, product_id, product_sale_price, product_color, product_size,
+                (Select AVG(quality) from ratting where product_id = pv.product_id) as ratting')
+            ->whereRaw('product_id IN (Select id from product_core where product_category_id = "'.$categories->id.'" )')
+            ->get();
+
+        $products = array();
+        $counter = 0;
+        foreach($related_core as $core_pro){
+            $products[$counter]["id"] = $core_pro->id;
+            $products[$counter]["name"] = $core_pro->product_name;
+            $products[$counter]["discount"] = $core_pro->product_discount;
+            $products[$counter]["image"] = $core_pro->product_thumbnail;
+            $v_products = array();
+            foreach($related_variants as $variants_pro){
+                if($variants_pro->product_id == $core_pro->id){
+                    $v_products[] = array(
+                        "variant_id" => $variants_pro->id,
+                        "price" => $variants_pro->product_sale_price,
+                        "color" => $variants_pro->product_color,
+                        "size" => $variants_pro->product_size,
+                        "ratting" => $variants_pro->ratting
+                    ); 
+                }
+            }
+            $products[$counter]["variants"] = $v_products;
+            $counter ++;
+        }
+
+        //echo "<pre>"; print_r($products); die;
+
+
+
         $pCore = DB::table('product_core')
-        ->selectRaw('id, product_name, product_brand, product_discount, product_thumbnail, product_description, 
+        ->selectRaw('id, product_name, product_brand, product_discount, product_thumbnail, product_description, product_type_id,
             (Select AVG(quality) from ratting where product_id = "'.$product_id.'") as average_rating,
             (Select COUNT(*) from ratting where product_id = "'.$product_id.'") as rate_counts')
-        ->where('id', '=', $product_id)
+        ->whereRaw('id = "'.$product_id.'"')
         ->first();
 
         $variant = DB::table('product_variants as pv')
@@ -280,12 +318,13 @@ class HomeController extends ParentController
             ->whereRaw('product_id ='.$product_id)
             ->get();
 
-        $specs = DB::table('product_spec_sheet as ps')
-            ->selectRaw('spec_id, description, (Select specification from product_type_specs where id = ps.spec_id) as spec_type')
-            ->whereRaw('product_id ='.$product_id)
-            ->get();
+            // $pCore->product_type_id
 
-        //echo "<pre>"; print_r($variant); die;
+            // spec_id, description, (Select specification from product_type_specs where id = ps.spec_id) as spec_type
+        $specs = DB::table('product_type_specs as pts')
+            ->selectRaw('id, specification, IFNULL((SELECT description from product_spec_sheet where spec_id = pts.id and product_id = '.$product_id.'), "NA") as description')->get();
+
+        // echo "<pre>"; print_r($specs); die;
 
         $product_images = DB::table('product_images')->where ('product_id', '=', $product_id)->get(); 
 
@@ -313,7 +352,7 @@ class HomeController extends ParentController
 
         return view('product_detail', ["product_core" => $pCore, "product_images" => $product_images, "specs" => $specs,
                     "availability" => $variant, "categories" => $categories, "product_core_id" => $product_id,
-                    "related_products" => $related_products, 'cart_detail' => $this->get_cart_items_detail,
+                    "related_products" => $products, 'cart_detail' => $this->get_cart_items_detail,
                     'all_product_cats' => $this->get_all_productCats, 'my_rating' => $select_my_rate, 'product_reviews' => $product_reviews, 'nav_links' => $this->navigationData]);
 
         

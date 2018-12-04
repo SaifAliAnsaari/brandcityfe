@@ -110,7 +110,7 @@
                                             if(empty($subscription)){ ?>
                                         <p> You have not subscribed to any newsletter. </p>
                                         <?php }else{ ?>
-                                            <a class = "deactivate_subscription">Deactivate Subscription</a>
+                                            <a class = "deactivate_subscription"><span>Deactivate Subscription<span></a>
                                             <p> You are a subscriber. </p>
                                         <?php }
                                         ?>
@@ -193,9 +193,9 @@
                             <li class="current"><a >Account Information</a></li>
                             <li><a href="#">Address Book</a></li>
                             <li><a href="/orders">My Orders</a></li>
-                            <li><a href="#">Billing Agreements</a></li>
+                            {{-- <li><a href="#">Billing Agreements</a></li>
                             <li><a href="#">Recurring Profiles</a></li>
-                            <li><a href="#">My Product Reviews</a></li>
+                            <li><a href="#">My Product Reviews</a></li> --}}
                             <li><a href="/wishlist">My Wishlist</a></li>
                             <li class="last"><a href="#">Newsletter Subscriptions</a></li>
                         </ul>

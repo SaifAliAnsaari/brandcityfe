@@ -91,8 +91,8 @@
                                             </tbody>
                                         </table>
                                         <div class="buttons-set buttons-set2">
-                                            <button class="button btn-share " title="Share Wishlist" name="save_and_share"
-                                                type="button"><span>Share Wishlist</span></button>
+                                            {{-- <button class="button btn-share " title="Share Wishlist" name="save_and_share"
+                                                type="button"><span>Share Wishlist</span></button> --}}
                                             <button class="button btn-update clear_wishlist" title="Clear Wishlist" name="do" type="button"><span>Clear
                                                     Wishlist</span></button>
                                         </div>

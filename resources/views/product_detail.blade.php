@@ -309,18 +309,25 @@
                             </div>
                             <div class="tab-pane fade" id="product_tabs_tags">
                                 <div class="box-collateral box-tags">
-                                    
-                                    <!--tags-->
-                                    <?php 
-                                        if($specs->isEmpty()){
-                                        }else{
-                                            foreach($specs as $spec){ ?>
-                                                <div class = "row" style = "margin-left:15px;">
-                                                    <strong><?= $spec->spec_type ?></strong> : <p><?= $spec->description ?></p>
-                                                </div>
-                                            <?php }
-                                        }
-                                    ?>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped compare-table">
+                                            <colgroup>
+                                                <col width="1">
+                                                <col width="50%">
+                                                <col width="50%">
+                                            </colgroup>
+                                            <tbody>
+                                                @foreach($specs as $spec)
+                                                <tr>
+                                                <th>{{$spec->specification}}</th>
+                                                    <td>
+                                                        <div>{!!$spec->description!!}</div>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="reviews_tabs">
@@ -923,41 +930,75 @@
                         <div class="item">
                             <div class="item-inner">
                                 <div class="item-img">
-                                    <div class="item-img-info"> <a class="product-image" title="Retis lapen casen" href="/product_detail/<?= $products->id ?>">
-                                            <img alt="Retis lapen casen" src="<?= Config::get('constants.options.product_img_host_url').$products->product_thumbnail?>">
+                                    <div class="item-img-info"> <a class="product-image" title="Retis lapen casen" href="/product_detail/<?= $products["id"] ?>">
+                                            <img alt="Retis lapen casen" src="<?= Config::get('constants.options.product_img_host_url').$products["image"] ?>">
                                         </a>
                                         <div class="box-hover">
                                             <ul class="add-to-links">
-                                                    <li><a class="link-quickview quickViewModal" id = "<?= $products->id?>">Quick View</a>
+                                                    <li><a class="link-quickview quickViewModal" id = "<?= $products["id"] ?>">Quick View</a>
                                                     </li>
-                                                <?php
-                                                   if ($products->total_variants == 1){ ?>
-                                                        <li><a class="link-wishlist wishlist" id="<?= $products->wishlist_id ?>">Wishlist</a> </li>
-                                                   <?php }else{
-                                                   }
-                                                    ?>
-                                                
-                                                <li><a class="link-compare compare_product" id = "<?= $products->wishlist_id ?>" >Compare</a> </li>
+                                                    <li><a class="link-wishlist wishlist" id="<?php 
+                                                        if(sizeof($products["variants"]) > 1){
+                                                            //echo "greater"; die;
+                                                            foreach($products["variants"] as $variants){
+                                                                
+                                                            }
+                                                            echo $variants[0]["variant_id"];
+                                                            //echo "test";
+                                                        }else{
+                                                            foreach($products["variants"] as $variants){
+                                                            
+                                                            }
+                                                            echo $variants["variant_id"];
+                                                        } ?>">Wishlist</a> 
+                                                        </li>
+                                                        <li><a class="link-compare compare_product" id="<?php 
+                                                            if(sizeof($products["variants"]) > 1){
+                                                                //echo "greater"; die;
+                                                                foreach($products["variants"] as $variants){
+                                                                    
+                                                                }
+                                                                echo $variants[0]["variant_id"];
+                                                            }else{
+                                                                foreach($products["variants"] as $variants){
+                                                                
+                                                                }
+                                                                echo $variants["variant_id"];
+                                                            } ?>" >Compare</a>
+                                                        </li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="item-info">
                                     <div class="info-inner">
-                                        <div class="item-title"> <a title="Retis lapen casen" href="/product_detail/<?= $products->id ?>">
-                                                <?= $products->product_name ?> </a> </div>
+                                        <div class="item-title"> <a title="Retis lapen casen" href="/product_detail/<?= $products["id"] ?>">
+                                                <?= $products["name"] ?> </a> </div>
                                         <div class="rating">
                                             <div class="ratings">
                                                 <div class="rating-box">
                                                         <?php
-                                                        if($products->average_rating == ""){
+
+                                                            if(sizeof($products["variants"]) > 1){
+                                                            foreach($products["variants"] as $variants){
+                                                                if($variants["ratting"] == ""){
+                                                                    echo "0";
+                                                                }else{
+                                                                $rating = 
+                                                                ($variants["ratting"] / 5) * 100; ?>
+                                                                <div style="width:<?= $rating ?>%" class="rating"></div>
+                                                            <?php }
+                                                        }                            
+                                                        }else{
+                                                            foreach($products["variants"] as $variants){
+                                                            }
+                                                        if($variants["ratting"] == ""){
                                                             echo "0";
-                                                        }else{ 
-                                                            //obtained / total * 100
-                                                            $rating = ($products->average_rating / 5) * 100;
-                                                            ?>
-                                                           <div style="width:<?= $rating ?>%" class="rating"></div>
+                                                        }else{
+                                                            $rating = ($variants["ratting"] / 5) * 100; ?>
+                                                            <div style="width:<?= $rating ?>%" class="rating"></div>
                                                         <?php }
+                                                        }
                                                         ?>
                                                 </div>
                                                 
@@ -967,40 +1008,52 @@
                                             <div class="item-price">
                                                     <p class="special-price"> <span class="price-label">Special Price</span>
                                                         <span id="product-price-48" class="price">
-                                                            <?php
-                                                                if(empty($products->product_discount)){
-                                                                    //echo $availability[0]->product_sale_price;
-                                                                        echo "RS : ".$products->price;
-                                                                    
+                                                                <?php
+                                                                if(sizeof($products["variants"]) == 1){
+                                                                    if($products["discount"] == ""){
+                                                                        foreach($products["variants"] as $variants){
+                                                                            echo "RS : ".$variants["price"];
+                                                                        }
+                                                                    }else{
+                                                                        foreach($products["variants"] as $variants){
+                                                                            $total_price = $variants["price"];
+                                                                            $discount = $total_price - (($products["discount"] / 100) * $total_price);
+                                                                            echo "RS : ".$discount;
+                                                                        }
+                                                                    }
                                                                 }else{
-                                                                    $total_price = $products->price;
-                                                                    $discount = $total_price - (($products->product_discount / 100) * $total_price);
-                                                                    echo "RS : ".$discount;
-                                                                }
-                                                            ?>
+                                                                    echo "RS : 00";
+                                                                } 
+
+                                                                    ?>
                                                         </span> </p>
                                                     <p class="old-price"> <span class="price-label">Regular Price:</span> <span
                                                             class="price">
                                                             <?php
-                                                            
-                                                                if(empty($products->product_discount)){
-                                                                    
-                                                                }else{
-                                                                    echo "RS : ".$products->price;
-                                                                }
+                                                                if(sizeof($products["variants"]) == 1){
+                                                                    if($products["discount"] == ""){
+                                                                    }else{
+                                                                        foreach($products["variants"] as $variants){
+                                                                        echo "RS : ".$variants["price"];
+                                                                        }
+                                                                    }
+                                                                }    
                                                             ?>
                                                         </span> </p>
                                                 
                                             </div>
                                             <div class="action">
-                                                   
-                                                    @if($products->total_variants == 1)
-                                                    <button class="button btn-cart" type="button" title=""
-                                                        data-original-title="Add to Cart"><span>Add to Cart</span></button>
-                                                    @else
-                                                    <a class="button btn-quickview quickViewModal" id = "<?= $products->id?>" type="button"
-                                                        title="" data-original-title="Add to Cart"><span>Quick View</span></a>
-                                                    @endif
+                                                @if(sizeof($products["variants"]) == 1)
+                                                <input class = "qty" type = "text" value = "1" hidden/>
+                                                <button class="button btn-cart test" id = "<?php 
+                                                foreach($products["variants"] as $variants){
+                                                   echo $variants["variant_id"];
+                                                } ?>" type="button" title=""
+                                                    data-original-title="Add to Cart"><span>Add to Cart</span></button>
+                                                @else
+                                                <a class="button btn-quickview quickViewModal" id = "<?= $products["id"] ?>" type="button"
+                                                    title="" data-original-title="Add to Cart"><span>Quick View</span></a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -1020,7 +1073,7 @@
 <!-- Upsell Product Slider -->
 <div class="container">
     <!-- upsell Slider -->
-    <div class="upsell-pro">
+    {{-- <div class="upsell-pro">
         <div class="slider-items-products">
             <div class="upsell-block">
                 <div id="upsell-products-slider" class="product-flexslider hidden-buttons">
@@ -1347,7 +1400,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- End Upsell  Slider -->
 </div>
 @endsection

@@ -177,6 +177,7 @@
             $('.wishlist').click(function () {
                 var product_id = this.id;
                 var user_id = $('.user_id').val();
+                $(this).attr('disabled', 'disabled');
                 if (product_id == "") {
 
                 } else {
@@ -191,7 +192,6 @@
                         success: function (response) {
                             var result = JSON.parse(response);
                             if (result == "success") {
-                                alert("Item added to wishlist succesfully");
                                 location.reload();
                             } else if (result == "already exist") {
                                 alert("Item already exist!");
@@ -209,6 +209,7 @@
             $(document).on('click', '.quickViewModal', function () {
                
                 var id = this.id;
+                $(this).attr('disabled', 'disabled');
                 $.ajax({
                         type: "POST",
                         url: '/response_get_quickView_data',
@@ -219,6 +220,7 @@
                         success: function (response) {
                             var result = JSON.parse(response);
                            // console.log(response);
+                           $(this).removeAttr('disabled');
                             if(result != "" || result != null){
                                  $('#fancybox-overlay').show();
                                  $('#fancybox-wrap').show();
@@ -321,6 +323,8 @@
 
             //Update Cart
             $(document).on('click', '.update_cart', function () {
+                $(this).attr('disabled', 'disabled');
+                $(this).text('PROCESSING');
                var data = [];
                $('.quantity').each(function(){
                    data.push({ id: $(this).attr('id'), quantity : $(this).val()  });
@@ -348,6 +352,7 @@
 
             //Clear Cart
             $(document).on('click', '.clear_cart', function () {
+                var button = $(this);
                 $.confirm({
 					title: 'Alert!',
 					content: 'Once you click DELETE button, all items from your cart will be deleted. Are you sure you want proceed?',
@@ -358,6 +363,8 @@
 							text: 'DELETE',
 							btnClass: 'btn-red',
 							action: function () {
+                                button.attr('disabled', 'disabled');
+                                button.text('PROCESSING');
 								$.ajax({
 									type: "POST",
 									url: '/response_clear_cart',
@@ -395,6 +402,7 @@
 							text: 'DELETE',
 							btnClass: 'btn-red',
 							action: function () {
+                                thisRef.attr('disabled', 'disabled');
 								$.ajax({
 									type: "POST",
 									url: '/response_delete_one_item',
@@ -405,8 +413,9 @@
 									success: function (response) {
 										var result = JSON.parse(response);
 										if (result == "successs") {
-                                            thisRef.parent().parent().remove();
-                                            $('grandT').text(final_price);
+                                            location.reload();
+                                            //thisRef.parent().parent().remove();
+                                            //$('grandT').text(final_price);
 										} else {
 											alert("Something wrong while deleting");
 										}
@@ -464,6 +473,7 @@
 							text: 'DELETE',
 							btnClass: 'btn-red',
 							action: function () {
+                                thisRef.attr('disabled', 'disabled');
 								$.ajax({
 									type: "POST",
 									url: '/response_delete_one_item_wishlist',
@@ -490,6 +500,7 @@
 
             //Clear whole wishlist
             $(document).on('click', '.clear_wishlist', function(){
+                var button = $(this);
                 $.confirm({
 					title: 'Alert!',
 					content: 'Once you click DELETE button this whole Wishlist will be deleted. Are you sure you want proceed?',
@@ -500,6 +511,8 @@
 							text: 'DELETE',
 							btnClass: 'btn-red',
 							action: function () {
+                                button.attr('disabled', 'disabled');
+                                button.text('PROCESSING');
 								$.ajax({
 									type: "POST",
 									url: '/clear_wishlist',
@@ -545,7 +558,7 @@
 
             //Comapre_products
             $(document).on('click', '.compare_product', function(){ 
-                //alert(this.id);
+                $(this).attr('disabled', 'disabled');
                 var id = this.id;
                 $.ajax({
 					type: "POST",
@@ -611,7 +624,7 @@
 
             //deactivate subscription
             $(document).on('click', '.deactivate_subscription', function(){
-
+                var button = $(this);
                  $.confirm({
                     title: 'Alert!',
                     content: 'Are you sure you want to deactivate Newsletters subscription?',
@@ -622,6 +635,8 @@
                         text: 'Yes!',
                         btnClass: 'btn-red',
                         action: function () {
+                            button.attr('disabled', 'disabled');
+                            button.text('PROCESSING');
                             $.ajax({
                                 type: "POST",
                                 url: '/resonse_deactivate_subscription',
@@ -632,21 +647,7 @@
                                     console.log(response);
                                     var result = JSON.parse(response);
                                     if(result == "success"){
-                                        $.confirm({
-                                            title: 'Alert!',
-                                            content: 'Deactivate successfully!',
-                                            type: 'green',
-                                            typeAnimated: true,
-                                            buttons: {
-                                                Delete: {
-                                                    text: 'Okay!',
-                                                    btnClass: 'btn-green',
-                                                    action: function () {
-                                                    }
-                                                },
-                                                close: function () {}
-                                            }
-                                        });
+                                        location.reload();
                                     }else if(result == "failed"){
                                         alert('Uuable to deactivate subscription!');
                                     }	
@@ -724,6 +725,8 @@
 
             //Place Order button
             $(document).on('click', '.place_order_btn', function(){
+                $(this).attr('disabled', 'disabled');
+                $(this).text('PROCESSING');
                 var address;
                 var shipping_charges = $('.radio').val();
                 var payment_method = $('.radio_payment_info').val();
@@ -757,6 +760,8 @@
 
             //Proceed to checkout
             $(document).on('click', '.btn-proceed-checkout', function(){
+                $(this).attr('disabled', 'disabled');
+                $(this).text('PROCESSIG');
                 $.ajax({
                     type: "POST",
                     url: '/resonse_proceed_to_checkout',
@@ -768,6 +773,8 @@
                         var result = JSON.parse(response);
                         if(result == "success"){
                             window.location = '/checkout';
+                            $(this).removeattr('disabled', 'disabled');
+                            $(this).text('PROCEED TO CHECKOUT');
                         }else if(result == "failed"){
                             alert('The product you added to cart is no longer available!');
                         }else{
@@ -802,7 +809,7 @@
                 var price = $(this).children("option:selected").attr("class");
                 var discount = $('.product_discount_hidden').val();
 
-                console.log(id + " - " + price + " - " + discount);
+               // console.log(id + " - " + price + " - " + discount);
 
                 $('.btn-cart').attr('id',id);
                 $('.wishlist').attr('id', id);

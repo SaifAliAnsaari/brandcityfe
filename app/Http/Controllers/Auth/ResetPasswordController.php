@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Http\Controllers\ParentController;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
@@ -38,9 +39,8 @@ class ResetPasswordController extends ParentController
         $this->middleware('guest');
     }
 
-    public function showResetForm(){
+    public function showResetForm(Request $request, $token = null){
         parent::navFunction();
-        return view('auth.passwords.reset')->with(['cart_detail' => $this->get_cart_items_detail, 'all_product_cats' => $this->get_all_productCats,
-        'nav_links' => $this->navigationData]);
+        return view('auth.passwords.reset')->with(['cart_detail' => $this->get_cart_items_detail, 'all_product_cats' => $this->get_all_productCats, 'nav_links' => $this->navigationData,'token' => $token, 'email' => $request->email]);
     }
 }

@@ -756,7 +756,7 @@
 
 <!-- bestsell slider -->
 <section class="bestsell-pro">
-    <div class="container">
+    {{-- <div class="container">
         <div class="slider-items-products">
             <div class="bestsell-block">
                 <div id="bestsell-slider" class="product-flexslider hidden-buttons">
@@ -1109,7 +1109,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </section>
 <!-- End Bestsell Slider -->
 

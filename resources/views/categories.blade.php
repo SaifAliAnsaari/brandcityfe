@@ -106,8 +106,8 @@
                                                                         foreach($category_data[$j]["variants"] as $variants){
                                                                             
                                                                         }
-                                                                        //echo $variants[0]["variant_id"];
-                                                                        echo "test";
+                                                                        echo $variants[0]["variant_id"];
+                                                                        //echo "test";
                                                                     }else{
                                                                         foreach($category_data[$j]["variants"] as $variants){
                                                                         

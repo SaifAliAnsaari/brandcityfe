@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Http\Controllers\ParentController;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
@@ -36,10 +37,5 @@ class ForgotPasswordController extends ParentController
         return view('auth.passwords.email')->with(['cart_detail' => $this->get_cart_items_detail, 'all_product_cats' => $this->get_all_productCats,
         'nav_links' => $this->navigationData]);
     }
-
-    // public function sendResetLinkEmail(){
-    //     parent::navFunction();
-    //     return view('auth.passwords.email')->with(['cart_detail' => $this->get_cart_items_detail, 'all_product_cats' => $this->get_all_productCats,
-    //     'nav_links' => $this->navigationData]);
-    // }
+   
 }
