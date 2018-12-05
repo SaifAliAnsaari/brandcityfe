@@ -365,9 +365,21 @@ class AjaxController extends Controller
                 if($request->cookie('cp') == $request->id){
                     echo json_encode('same_ids');
                 }else{
-                    $compare_product_id = $request->id;
-                    Cookie::queue(Cookie::make('cp_2', $compare_product_id, 30));
-                    echo json_encode('saved_2');
+                    //First Check both ids are of same spec type
+                    $check_spec_type = DB::table('product_core as pc')
+                        ->selectRaw('product_type_id')
+                        ->whereRaw('id = (Select product_id from product_variants where id = "'.$request->cookie('cp').'") AND
+                        pc.product_type_id = (Select product_type_id from product_core where id = (Select product_id from product_variants where id = "'.$request->id.'"))')
+                        ->first();
+                    
+                    if($check_spec_type){
+                        $compare_product_id = $request->id;
+                        Cookie::queue(Cookie::make('cp_2', $compare_product_id, 30));
+                        echo json_encode('saved_2');
+                    }else{
+                        echo json_encode('different_types');
+                    }
+                    
                 }
             }else{
                 $compare_product_id = $request->id;

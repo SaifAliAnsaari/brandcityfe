@@ -156,26 +156,29 @@
                                 ?>
                             </tr>
 
-                            <tr class="even">
-                                    <th>Specification</th><br>
-                                    
-                                    <td>
-                                        <?php 
-                                        foreach($spec_one as $data){ ?>
-                                        <div class = "row" style = "padding:10px; "> <?= $data->spec_type ?>  -  <?= $data->description ?> </div> 
-                                        <?php } ?>
-                                    </td>
-                                    
-                               
-                                    
-                                    <td> 
-                                        <?php 
-                                        foreach($spec_one as $data){ ?>
-                                        <div class = "row" style = "padding:10px;"> <?= $data->spec_type ?>  -  <?= $data->description ?> </div>
-                                        <?php } ?>
-                                    </td>
-                                    
-                            </tr>
+                           {{-- specification --}}
+                            <?php 
+                                foreach($spec_one as $one){ ?>
+                                    <tr class="even">
+                                        <th><?= $one->specification ?></th>
+                                        <td>
+                                            <div style = "max-width:150px;"><?= $one->description ?></div>
+                                        </td>
+                                        <td>
+                                            <?php 
+                                                foreach($spec_two as $two){
+                                                    if($two->specification ==  $one->specification){ ?>
+                                                        <div style = "max-width:150px;"><?= $two->description ?></div>
+                                            <?php }
+                                                }
+                                            ?>
+                                            
+                                        </td>
+                                    </tr>
+                               <?php }
+                            ?>
+
+
                         </tbody>
                         <tbody>
                             <tr class="add-to-row last odd text-center">

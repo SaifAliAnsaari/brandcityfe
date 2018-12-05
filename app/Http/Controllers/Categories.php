@@ -206,10 +206,12 @@ class Categories extends ParentController
             ->whereRaw('id ='.$request->cookie('cp'))
             ->get();
 
-        $spec_one = DB::table('product_spec_sheet as ps')
-            ->selectRaw('spec_id, description, (Select specification from product_type_specs where id = ps.spec_id) as spec_type')
-            ->whereRaw('product_id = (Select product_id from product_variants where id = "'.$request->cookie('cp').'")')
-            ->get();
+        // $spec_one = DB::table('product_spec_sheet as ps')
+        //     ->selectRaw('spec_id, description, (Select specification from product_type_specs where id = ps.spec_id) as spec_type')
+        //     ->whereRaw('product_id = (Select product_id from product_variants where id = "'.$request->cookie('cp').'")')
+        //     ->get();
+        $spec_one = DB::table('product_type_specs as pts')
+            ->selectRaw('id, specification, IFNULL((SELECT description from product_spec_sheet where spec_id = pts.id and product_id = (Select product_id from product_variants where id = "'.$request->cookie('cp').'")), "NA") as description')->get();
 
         // echo "<pre>"; print_r($test); die;
        
@@ -224,10 +226,12 @@ class Categories extends ParentController
             ->whereRaw('id ='.$request->cookie('cp_2'))
             ->get();
 
-        $spec_two = DB::table('product_spec_sheet as ps')
-            ->selectRaw('spec_id, description, (Select specification from product_type_specs where id = ps.spec_id) as spec_type')
-            ->whereRaw('product_id = (Select product_id from product_variants where id = "'.$request->cookie('cp_2').'")')
-            ->get();
+        // $spec_two = DB::table('product_spec_sheet as ps')
+        //     ->selectRaw('spec_id, description, (Select specification from product_type_specs where id = ps.spec_id) as spec_type')
+        //     ->whereRaw('product_id = (Select product_id from product_variants where id = "'.$request->cookie('cp_2').'")')
+        //     ->get();
+        $spec_two = DB::table('product_type_specs as pts')
+            ->selectRaw('id, specification, IFNULL((SELECT description from product_spec_sheet where spec_id = pts.id and product_id = (Select product_id from product_variants where id = "'.$request->cookie('cp_2').'")), "NA") as description')->get();
         //echo "<pre>";print_r($compare_data_two); die;
 
         return view ('compare_products', ['cart_detail' => $this->get_cart_items_detail, 'all_product_cats' => $this->get_all_productCats,

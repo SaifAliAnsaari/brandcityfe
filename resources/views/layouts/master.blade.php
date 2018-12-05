@@ -604,6 +604,22 @@
                                     close: function () {}
                                 }
                             });
+                        }else if(result == "different_types"){
+                            $.confirm({
+                                title: 'Alert!',
+                                content: 'Both products are of different types!',
+                                type: 'red',
+                                typeAnimated: true,
+                                buttons: {
+                                    Delete: {
+                                        text: 'Okay!',
+                                        btnClass: 'btn-red',
+                                        action: function () {
+                                        }
+                                    },
+                                    close: function () {}
+                                }
+                            });
                         }
 						
 					}
