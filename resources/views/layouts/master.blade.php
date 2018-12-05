@@ -827,6 +827,11 @@
                 
             });
 
+            //Fade Our Search div
+            $(document).on('click', '.container', function(){
+                $('.search_dropdown_list').fadeOut();
+            });
+
         });
 
         

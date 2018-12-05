@@ -55,128 +55,217 @@
                     </div>
                 </div>
                 <article class="col-main" style = "width:100%;">
-                    <h2 class="page-heading"> <span class="page-heading-title">Smartphones</span> </h2>
+                    <h2 class="page-heading"> <span class="page-heading-title"><?= $cat->category_name ?></span> </h2>
                     <div class="display-product-option">
                         <div class="pager hidden-xs">
                             <div class="pages">
                                 <ul class="pagination">
-                                    {{ $products->links()}}
+                                        @if ($core->hasPages())
+                                        <ul class="pagination pagination">
+                                            {{-- Previous Page Link --}}
+                                            @if ($core->onFirstPage())
+                                                <li class="disabled"><span>«</span></li>
+                                            @else
+                                                <li><a href="{{ $core->previousPageUrl() }}" rel="prev">«</a></li>
+                                            @endif
+    
+                                            @if($core->currentPage() > 3)
+                                                <li class="hidden-xs"><a href="{{ $core->url(1) }}">1</a></li>
+                                            @endif
+                                            @if($core->currentPage() > 4)
+                                                <li><span>...</span></li>
+                                            @endif
+                                            @foreach(range(1, $core->lastPage()) as $i)
+                                                @if($i >= $core->currentPage() - 2 && $i <= $core->currentPage() + 2)
+                                                    @if ($i == $core->currentPage())
+                                                        <li class="active"><span>{{ $i }}</span></li>
+                                                    @else
+                                                        <li><a href="{{ $core->url($i) }}">{{ $i }}</a></li>
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                            @if($core->currentPage() < $core->lastPage() - 3)
+                                                <li><span>...</span></li>
+                                            @endif
+                                            @if($core->currentPage() < $core->lastPage() - 2)
+                                                <li class="hidden-xs"><a href="{{ $core->url($core->lastPage()) }}">{{ $core->lastPage() }}</a></li>
+                                            @endif
+    
+                                            {{-- Next Page Link --}}
+                                            @if ($core->hasMorePages())
+                                                <li><a href="{{ $core->nextPageUrl() }}" rel="next">»</a></li>
+                                            @else
+                                                <li class="disabled"><span>»</span></li>
+                                            @endif
+                                        </ul>
+                                    @endif
                                 </ul>
                             </div>
                         </div>
-                        <div class="sorter">
+                        {{-- <div class="sorter">
                             <div class="view-mode"> <span title="Grid" class="button button-active button-grid">&nbsp;</span><a
-                                    href="list.html" title="List" class="button-list">&nbsp;</a> </div>
-                        </div>
+                                    href="/search_items_list" title="List" class="button-list">&nbsp;</a> </div>
+                        </div> --}}
                     </div>
                     <div class="category-products">
-                        <ul class="products-grid">
+                            <?php if($category_data){
+                                $counter = 0;
+                                //Commiting Changes
+                                $totalRows = ceil(sizeof($category_data)/3);
+                                for($i = 0; $i < $totalRows; $i++){ ?>
+                                    <ul class="products-grid">
+                                   <?php for($j = $counter; $j < ($counter + 3); $j++){ 
+                                       if($j <= (sizeof($category_data)-1)){ ?>
+                                            <li class="item col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                                <div class="item-inner">
+                                                    <div class="item-img">
+                                                        <div class="item-img-info"><a href="/product_detail/<?= $category_data[$j]["id"] ?>" title="Retis lapen casen"
+                                                                class="product-image"><img src="
+                                                        <?= Config::get('constants.options.product_img_host_url').$category_data[$j]["image"] ?>
+                                                        " alt="Retis lapen casen" style="max-height: 250px; width: auto"></a>
+                                                            <div class="new-label new-top-left">New</div>
+                                                            <div class="box-hover">
+                                                                <ul class="add-to-links">
+                                                                    <li><a class="link-quickview quickViewModal" id = "<?= $category_data[$j]["id"] ?>">Quick View</a>
+                                                                    </li>
 
-                            <?php 
-                                if(empty($products)){
-                                    echo "No data found";
-                                }else{
-                                    foreach($products as $data){ ?>
-
-
-                            <li class="item col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                <div class="item-inner">
-                                    <div class="item-img">
-                                        <div class="item-img-info"><a href="/product_detail/<?= $data->id ?>" title="Retis lapen casen"
-                                                class="product-image"><img src="
-                                        <?= Config::get('constants.options.product_img_host_url').$data->product_thumbnail?>
-                                        "
-                                                    alt="Retis lapen casen"></a>
-                                            <div class="new-label new-top-left">New</div>
-                                            <div class="box-hover">
-                                                <ul class="add-to-links">
-                                                    <li><a class="link-quickview quickViewModal" id = "<?= $data->id?>">Quick
-                                                            View</a>
-                                                    </li>
-                                                    <li><a class="link-wishlist wishlist" id = "<?= $data->product_id?>">Wishlist</a> </li>
-                                                    <li><a class="link-compare compare_product" id = "<?= $data->product_id?>">Compare</a> </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="item-info">
-                                        <div class="info-inner">
-                                            <div class="item-title"> <a title="Retis lapen casen" href="/product_detail/<?= $data->id ?>">
-                                                    <?= $data->product_name ?> </a> </div>
-                                            <div class="item-content">
-                                                <div class="rating">
-                                                    <div class="ratings">
-                                                        <div class="rating-box">
-                                                                <?php
-                                                                if($data->average_rating == ""){
-                                                                    echo "0";
-                                                                }else{ 
-                                                                    //obtained / total * 100
-                                                                    $rating = ($data->average_rating / 5) * 100;
-                                                                    ?>
-                                                                   <div style="width:<?= $rating ?>%" class="rating"></div>
-                                                                <?php }
-                                                                ?>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                </div>
-                                                <div class="item-price">
-                                                    <div class="price-box">
-                                                        <p class="old-price"><span class="price-label">Regular Price:</span>
-                                                            <span class="price">
-                                                                <?php
-                                                                if($data->total_variants == 1){
-                                                                if($data->product_discount == ""){
-
-                                                                }else{
-                                                                    echo "RS : ".$data->price;
-                                                                }
-                                                            }
-                                                                        
-                                                                    ?>
-                                                            </span> </p>
-                                                        <p class="special-price"><span class="price-label">Special
-                                                                Price</span> <span class="price">
-                                                                <?php
-                                                                        if($data->total_variants == 1){
-                                                                            //echo "$".$data->price;
-                                                                            if($data->product_discount == ""){
-                                                                                echo "RS : ".$data->price;
-                                                                            }else{
-                                                                                $total_price = $data->price;
-                                                                                $discount = $total_price - (($data->product_discount / 100) * $total_price);
-                                                                                echo "RS : ".$discount;
-                                                                            }
-                                                                        }else{
-                                                                            echo "RS : 00";
+                                                                    <li><a class="link-wishlist wishlist" id="<?php 
+                                                                    if(sizeof($category_data[$j]["variants"]) > 1){
+                                                                        //echo "greater"; die;
+                                                                        foreach($category_data[$j]["variants"] as $variants){
+                                                                            
                                                                         }
-                                                                    ?>
-                                                            </span> </p>
+                                                                        echo $variants["variant_id"][0];
+                                                                        //echo "test";
+                                                                    }else{
+                                                                        foreach($category_data[$j]["variants"] as $variants){
+                                                                        
+                                                                        }
+                                                                        echo $variants["variant_id"];
+                                                                    } ?>">Wishlist</a> 
+                                                                    </li>
+                                                                    <li><a class="link-compare compare_product" id="<?php 
+                                                                        if(sizeof($category_data[$j]["variants"]) > 1){
+                                                                            //echo "greater"; die;
+                                                                            foreach($category_data[$j]["variants"] as $variants){
+                                                                                
+                                                                            }
+                                                                            echo $variants["variant_id"];
+                                                                        }else{
+                                                                            foreach($category_data[$j]["variants"] as $variants){
+                                                                            
+                                                                            }
+                                                                            echo $variants["variant_id"];
+                                                                        } ?>" >Compare</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
                                                     </div>
+
+                                                    <div class="item-info">
+                                                            <div class="info-inner">
+                                                                <div class="item-title"> <a title="<?= $category_data[$j]["name"] ?>" href="/product_detail/<?= $category_data[$j]["id"] ?>">
+                                                                        <?= $category_data[$j]["name"] ?> </a> </div>
+                                                                <div class="item-content">
+                                                                    <div class="rating">
+                                                                        <div class="ratings">
+                                                                            <div class="rating-box">
+                                                                                    <?php
+
+                                                                                    if(sizeof($category_data[$j]["variants"]) > 1){
+                                                                                        foreach($category_data[$j]["variants"] as $variants){
+                                                                                            if($variants["ratting"] == ""){
+                                                                                            echo "0";
+                                                                                            }else{
+                                                                                            $rating = 
+                                                                                                ($variants["ratting"] / 5) * 100; ?>
+                                                                                            <div style="width:<?= $rating ?>%" class="rating"></div>
+                                                                                        <?php }
+                                                                                            
+                                                                                        }
+                                                                                    
+                                                                                    }else{
+                                                                                        foreach($category_data[$j]["variants"] as $variants){
+                                                                                        
+                                                                                        }
+                                                                                        if($variants["ratting"] == ""){
+                                                                                            echo "0";
+                                                                                        }else{
+                                                                                            $rating = ($variants["ratting"] / 5) * 100; ?>
+                                                                                            <div style="width:<?= $rating ?>%" class="rating"></div>
+                                                                                    <?php }
+                                                                                    }
+
+                                                                                    ?>
+                                                                            </div>
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="item-price">
+                                                                        <div class="price-box">
+                                                                            <p class="old-price"><span class="price-label">Regular Price:</span>
+                                                                                <span class="price">
+                                                                                    <?php
+                                                                                    if(sizeof($category_data[$j]["variants"]) == 1){
+                                                                                        if($category_data[$j]["discount"] == ""){
+
+                                                                                        }else{
+                                                                                            foreach($category_data[$j]["variants"] as $variants){
+                                                                                                echo "RS : ".$variants["price"];
+                                                                                            }
+                                                                                        }
+                                                                                    }    
+                                                                                        ?>
+                                                                                </span> </p>
+                                                                            <p class="special-price"><span class="price-label">Special
+                                                                                    Price</span> <span class="price">
+                                                                                    <?php
+                                                                                    if(sizeof($category_data[$j]["variants"]) == 1){
+                                                                                        if($category_data[$j]["discount"] == ""){
+                                                                                            foreach($category_data[$j]["variants"] as $variants){
+                                                                                                echo "RS : ".$variants["price"];
+                                                                                            }
+                                                                                        }else{
+                                                                                            foreach($category_data[$j]["variants"] as $variants){
+                                                                                                $total_price = $variants["price"];
+                                                                                                $discount = $total_price - (($category_data[$j]["discount"] / 100) * $total_price);
+                                                                                                echo "RS : ".$discount;
+                                                                                            }
+                                                                                        }
+                                                                                    }else{
+                                                                                        echo "RS : 00";
+                                                                                    } 
+
+                                                                                        ?>
+                                                                                </span> </p>
+                                                                        </div>
+                                                                    </div>
+                                                                
+                                                                    <div class="action">
+                                                                        @if(sizeof($category_data[$j]["variants"]) == 1)
+                                                                        <input class = "qty" type = "text" value = "1" hidden/>
+                                                                        <button class="button btn-cart test" id = "<?php 
+                                                                        foreach($category_data[$j]["variants"] as $variants){
+                                                                            echo $variants["variant_id"];
+                                                                        } ?>" type="button" title=""
+                                                                            data-original-title="Add to Cart"><span>Add to Cart</span></button>
+                                                                        @else
+                                                                        <a class="button btn-quickview quickViewModal" id = "<?= $category_data[$j]["id"] ?>" type="button"
+                                                                            title="" data-original-title="Add to Cart"><span>Quick View</span></a>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                 </div>
-                                                <div class="action">
-                                                    @if($data->total_variants == 1)
-                                                    <input class = "qty" type = "text" value = "1" hidden/>
-                                                        <button class="button btn-cart test" id = "<?= $data->product_id ?>" type="button" title=""
-                                                            data-original-title="Add to Cart"><span>Add to Cart</span></button>
-                                                    @else
-                                                    <a class="button btn-quickview quickViewModal" id = "<?= $data->id?>" type="button"
-                                                        title="" data-original-title="Add to Cart"><span>Quick View</span></a>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <?php }
-                                }
-                            ?>
-
-
-                        </ul>
+                                            </li>
+                                       <?php }
+                                    } $counter += 3; ?>
+                                    </ul>
+                                <?php }
+                            } ?>
                     </div>
                     <div class="toolbar">
                         <div class="row">
@@ -199,7 +288,45 @@
                                     <div class="pages">
                                         <label>Page:</label>
                                         <ul class="pagination">
-                                            {{ $products->links() }}
+                                                @if ($core->hasPages())
+                                                <ul class="pagination pagination">
+                                                    {{-- Previous Page Link --}}
+                                                    @if ($core->onFirstPage())
+                                                        <li class="disabled"><span>«</span></li>
+                                                    @else
+                                                        <li><a href="{{ $core->previousPageUrl() }}" rel="prev">«</a></li>
+                                                    @endif
+            
+                                                    @if($core->currentPage() > 3)
+                                                        <li class="hidden-xs"><a href="{{ $core->url(1) }}">1</a></li>
+                                                    @endif
+                                                    @if($core->currentPage() > 4)
+                                                        <li><span>...</span></li>
+                                                    @endif
+                                                    @foreach(range(1, $core->lastPage()) as $i)
+                                                        @if($i >= $core->currentPage() - 2 && $i <= $core->currentPage() + 2)
+                                                            @if ($i == $core->currentPage())
+                                                                <li class="active"><span>{{ $i }}</span></li>
+                                                            @else
+                                                                <li><a href="{{ $core->url($i) }}">{{ $i }}</a></li>
+                                                            @endif
+                                                        @endif
+                                                    @endforeach
+                                                    @if($core->currentPage() < $core->lastPage() - 3)
+                                                        <li><span>...</span></li>
+                                                    @endif
+                                                    @if($core->currentPage() < $core->lastPage() - 2)
+                                                        <li class="hidden-xs"><a href="{{ $core->url($core->lastPage()) }}">{{ $core->lastPage() }}</a></li>
+                                                    @endif
+            
+                                                    {{-- Next Page Link --}}
+                                                    @if ($core->hasMorePages())
+                                                        <li><a href="{{ $core->nextPageUrl() }}" rel="next">»</a></li>
+                                                    @else
+                                                        <li class="disabled"><span>»</span></li>
+                                                    @endif
+                                                </ul>
+                                            @endif
                                         </ul>
                                     </div>
                                 </div>

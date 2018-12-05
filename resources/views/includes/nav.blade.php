@@ -64,7 +64,7 @@
             <div class="col-lg-7 col-md-5 col-sm-5 col-xs-3 hidden-xs category-search-form">
                 <div class="search-box">
                     {{-- <form id="search_mini_form" action="#" method="get"> --}}
-                        {!! Form::open(['action' => "HomeController@search_items"]) !!}
+                        {!! Form::open(['action' => "SearchController@search_items"]) !!}
                         <select name="cat" id="cat" class="cate-dropdown hidden-sm hidden-md">
                               
                             <?php

@@ -38,7 +38,8 @@ Route::get('/filter_list', 'Categories@filter_list')->name('filter_list');
 //Compare products page
 Route::get('/compare_products', 'Categories@compare_products')->name('compare_products');
 //Search Items
-Route::get('/search_items', 'HomeController@search_items')->name('search_items');
+Route::get('/search_items', 'SearchController@search_items')->name('search_items');
+Route::get('/search_items_list', 'SearchController@search_items_list')->name('search_items_list');
 
 //Cart and wishlist
 Route::get('/cart', 'Cart_Wishlist@cart')->name('cart');
@@ -74,7 +75,7 @@ Route::post('resonse_place_order', 'AjaxController@resonse_place_order');
 //Newsletter subscription 
 Route::post('newsletter', 'HomeController@newsletter');
 //Search item's FORM
-Route::post('search_items', 'HomeController@search_items');
+Route::post('search_items', 'SearchController@search_items');
 Route::post('add_update_review', 'HomeController@add_update_review');
 Route::post('only_update_review', 'HomeController@only_update_review');
 Route::post('contact_info', 'FormsController@contact_info');

@@ -526,44 +526,6 @@ class HomeController extends ParentController
             
     }
 
-    //Search items FORM
-    public function search_items(Request $request){
-        if(!Auth::id()){
-            if(cookie::get('GI')){
-                
-            }else{
-                $random_token = $this->random_string(50);
-                $insert_token = DB::table('guest_info')->insert([
-                    ['session' => $random_token,
-                    'guest_ip' => $request->ip()]
-                ]);
-                if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
-                }
-            }
-        }else{
-            Cookie::queue(  Cookie::forget('GI') );
-        }
-        parent::navFunction();
-        if ($request->cat == 0 || $request->search_dropdown == ""){
-            echo "Please fill both fields";
-        }else{
-            $select_products = DB::table('product_core AS pc')->selectRaw('`id`, `product_name`, `product_brand`, `product_discount`, `product_thumbnail`, `product_description`,  
-            (Select AVG(quality) from ratting where product_id = (Select id from product_variants where product_id = pc.id)) as average_rating,
-            (SELECT count(*) from product_variants where product_id = pc.id) as total_variants,
-            (SELECT id from product_variants where product_id = pc.id) as product_id,
-            (Case when (SELECT count(*) from product_variants where product_id = pc.id) = 1 then (Select product_sale_price from product_variants where product_id = pc.id) Else NULL 
-                     End) as price')
-            ->whereRaw ('product_name = "'.$request->search_dropdown.'" and product_category_id = '.$request->cat)
-            ->paginate(18);
-           // echo sizeof($select_products);die;
-            
-            return view("search_items/search_items", ['cart_detail' => $this->get_cart_items_detail, 
-            'all_product_cats' => $this->get_all_productCats, 'products' => $select_products, 'nav_links' => $this->navigationData]);
-           
-        }
-    }
-
     //Add Review
     public function add_update_review(Request $request){
        //echo $request->product_id; die;
