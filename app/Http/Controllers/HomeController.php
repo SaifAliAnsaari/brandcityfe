@@ -484,27 +484,109 @@ class HomeController extends ParentController
             }
         }else{}
         parent::navFunction();
-       // echo $campaign_id; die;
         $get_brands = DB::table('product_core')->select('product_brand')->orderBy('id', 'desc')->groupBy('product_brand')->limit(3)->get(); 
         $get_colors = DB::table('product_variants')->select('product_color')->groupBy('product_color')->orderBy('id', 'desc')->limit(5)->get(); 
 
-        $get_campaigns_data = DB::table('campaign_products as cp')
-        ->selectRaw('sku, (Select id from product_core where product_sku = cp.sku) as id,
-            (Select product_name from product_core where product_sku = cp.sku) as name,
-            (Select product_thumbnail from product_core where product_sku = cp.sku) as image,
-            (Select product_discount from product_core where product_sku = cp.sku) as discount,
-            (Select AVG(quality) from ratting where product_id = (Select id from product_core where product_sku = cp.sku)) as average_rating,
-            (SELECT count(*) from product_variants where product_id =(Select id from product_core where product_sku = cp.sku)) as total_variants,
-            (Select id from product_variants where product_id = (Select id from product_core where product_sku = cp.sku)) as product_id, 
-            (Case when (SELECT count(*) from product_variants where product_id = (Select id from product_core where product_sku = cp.sku)) = 1 then (Select product_sale_price from product_variants where product_id = (Select id from product_core where product_sku = cp.sku)) Else NULL 
-                    End) as price')
-        ->whereRaw('campaign_id ='.$campaign_id)
-        ->paginate(6);
-        //echo "<pre>"; print_r($get_campaigns_data); die;
+        $core = DB::table('product_core')
+            ->selectRaw('id, product_name, product_discount, product_thumbnail')
+            ->whereRaw('product_sku = (Select sku from campaign_products where campaign_id = "'.$campaign_id.'")')
+            ->paginate(6);
+
+        $variants = DB::table('product_variants as pv')
+            ->selectRaw('id, product_id, product_sale_price, product_color, product_size,
+                (Select AVG(quality) from ratting where product_id = pv.product_id) as ratting')
+            ->whereRaw('product_id IN (Select id from product_core where product_sku = (Select sku from campaign_products where campaign_id = "'.$campaign_id.'") )')
+            ->get();
+
+        $products = array();
+        $counter = 0;
+        foreach($core as $core_pro){
+            $products[$counter]["id"] = $core_pro->id;
+            $products[$counter]["name"] = $core_pro->product_name;
+            $products[$counter]["discount"] = $core_pro->product_discount;
+            $products[$counter]["image"] = $core_pro->product_thumbnail;
+            $v_products = array();
+            foreach($variants as $variants_pro){
+                if($variants_pro->product_id == $core_pro->id){
+                    $v_products[] = array(
+                        "variant_id" => $variants_pro->id,
+                        "price" => $variants_pro->product_sale_price,
+                        "color" => $variants_pro->product_color,
+                        "size" => $variants_pro->product_size,
+                        "ratting" => $variants_pro->ratting
+                    ); 
+                }
+            }
+            $products[$counter]["variants"] = $v_products;
+            $counter ++;
+        }
 
         return view ('campaigns/campaigns', ['cart_detail' => $this->get_cart_items_detail, "brands" => $get_brands, 
                 "colors" => $get_colors, 'all_product_cats' => $this->get_all_productCats, 'nav_links' => $this->navigationData,
-                'campaign_data' => $get_campaigns_data]);
+                'campaign_data' => $products, 'campaign_id' => $campaign_id, 'core' => $core]);
+
+    }
+
+    //Campaigns list layout
+    public function campaigns_list($campaign_id){
+        Cookie::queue(  Cookie::forget('PP') );
+        if(!Auth::id()){
+            if(cookie::get('GI')){
+                
+            }else{
+                $random_token = $this->random_string(50);
+                $insert_token = DB::table('guest_info')->insert([
+                    ['session' => $random_token,
+                    'guest_ip' => $request->ip()]
+                ]);
+                if($insert_token){
+                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                }
+            }
+        }else{}
+        parent::navFunction();
+        $get_brands = DB::table('product_core')->select('product_brand')->orderBy('id', 'desc')->groupBy('product_brand')->limit(3)->get(); 
+        $get_colors = DB::table('product_variants')->select('product_color')->groupBy('product_color')->orderBy('id', 'desc')->limit(5)->get(); 
+
+        $core = DB::table('product_core')
+        ->selectRaw('id, product_name, product_discount, product_thumbnail, product_description')
+        ->whereRaw('product_sku = (Select sku from campaign_products where campaign_id = "'.$campaign_id.'")')
+        ->paginate(6);
+
+        $variants = DB::table('product_variants as pv')
+            ->selectRaw('id, product_id, product_sale_price, product_color, product_size,
+                (Select AVG(quality) from ratting where product_id = pv.product_id) as ratting')
+            ->whereRaw('product_id IN (Select id from product_core where product_sku = (Select sku from campaign_products where campaign_id = "'.$campaign_id.'") )')
+            ->get();
+
+        $products = array();
+        $counter = 0;
+        foreach($core as $core_pro){
+            $products[$counter]["id"] = $core_pro->id;
+            $products[$counter]["name"] = $core_pro->product_name;
+            $products[$counter]["discount"] = $core_pro->product_discount;
+            $products[$counter]["image"] = $core_pro->product_thumbnail;
+            $products[$counter]["description"] = $core_pro->product_description;
+            $v_products = array();
+            foreach($variants as $variants_pro){
+                if($variants_pro->product_id == $core_pro->id){
+                    $v_products[] = array(
+                        "variant_id" => $variants_pro->id,
+                        "price" => $variants_pro->product_sale_price,
+                        "color" => $variants_pro->product_color,
+                        "size" => $variants_pro->product_size,
+                        "ratting" => $variants_pro->ratting
+                    ); 
+                }
+            }
+            $products[$counter]["variants"] = $v_products;
+            $counter ++;
+        }
+
+        return view ('campaigns/campaigns_list', ['cart_detail' => $this->get_cart_items_detail, "brands" => $get_brands, 
+                "colors" => $get_colors, 'all_product_cats' => $this->get_all_productCats, 'nav_links' => $this->navigationData,
+                'campaign_data' => $products, 'campaign_id' => $campaign_id, 'core' => $core]);
+
 
     }
 

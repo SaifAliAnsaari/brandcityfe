@@ -28,6 +28,7 @@ Route::get('/product_detail/{product_id}', 'HomeController@product_detail')->nam
 Route::get('/account_info', 'HomeController@account_info')->name('account_info');
 //Campaign page
 Route::get('/campaigns/{campaign_id}', 'HomeController@campaigns')->name('campaigns');
+Route::get('/campaigns_list/{campaign_id}', 'HomeController@campaigns_list')->name('campaigns_list');
 
 //view all category products page
 Route::get('/category/{categoryId}', 'Categories@categories')->name('categories');
