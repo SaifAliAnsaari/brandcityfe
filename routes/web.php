@@ -84,3 +84,4 @@ Route::post('billing_address', 'FormsController@billing_address');
 Route::post('manage_address', 'FormsController@manage_address');
 Route::post('save_address_checkout', 'FormsController@save_address_checkout');
 Route::post('place_order', 'FormsController@place_order');
+Route::post('contact', 'FormsController@contact');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
+use Mail;
 use Cookie;
 use Redirect;
 
@@ -154,6 +155,22 @@ class FormsController extends Controller
            
         }
        
+    }
+
+    public function contact(Request $request){
+        //echo $request->name. " " .$request->email;
+        $comment = $request->comment;
+        $name = $request->name;
+        $email = $request->email;
+
+        $data = array('name'=> $request->name, 'comment' => $request->comment, 'mail_from' => $request->email, 
+            'company' => $request->company, 'address' => $request->address, 'phone' => $request->phone);
+        Mail::send(['text'=>'mail'], $data, function($message) {
+            $message->to('saifaliansaari@gmail.com', "Contact-Brandcity")->subject
+                ('contact us');
+            $message->from("dainamsara@gmail.com", "name");
+        });
+        return redirect()->back()->with('message_sent', 'message sent successfully!');
     }
 
 }

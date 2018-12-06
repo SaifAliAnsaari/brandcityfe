@@ -10,7 +10,7 @@
                 </div>
                 <div class="row content-row">
                     <div class="col-xs-6 col-sm-3 col-md-3 col-lg-4">
-                        <ul class="simple-list arrow-list bold-list">
+                        {{-- <ul class="simple-list arrow-list bold-list">
                             <li> <a href="grid.html">Woman</a>
                                 <ul>
                                     <li><a href="grid.html">Featured products</a></li>
@@ -32,27 +32,48 @@
                             <li><a href="grid.html">Electronics</a></li>
                             <li><a href="grid.html">Furniture</a></li>
                             <li><a href="grid.html">Sale</a></li>
-                        </ul>
+                        </ul> --}}
+                        <div class="box-content box-category">
+                                <ul>
+                                    @foreach ($nav_links as $nav)
+                                    <li> <a class="active" >{{ $nav["name"] }}</a> <span class="subDropdown minus"></span> 
+                                        <ul class="level0_415" style="display:block">
+                                            @foreach ($nav["sub_category"] as $sub)
+                                            <li> <a > {{ $sub["name"] }} </a> <span class="subDropdown plus"></span>
+                                                <ul class="level1" style="display:none">
+                                                    @foreach ($sub["product_categories"] as $prod)
+                                                    <li> <a href="/category/<?= $prod["name"] ?>"> {{ $prod["name"] }} </a> </li>
+                                                    
+                                                    @endforeach
+                                                </ul>
+                                            </li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                               
+                            </div>
                     </div>
+                    
                     <div class="col-xs-6 col-sm-3 col-md-3 col-lg-4">
                         <ul class="simple-list arrow-list bold-list">
-                            <li><a href="shopping_cart.html">Shopping Cart</a></li>
+                            <li><a href="/cart">Shopping Cart</a></li>
                             <li> <a href="/account_info">My Account</a>
                                 <ul>
                                     <li><a href="/account_info">My Account</a></li>
-                                    <li><a href="#">Order history</a></li>
-                                    <li><a href="#">Advanced search</a></li>
+                                    <li><a href="/orders">Order history</a></li>
                                     <li><a href="#">Reviews</a></li>
                                 </ul>
                             </li>
-                            <li> <a href="#">Customer service</a>
+                            <li> <a href="/contact_us">Customer service</a>
                                 <ul>
-                                    <li><a href="#">Online support</a></li>
+                                    <li><a href="/contact_us">Online support</a></li>
                                     <li><a href="/faq">Help & FAQs</a></li>
-                                    <li><a href="#">Call Center</a></li>
+                                    <li><a href="/contact_us">Call Center</a></li>
                                 </ul>
                             </li>
-                            <li> <a href="#">Information</a>
+                            <li> <a href="/about_us">Information</a>
                                 <ul>
                                     <li><a href="/about_us">About Us</a></li>
                                     <li><a href="#">Shipping &amp; Returns</a></li>

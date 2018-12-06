@@ -185,11 +185,6 @@ class Other_links extends ParentController
             ->groupBy('order_id')
             ->whereRaw('order_id IN (SELECT id from orders where customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'"))')
             ->get();
-            // $select_data = DB::table('order_contents as oc')
-            // ->selectRaw('quantity, unit_price, total_price, product_id, order_id,
-            // (Select product_name from product_core where id = (Select product_id from product_variants where id = oc.product_id )) as name')
-            // ->whereRaw('order_id IN (Select id from orders where customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'"))')
-            // ->get();
         }else{
             Cookie::queue(  Cookie::forget('GI') );
             $select_data = DB::table('order_contents AS oc')->selectRaw('SUM(total_price) as total_price, order_id,
@@ -201,7 +196,6 @@ class Other_links extends ParentController
             ->get();
         }
         
-        //echo "<pre>";print_r($select_data);die;
         parent::navFunction();
         return view ('other_links/orders', ['cart_detail' => $this->get_cart_items_detail, 'all_product_cats' => $this->get_all_productCats,
             'nav_links' => $this->navigationData, 'order_data' => $select_data]);

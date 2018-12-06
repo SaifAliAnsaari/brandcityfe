@@ -1,6 +1,11 @@
 @extends('layouts.master')
 
 @section('content')
+@if(session()->has('message_sent'))
+<div class="alert alert-success">
+    {{ session()->get('message_sent') }}
+</div>
+@endif
 <div class="main-container col2-right-layout">
     <div class="main container">
         <div class="row">
@@ -11,6 +16,7 @@
                     </div>
                     <div class="static-contain">
                         <fieldset class="group-select">
+                            {!! Form::open(['action' => "FormsController@contact"]) !!}
                             <ul>
                                 <li id="billing-new-address-form">
                                     <fieldset>
@@ -21,15 +27,15 @@
                                                     <div class="input-box name-firstname">
                                                         <label for="billing:firstname"> First Name<span class="required">*</span></label>
                                                         <br>
-                                                        <input type="text" id="billing:firstname" name="billing[firstname]"
-                                                            title="First Name" class="input-text ">
+                                                        <input type="text" id="billing:firstname" name="name"
+                                                            title="First Name" class="input-text " required>
                                                     </div>
                                                     <div class="input-box name-lastname">
                                                         <label for="billing:lastname"> Email Address <span class="required">*</span>
                                                         </label>
                                                         <br>
-                                                        <input type="text" id="billing:lastname" name="billing[lastname]"
-                                                            title="Last Name" class="input-text">
+                                                        <input type="email" id="billing:lastname" name="email"
+                                                            title="Last Name" class="input-text" required>
                                                     </div>
                                                 </div>
                                             </li>
@@ -37,31 +43,27 @@
                                                 <div class="input-box">
                                                     <label>Company</label>
                                                     <br>
-                                                    <input type="text" name="billing[company]" title="Company" class="input-text">
+                                                    <input type="text" name="company" title="Company" class="input-text">
                                                 </div>
                                                 <div class="input-box">
                                                     <label for="billing:email">Telephone <span class="required">*</span></label>
                                                     <br>
-                                                    <input type="text" name="billing[email]" id="billing:email" title="Email Address"
-                                                        class="input-text validate-email">
+                                                    <input type="text" name="phone" id="billing:email" title="Email Address"
+                                                        class="input-text validate-email" required>
                                                 </div>
                                             </li>
                                             <li>
                                                 <label>Address <span class="required">*</span></label>
                                                 <br>
-                                                <input type="text" title="Street Address" name="billing[street][]"
-                                                    class="input-text required-entry">
-                                            </li>
-                                            <li>
-                                                <input type="text" title="Street Address 2" name="billing[street][]"
-                                                    class="input-text required-entry">
+                                                <input type="text" title="Street Address" name="address"
+                                                    class="input-text required-entry" required>
                                             </li>
                                             <li class="">
                                                 <label for="comment">Comment<em class="required">*</em></label>
                                                 <br>
                                                 <div style="float:none" class="">
                                                     <textarea name="comment" id="comment" title="Comment" class="required-entry input-text"
-                                                        cols="5" rows="3"></textarea>
+                                                        cols="5" rows="3" required></textarea>
                                                 </div>
                                             </li>
                                         </ul>
@@ -76,6 +78,7 @@
                                     </div>
                                 </li>
                             </ul>
+                            </form>
                         </fieldset>
                     </div>
                 </div>
