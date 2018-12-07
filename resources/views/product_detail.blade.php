@@ -267,21 +267,18 @@
                                                  </select> </li>
                                                 
                                             </ul>
-                                            <p class="email-friend"><a href="#" class=""><span>Email to a Friend</span></a></p>
+                                            <p class="email-friend"><a href="https://mail.google.com/mail/?view=cm&fs=1&su=Brandcity&body={{ urlencode(Request::fullUrl()) }}" class=""><span>Email to a Friend</span></a></p>
                                            
                                         </div>
                                        
                                     </div>
                                     <div class="social">
                                         <ul class="link">
-                                            <li class="fb"><a href="#"></a></li>
-                                            <li class="tw"><a href="#"></a></li>
-                                            <li class="googleplus"><a href="#"></a></li>
-                                            <li class="rss"><a href="#"></a></li>
-                                            <li class="pintrest"><a href="#"></a></li>
-                                            <li class="linkedin"><a href="#"></a></li>
-                                            <li class="youtube"><a href="#"></a></li>
-                                           
+                                            <li class="fb"><a href="http://www.facebook.com/sharer.php?s=100&amp;p[url]=<?php echo urlencode(Request::fullUrl()); ?>"></a></li>
+                                            <li class="tw"><a href="https://twitter.com/intent/tweet?url={{ urlencode(Request::fullUrl()) }}"></a></li>
+                                            <li class="googleplus"><a href="https://plus.google.com/share?url={{ urlencode(Request::fullUrl()) }}"></a></li>
+                                            <li class="pintrest"><a href="http://pinterest.com/pin/create/button/?url={{ urlencode(Request::fullUrl()) }}"></a></li>
+                                            <li class="linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(Request::fullUrl()) }}"></a></li>
                                         </ul>
                                     </div>
                                     <input hidden type = "text" class = "product_discount_hidden" value = "<?= $product_core->product_discount?>" />
