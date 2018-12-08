@@ -33,9 +33,11 @@ class HomeController extends ParentController
 
     public function index(Request $request)
     {
-        Cookie::queue(  Cookie::forget('PP') );
+       //proceed to checkout
+       setcookie('PP', "", time() - (86400 * 30), "/");
+        //Cookie::queue(  Cookie::forget('PP') );
         if(!Auth::id()){
-            if(cookie::get('GI')){
+            if(isset($_COOKIE['GI'])){ 
                 
             }else{
                 $random_token = $this->random_string(50);
@@ -44,11 +46,13 @@ class HomeController extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
         }
             
         parent::navFunction();
@@ -230,10 +234,11 @@ class HomeController extends ParentController
     }
 
     public function product_detail($product_id){
-        Cookie::queue(  Cookie::forget('PP') );
+        //Cookie::queue(  Cookie::forget('PP') );
+        //proceed to checkout
+        setcookie('PP', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
-            if(cookie::get('GI')){
-                
+            if(isset($_COOKIE['GI'])){ 
             }else{
                 $random_token = $this->random_string(50);
                 $insert_token = DB::table('guest_info')->insert([
@@ -241,11 +246,13 @@ class HomeController extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
         }
 
         parent::navFunction();
@@ -439,7 +446,8 @@ class HomeController extends ParentController
             //     }
             // }
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
             
             $orders = DB::table('order_contents AS oc')->selectRaw('SUM(total_price) as total_price, order_id,
                 (Select created_at from orders where id = oc.order_id) as date,
@@ -468,21 +476,27 @@ class HomeController extends ParentController
 
     //Campaigns layout
     public function campaigns($campaign_id){
-        Cookie::queue(  Cookie::forget('PP') );
-        if(!Auth::id()){
-            if(cookie::get('GI')){
-                
-            }else{
-                $random_token = $this->random_string(50);
-                $insert_token = DB::table('guest_info')->insert([
-                    ['session' => $random_token,
-                    'guest_ip' => $request->ip()]
-                ]);
-                if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+        //Cookie::queue(  Cookie::forget('PP') );
+       //proceed to checkout
+       setcookie('PP', "", time() - (86400 * 30), "/");
+            if(!Auth::id()){
+                if(isset($_COOKIE['GI'])){ 
+                }else{
+                    $random_token = $this->random_string(50);
+                    $insert_token = DB::table('guest_info')->insert([
+                        ['session' => $random_token,
+                        'guest_ip' => $request->ip()]
+                    ]);
+                    if($insert_token){
+                        setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                        //Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    }
                 }
+            }else{
+                //Cookie::queue(  Cookie::forget('GI') );
+                setcookie('GI', "", time() - (86400 * 30), "/");
             }
-        }else{}
+
         parent::navFunction();
         $get_brands = DB::table('product_core')->select('product_brand')->orderBy('id', 'desc')->groupBy('product_brand')->limit(3)->get(); 
         $get_colors = DB::table('product_variants')->select('product_color')->groupBy('product_color')->orderBy('id', 'desc')->limit(5)->get(); 
@@ -529,10 +543,11 @@ class HomeController extends ParentController
 
     //Campaigns list layout
     public function campaigns_list($campaign_id){
-        Cookie::queue(  Cookie::forget('PP') );
-        if(!Auth::id()){
-            if(cookie::get('GI')){
-                
+       // Cookie::queue(  Cookie::forget('PP') );
+       //proceed to checkout
+        setcookie('PP', "", time() - (86400 * 30), "/");
+       if(!Auth::id()){
+            if(isset($_COOKIE['GI'])){ 
             }else{
                 $random_token = $this->random_string(50);
                 $insert_token = DB::table('guest_info')->insert([
@@ -540,10 +555,15 @@ class HomeController extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
-        }else{}
+        }else{
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
+        }
+
         parent::navFunction();
         $get_brands = DB::table('product_core')->select('product_brand')->orderBy('id', 'desc')->groupBy('product_brand')->limit(3)->get(); 
         $get_colors = DB::table('product_variants')->select('product_color')->groupBy('product_color')->orderBy('id', 'desc')->limit(5)->get(); 

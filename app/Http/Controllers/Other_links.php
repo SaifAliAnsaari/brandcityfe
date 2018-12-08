@@ -26,10 +26,11 @@ class Other_links extends ParentController
      * @return \Illuminate\Http\Response
      */
     public function blog(){
-        Cookie::queue(  Cookie::forget('PP') );
+        //Cookie::queue(  Cookie::forget('PP') );
+        //proceed to checkout
+        setcookie('PP', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
-            if(cookie::get('GI')){
-                
+            if(isset($_COOKIE['GI'])){ 
             }else{
                 $random_token = $this->random_string(50);
                 $insert_token = DB::table('guest_info')->insert([
@@ -37,11 +38,13 @@ class Other_links extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
         }
         parent::navFunction();
         return view ('other_links/blog', ['cart_detail' => $this->get_cart_items_detail, 'all_product_cats' => $this->get_all_productCats,
@@ -49,10 +52,11 @@ class Other_links extends ParentController
     }
 
     public function blog_post(){
-        Cookie::queue(  Cookie::forget('PP') );
+       // Cookie::queue(  Cookie::forget('PP') );
+       //proceed to checkout
+       setcookie('PP', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
-            if(cookie::get('GI')){
-                
+            if(isset($_COOKIE['GI'])){ 
             }else{
                 $random_token = $this->random_string(50);
                 $insert_token = DB::table('guest_info')->insert([
@@ -60,11 +64,13 @@ class Other_links extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
         }
         parent::navFunction();
         return view ('other_links/blog_post', ['cart_detail' => $this->get_cart_items_detail, 'all_product_cats' => $this->get_all_productCats,
@@ -72,10 +78,11 @@ class Other_links extends ParentController
     }
 
     public function about_us(){
-        Cookie::queue(  Cookie::forget('PP') );
+        //Cookie::queue(  Cookie::forget('PP') );
+        //proceed to checkout
+        setcookie('PP', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
-            if(cookie::get('GI')){
-                
+            if(isset($_COOKIE['GI'])){ 
             }else{
                 $random_token = $this->random_string(50);
                 $insert_token = DB::table('guest_info')->insert([
@@ -83,11 +90,13 @@ class Other_links extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
         }
         parent::navFunction();
         return view ('other_links/about_us', ['cart_detail' => $this->get_cart_items_detail, 'all_product_cats' => $this->get_all_productCats, 
@@ -95,10 +104,11 @@ class Other_links extends ParentController
     }
 
     public function site_map(){
-        Cookie::queue(  Cookie::forget('PP') );
+       // Cookie::queue(  Cookie::forget('PP') );
+       //proceed to checkout
+       setcookie('PP', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
-            if(cookie::get('GI')){
-                
+            if(isset($_COOKIE['GI'])){ 
             }else{
                 $random_token = $this->random_string(50);
                 $insert_token = DB::table('guest_info')->insert([
@@ -106,11 +116,13 @@ class Other_links extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
         }
         parent::navFunction();
         return view ('other_links/site_map', ['cart_detail' => $this->get_cart_items_detail, 'all_product_cats' => $this->get_all_productCats,
@@ -118,10 +130,11 @@ class Other_links extends ParentController
     }
 
     public function contact_us(){
-        Cookie::queue(  Cookie::forget('PP') );
+       // Cookie::queue(  Cookie::forget('PP') );
+       //proceed to checkout
+       setcookie('PP', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
-            if(cookie::get('GI')){
-                
+            if(isset($_COOKIE['GI'])){ 
             }else{
                 $random_token = $this->random_string(50);
                 $insert_token = DB::table('guest_info')->insert([
@@ -129,11 +142,13 @@ class Other_links extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
         }
         parent::navFunction();
         return view ('other_links/contact_us', ['cart_detail' => $this->get_cart_items_detail, 'all_product_cats' => $this->get_all_productCats,
@@ -141,10 +156,11 @@ class Other_links extends ParentController
     }
 
     public function faq(){
-        Cookie::queue(  Cookie::forget('PP') );
+       // Cookie::queue(  Cookie::forget('PP') );
+       //proceed to checkout
+       setcookie('PP', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
-            if(cookie::get('GI')){
-                
+            if(isset($_COOKIE['GI'])){ 
             }else{
                 $random_token = $this->random_string(50);
                 $insert_token = DB::table('guest_info')->insert([
@@ -152,11 +168,13 @@ class Other_links extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
         }
         parent::navFunction();
         return view ('other_links/faq', ['cart_detail' => $this->get_cart_items_detail, 'all_product_cats' => $this->get_all_productCats,
@@ -164,9 +182,11 @@ class Other_links extends ParentController
     }
 
     public function orders(){
-        Cookie::queue(  Cookie::forget('PP') );
+        //Cookie::queue(  Cookie::forget('PP') );
+        //proceed to checkout
+        setcookie('PP', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
-            if(cookie::get('GI')){
+            if(isset($_COOKIE['GI'])){
                 
             }else{
                 $random_token = $this->random_string(50);
@@ -175,18 +195,20 @@ class Other_links extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                   // Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
             $select_data = DB::table('order_contents AS oc')->selectRaw('SUM(total_price) as total_price, order_id,
                 (Select created_at from orders where id = oc.order_id) as date,
-                (Select first_name from guest_info where session = "'.cookie::get('GI').'") as first_name,
-                (Select last_name from guest_info where session = "'.cookie::get('GI').'") as last_name')
+                (Select first_name from guest_info where session = "'.$_COOKIE['GI'].'") as first_name,
+                (Select last_name from guest_info where session = "'.$_COOKIE['GI'].'") as last_name')
             ->groupBy('order_id')
-            ->whereRaw('order_id IN (SELECT id from orders where customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'"))')
+            ->whereRaw('order_id IN (SELECT id from orders where customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'"))')
             ->get();
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+           // Cookie::queue(  Cookie::forget('GI') );
+           setcookie('GI', "", time() - (86400 * 30), "/");
             $select_data = DB::table('order_contents AS oc')->selectRaw('SUM(total_price) as total_price, order_id,
                 (Select created_at from orders where id = oc.order_id) as date,
                 (Select first_name from users where id = '.Auth::id().') as first_name,
@@ -202,9 +224,11 @@ class Other_links extends ParentController
     }
 
     public function view_order($order_id){
-        Cookie::queue(  Cookie::forget('PP') );
+       // Cookie::queue(  Cookie::forget('PP') );
+       //proceed to checkout
+       setcookie('PP', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
-            if(cookie::get('GI')){
+            if(isset($_COOKIE['GI'])){
                 
             }else{
                 $random_token = $this->random_string(50);
@@ -213,19 +237,21 @@ class Other_links extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
             $select_order_exist = DB::table('orders')
             ->select('customer_id')
-            ->whereRaw('customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'") AND id = '.$order_id)
+            ->whereRaw('customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'") AND id = '.$order_id)
             ->get();
             if($select_order_exist -> isEmpty()){
                 return redirect('/account_info');
             }
 
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
+            //Cookie::queue(  Cookie::forget('GI') );
             $select_order_exist = DB::table('orders')
             ->select('customer_id')
             ->whereRaw('customer_id = "'.Auth::id().'" AND id = '.$order_id)

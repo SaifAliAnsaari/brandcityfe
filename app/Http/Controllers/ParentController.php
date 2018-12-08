@@ -22,16 +22,16 @@ class ParentController extends Controller
       
         if(!Auth::id()){
 
-            $queryParam = '(SELECT product_id from cart where customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'") and is_active = 1)';
+            $queryParam = '(SELECT product_id from cart where customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'") and is_active = 1)';
 
             $this->get_cart_items_detail = DB::table('product_variants AS pc')->selectRaw('id, product_sale_price, product_quantity,
                 (Select product_thumbnail from product_core where id = (Select product_id from product_variants where id = pc.id)) as product_thumbnail,
                 (Select id from product_core where id = (Select product_id from product_variants where id = pc.id)) as product_core_id,
                 (Select product_discount from product_core where id = (Select product_id from product_variants where id = pc.id)) as product_discount,
                 (Select product_name from product_core where id = (Select product_id from product_variants where id = pc.id)) as product_name,
-                (Select quantity from cart where product_id = pc.id and is_active = 1 and customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'")) as quantity,
-                (Select id from cart where product_id = pc.id and is_active = 1 and customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'")) as cart_id
-                ')->whereRaw('id IN (SELECT product_id from cart where customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'") and is_active = 1)')->get();
+                (Select quantity from cart where product_id = pc.id and is_active = 1 and customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'")) as quantity,
+                (Select id from cart where product_id = pc.id and is_active = 1 and customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'")) as cart_id
+                ')->whereRaw('id IN (SELECT product_id from cart where customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'") and is_active = 1)')->get();
 
             $this->get_all_productCats = DB::table('product_categories')
             ->select('category_name', 'id')

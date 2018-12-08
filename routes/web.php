@@ -18,6 +18,8 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes();
 
+Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
+
 //Logout
 Route::get('/logout', 'HomeController@logout')->name('logout');
 //Home page

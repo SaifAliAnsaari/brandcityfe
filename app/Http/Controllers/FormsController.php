@@ -42,7 +42,7 @@ class FormsController extends Controller
             }
         }else{
             $update = DB::table('guest_info')
-            ->whereRaw(' session = "'.cookie::get('GI').'" ')
+            ->whereRaw(' session = "'.$_COOKIE['GI'].'" ')
             ->update(['first_name' => $request->contact_info_firstname,
                 'last_name' => $request->contact_info_lastname,
                 'email' => $request->contact_info_email
@@ -72,7 +72,7 @@ class FormsController extends Controller
             }
         }else{
             $update = DB::table('guest_info')
-            ->whereRaw('session = "'.cookie::get('GI').'"')
+            ->whereRaw('session = "'.$_COOKIE['GI'].'"')
             ->update(['email' => $request->billling_address_email,
                 'country' => $request->billling_address_country,
                 'address' => $request->billling_address_address,
@@ -128,10 +128,10 @@ class FormsController extends Controller
             }
             
         }else{
-            $select_p_address = DB::table('guest_info')->select('address')->whereRaw('session = "'.cookie::get('GI').'" ')->first();
+            $select_p_address = DB::table('guest_info')->select('address')->whereRaw('session = "'.$_COOKIE['GI'].'" ')->first();
             if(empty($select_p_address)){
                 $update = DB::table('guest_info')
-                ->whereRaw('session = "'.cookie::get('GI').'" ')
+                ->whereRaw('session = "'.$_COOKIE['GI'].'" ')
                 ->update(['secondary_address' => $request->secondary_address,
                     'secondary_email' => $request->secondary_email
                     ]);
@@ -142,7 +142,7 @@ class FormsController extends Controller
                 }
             }else{
                 $update = DB::table('guest_info')
-                ->whereRaw('session = "'.cookie::get('GI').'" ')
+                ->whereRaw('session = "'.$_COOKIE['GI'].'" ')
                 ->update(['address' => $request->secondary_address,
                     'email' => $request->secondary_email
                     ]);

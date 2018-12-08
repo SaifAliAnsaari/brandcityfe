@@ -26,10 +26,11 @@ class Cart_Wishlist extends ParentController
      * @return \Illuminate\Http\Response
      */
     public function cart(Request $request){
-        Cookie::queue(  Cookie::forget('PP') );
+       // Cookie::queue(  Cookie::forget('PP') );
+       //proceed to checkout
+       setcookie('PP', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
-            if(cookie::get('GI')){
-                
+            if(isset($_COOKIE['GI'])){ 
             }else{
                 $random_token = $this->random_string(50);
                 $insert_token = DB::table('guest_info')->insert([
@@ -37,11 +38,13 @@ class Cart_Wishlist extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
         }
         parent::navFunction();
 
@@ -62,7 +65,9 @@ class Cart_Wishlist extends ParentController
     }
 
     public function wishlist(Request $request){
-        Cookie::queue(  Cookie::forget('PP') );
+       // Cookie::queue(  Cookie::forget('PP') );
+       //proceed to checkout
+       setcookie('PP', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
             $get_wishlist_items = DB::table('product_variants as pv')
             ->selectRaw('id, product_id, product_sale_price, product_color, 
@@ -70,9 +75,9 @@ class Cart_Wishlist extends ParentController
                 (Select product_brand from product_core where id = pv.product_id) as brand,
                 (Select product_thumbnail from product_core where id = pv.product_id) as image,
                 (Select product_discount from product_core where id = pv.product_id) as discount')
-            ->whereRaw('id IN (Select product_id from wishlist where customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'"))')
+            ->whereRaw('id IN (Select product_id from wishlist where customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'"))')
             ->get(); 
-            if(cookie::get('GI')){
+            if(isset($_COOKIE['GI'])){
                 
             }else{
                 $random_token = $this->random_string(50);
@@ -81,11 +86,13 @@ class Cart_Wishlist extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
             $get_wishlist_items = DB::table('product_variants as pv')
             ->selectRaw('id, product_id, product_sale_price, product_color, 
                 (Select product_name from product_core where id = pv.product_id) as name,
@@ -105,16 +112,16 @@ class Cart_Wishlist extends ParentController
     }
 
     public function checkout(Request $request){ 
-        if(!cookie::get('PP')){
+        if(!isset($_COOKIE['PP'])){
             return redirect('/cart');
         }
 
         if(!Auth::id()){
             $user_data = DB::table('guest_info')
             ->select('first_name', 'last_name', 'phone', 'city', 'country', 'address', 'secondary_address')
-            ->whereRaw(' session = "'.cookie::get('GI').'" ')
+            ->whereRaw(' session = "'.$_COOKIE['GI'].'" ')
             ->first();
-            if(cookie::get('GI')){
+            if(isset($_COOKIE['GI'])){
                 
             }else{
                 $random_token = $this->random_string(50);
@@ -123,11 +130,13 @@ class Cart_Wishlist extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
+            //Cookie::queue(  Cookie::forget('GI') );
             $user_data = DB::table('users')
             ->select('first_name', 'last_name', 'phone', 'city', 'country', 'address', 'secondary_address')
             ->whereRaw('id = '.Auth::id())

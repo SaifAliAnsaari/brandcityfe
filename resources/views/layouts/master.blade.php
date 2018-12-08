@@ -33,12 +33,16 @@
 
 <body class="cms-index-index cms-home-page">
 
+    <div id="loader" style="position: fixed; display: none; width: 100%; height: 100%; z-index: 10000; background: black; opacity: 0.85;">
+        <img src="/resources/images/loader.gif" style="top: 50%; left: 50%; position: absolute;">
+    </div>
     <div id="page">
         @include('includes.header')
         @include('includes.nav')
         @yield('content')
         @include('includes.footer')
     </div>
+   
     @include('includes.mobile-menu')
     @include('includes.fancybox-quickview')
 
@@ -70,7 +74,6 @@
             nodeNames = [];
 
             $log.html( html );
-            console.log(html);
 
             // $.each( test, function( i, el ) {
             //   console.log(el.nodeName);
@@ -142,8 +145,8 @@
                 var thisRef = $(this);
                 $('#addToCartBtn').attr('disabled', 'disabled');
                 $('#addToCartText').text('PROCESSING');
-
                 if (product_id) {
+                    showLoader();
                     $.ajax({
                         type: "POST",
                         url: '/response_add_to_cart',
@@ -154,6 +157,7 @@
                             quantity: quantity
                         },
                         success: function (response) {
+                            hideLoader();
                             var result = JSON.parse(response);
                             if (result == "success") {
                                 location.reload();
@@ -181,6 +185,7 @@
                 if (product_id == "") {
 
                 } else {
+                    showLoader();
                     $.ajax({
                         type: "POST",
                         url: '/response_add_to_wishlist',
@@ -190,6 +195,8 @@
                             user_id: user_id
                         },
                         success: function (response) {
+                            hideLoader();
+                            //console.log(response);
                             var result = JSON.parse(response);
                             if (result == "success") {
                                 location.reload();
@@ -210,6 +217,7 @@
                
                 var id = this.id;
                 $(this).attr('disabled', 'disabled');
+                showLoader();
                 $.ajax({
                         type: "POST",
                         url: '/response_get_quickView_data',
@@ -218,6 +226,7 @@
                             id: id
                         },
                         success: function (response) {
+                            hideLoader();
                             var result = JSON.parse(response);
                            // console.log(response);
                            $(this).removeAttr('disabled');
@@ -330,6 +339,7 @@
                    data.push({ id: $(this).attr('id'), quantity : $(this).val()  });
                 });
                 //alert(val);
+                showLoader();
                 $.ajax({
 					type: "POST",
 					url: '/response_update_cart',
@@ -338,7 +348,8 @@
 						data: JSON.stringify(data)
 					},
 					success: function (response) {
-                        console.log(response);
+                        hideLoader();
+                        //console.log(response);
 						var result = JSON.parse(response);
 						if (result == "success") {
 							location.reload();
@@ -365,6 +376,7 @@
 							action: function () {
                                 button.attr('disabled', 'disabled');
                                 button.text('PROCESSING');
+                                showLoader();
 								$.ajax({
 									type: "POST",
 									url: '/response_clear_cart',
@@ -372,7 +384,8 @@
                                         _token: '{!! csrf_token() !!}'
 									},
 									success: function (response) {
-										console.log(response);
+                                        hideLoader();
+										//console.log(response);
 										var result = JSON.parse(response);
 										if (result == "successs") {
 											location.reload();
@@ -403,6 +416,7 @@
 							btnClass: 'btn-red',
 							action: function () {
                                 thisRef.attr('disabled', 'disabled');
+                                showLoader();
 								$.ajax({
 									type: "POST",
 									url: '/response_delete_one_item',
@@ -411,6 +425,7 @@
 										id: id
 									},
 									success: function (response) {
+                                        hideLoader();
 										var result = JSON.parse(response);
 										if (result == "successs") {
                                             location.reload();
@@ -474,6 +489,7 @@
 							btnClass: 'btn-red',
 							action: function () {
                                 thisRef.attr('disabled', 'disabled');
+                                showLoader();
 								$.ajax({
 									type: "POST",
 									url: '/response_delete_one_item_wishlist',
@@ -482,6 +498,7 @@
 										id: id
 									},
 									success: function (response) {
+                                        hideLoader();
 										var result = JSON.parse(response);
 										if (result == "successs") {
                                             location.reload();
@@ -513,6 +530,7 @@
 							action: function () {
                                 button.attr('disabled', 'disabled');
                                 button.text('PROCESSING');
+                                showLoader();
 								$.ajax({
 									type: "POST",
 									url: '/clear_wishlist',
@@ -520,7 +538,8 @@
                                         _token: '{!! csrf_token() !!}'
 									},
 									success: function (response) {
-										console.log(response);
+                                        hideLoader();
+										//console.log(response);
 										var result = JSON.parse(response);
 										if (result == "successs") {
 											location.reload();
@@ -539,6 +558,7 @@
              //Filters
              $(document).on('click', '.filter_values', function(){
                var id = this.id;
+               showLoader();
                 $.ajax({
 					type: "POST",
 					url: '/set_filter_cookie',
@@ -547,7 +567,8 @@
                         id: id
 					},
 					success: function (response) {
-						console.log(response);
+						//console.log(response);
+                        hideLoader();
 						var result = JSON.parse(response);
 						 
 							window.location.href='/filter';
@@ -560,20 +581,13 @@
             $(document).on('click', '.compare_product', function(){ 
                 $(this).attr('disabled', 'disabled');
                 var id = this.id;
-                $.ajax({
-					type: "POST",
-					url: '/resonse_compare_products',
-					data: {
-                        _token: '{!! csrf_token() !!}',
-                        id : id
-					},
-					success: function (response) {
-						console.log(response);
-                        var result = JSON.parse(response);
-                        if(result == "saved_1"){
-                            $.confirm({
+                if(getCookie('cp_2')){
+                    document.cookie = 'cp=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                    document.cookie = 'cp_2=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                    document.cookie = "cp="+id;
+                    $.confirm({
                                 title: 'Alert!',
-                                content: 'Please select another product to comapre',
+                                content: 'Please select another product to compare!',
                                 type: 'green',
                                 typeAnimated: true,
                                 buttons: {
@@ -586,9 +600,9 @@
                                     close: function () {}
                                 }
                             });
-                        }else if(result == "saved_2"){
-                            window.location.href='/compare_products';
-                        }else if(result == "same_ids"){
+                }else{
+                    if(getCookie('cp')){
+                        if(getCookie('cp') == id){
                             $.confirm({
                                 title: 'Alert!',
                                 content: 'Both products are same!',
@@ -604,26 +618,63 @@
                                     close: function () {}
                                 }
                             });
-                        }else if(result == "different_types"){
-                            $.confirm({
+                        }else{
+                            showLoader();
+                            $.ajax({
+                                type: "POST",
+                                url: '/resonse_compare_products',
+                                data: {
+                                    _token: '{!! csrf_token() !!}',
+                                    id: id
+                                },
+                                success: function (response) {
+                                    hideLoader();
+                                    //console.log(response);
+                                    var result = JSON.parse(response);
+                                    if(result == "success"){
+                                        document.cookie = "cp_2="+id;
+                                        window.location.href='/compare_products';
+                                    }else{
+                                        $.confirm({
+                                            title: 'Alert!',
+                                            content: 'Both products are of different type!',
+                                            type: 'red',
+                                            typeAnimated: true,
+                                            buttons: {
+                                                Delete: {
+                                                    text: 'Okay!',
+                                                    btnClass: 'btn-red',
+                                                    action: function () {
+                                                    }
+                                                },
+                                                close: function () {}
+                                            }
+                                        });
+                                    }
+                                    
+                                }
+                            });
+                           
+                        }
+                    }else{
+                        document.cookie = "cp="+id;
+                        $.confirm({
                                 title: 'Alert!',
-                                content: 'Both products are of different types!',
-                                type: 'red',
+                                content: 'Please select another product to compare!',
+                                type: 'green',
                                 typeAnimated: true,
                                 buttons: {
                                     Delete: {
                                         text: 'Okay!',
-                                        btnClass: 'btn-red',
+                                        btnClass: 'btn-green',
                                         action: function () {
                                         }
                                     },
                                     close: function () {}
                                 }
                             });
-                        }
-						
-					}
-				});
+                    }
+                }
             });
 
             // edit contact info
@@ -751,7 +802,7 @@
                 }else{
                     address = 1;
                 }
-
+                showLoader();
                 $.ajax({
                     type: "POST",
                     url: '/resonse_place_order',
@@ -762,7 +813,8 @@
                          payment_method : payment_method
                     },
                     success: function (response) {
-                        console.log(response);
+                        hideLoader();
+                        //console.log(response);
                         var result = JSON.parse(response);
                         if(result == "success"){
                             location.reload();
@@ -850,7 +902,29 @@
 
         });
 
-        
+        function showLoader(){
+            $('#loader').show();
+        }
+
+        function hideLoader(){
+            $('#loader').hide();
+        }
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
 
     </script>
 
@@ -868,7 +942,6 @@
 
         var iid1 = "countbox_1";
         CountBack_slider(gsecs1, "countbox_1", 1);
-
     </script>
 </body>
 

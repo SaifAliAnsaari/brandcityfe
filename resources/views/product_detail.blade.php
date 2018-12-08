@@ -940,7 +940,7 @@
                                                             foreach($products["variants"] as $variants){
                                                                 
                                                             }
-                                                            echo $variants[0]["variant_id"];
+                                                            echo $variants["variant_id"][0];
                                                             //echo "test";
                                                         }else{
                                                             foreach($products["variants"] as $variants){
@@ -955,7 +955,7 @@
                                                                 foreach($products["variants"] as $variants){
                                                                     
                                                                 }
-                                                                echo $variants[0]["variant_id"];
+                                                                echo $variants["variant_id"][0];
                                                             }else{
                                                                 foreach($products["variants"] as $variants){
                                                                 

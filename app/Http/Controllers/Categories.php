@@ -27,10 +27,11 @@ class Categories extends ParentController
      */
     public function categories($category_name)
     {
-        Cookie::queue(  Cookie::forget('PP') );
+        //Cookie::queue(  Cookie::forget('PP') );
+        //proceed to checkout
+        setcookie('PP', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
-            if(cookie::get('GI')){
-                
+            if(isset($_COOKIE['GI'])){ 
             }else{
                 $random_token = $this->random_string(50);
                 $insert_token = DB::table('guest_info')->insert([
@@ -38,11 +39,13 @@ class Categories extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
         }
         parent::navFunction();
         $array = array();
@@ -100,10 +103,11 @@ class Categories extends ParentController
     }
 
     public function categories_list($category_name){
-        Cookie::queue(  Cookie::forget('PP') );
+       // Cookie::queue(  Cookie::forget('PP') );
+       //proceed to checkout
+       setcookie('PP', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
-            if(cookie::get('GI')){
-                
+            if(isset($_COOKIE['GI'])){ 
             }else{
                 $random_token = $this->random_string(50);
                 $insert_token = DB::table('guest_info')->insert([
@@ -111,11 +115,13 @@ class Categories extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
         }
         parent::navFunction();
         $array = array();
@@ -172,10 +178,11 @@ class Categories extends ParentController
     }
 
     public function compare_products(Request $request){
-        Cookie::queue(  Cookie::forget('PP') );
+        //Cookie::queue(  Cookie::forget('PP') );
+        //proceed to checkout
+        setcookie('PP', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
-            if(cookie::get('GI')){
-                
+            if(isset($_COOKIE['GI'])){ 
             }else{
                 $random_token = $this->random_string(50);
                 $insert_token = DB::table('guest_info')->insert([
@@ -183,15 +190,18 @@ class Categories extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
         }
         parent::navFunction();
 
-        if(!$request->cookie('cp') && !$request->cookie('cp_2')){
+
+        if(!$_COOKIE['cp'] && !$_COOKIE['cp_2']){
             return Redirect::back();
         }
         
@@ -203,7 +213,7 @@ class Categories extends ParentController
                 (Select product_description from product_core where id = pv.product_id) as description,
                 (Select product_brand from product_core where id = pv.product_id) as brand,
                 (Select type_name from product_types where id = (Select product_type_id from product_core where id = pv.product_id)) as product_type')
-            ->whereRaw('id ='.$request->cookie('cp'))
+            ->whereRaw('id ='.$_COOKIE["cp"])
             ->get();
 
         // $spec_one = DB::table('product_spec_sheet as ps')
@@ -223,7 +233,7 @@ class Categories extends ParentController
                 (Select product_description from product_core where id = pv.product_id) as description,
                 (Select product_brand from product_core where id = pv.product_id) as brand,
                 (Select type_name from product_types where id = (Select product_type_id from product_core where id = pv.product_id)) as product_type')
-            ->whereRaw('id ='.$request->cookie('cp_2'))
+            ->whereRaw('id ='.$_COOKIE["cp_2"])
             ->get();
 
         // $spec_two = DB::table('product_spec_sheet as ps')
@@ -240,10 +250,11 @@ class Categories extends ParentController
     }
 
     public function filter(Request $request){
-        Cookie::queue(  Cookie::forget('PP') );
+        //Cookie::queue(  Cookie::forget('PP') );
+        //proceed to checkout
+        setcookie('PP', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
-            if(cookie::get('GI')){
-                
+            if(isset($_COOKIE['GI'])){ 
             }else{
                 $random_token = $this->random_string(50);
                 $insert_token = DB::table('guest_info')->insert([
@@ -251,15 +262,17 @@ class Categories extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
         }
         parent::navFunction();
         //echo cookie::get('filter');die;
-        $filter_val = cookie::get('filter');
+        $filter_val = $_COOKIE['filter'];
         $split_val = explode('-', $filter_val, 2);
        // echo $split_val[1]; die;
         $get_brands = DB::table('product_core')->select('product_brand')->orderBy('id', 'desc')->groupBy('product_brand')->limit(3)->get(); 
@@ -469,10 +482,11 @@ class Categories extends ParentController
     }
 
     public function filter_list(Request $request){
-        Cookie::queue(  Cookie::forget('PP') );
+        //Cookie::queue(  Cookie::forget('PP') );
+        //proceed to checkout
+        setcookie('PP', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
-            if(cookie::get('GI')){
-                
+            if(isset($_COOKIE['GI'])){ 
             }else{
                 $random_token = $this->random_string(50);
                 $insert_token = DB::table('guest_info')->insert([
@@ -480,11 +494,13 @@ class Categories extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
         }
         parent::navFunction();
         //echo cookie::get('filter');die;

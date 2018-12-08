@@ -8,4 +8,3 @@ return [
 'quickProducts_img_host_url' => 'http://brandcitybe.debug/storage/quickProducts/',
 ]
 ];
-?>

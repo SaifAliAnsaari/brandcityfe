@@ -30,7 +30,7 @@ class AjaxController extends Controller
      //Ajax delete one item from wishlist
      public function response_delete_one_item_wishlist(Request $request){
         if(!Auth::id()){
-            $delete_item = DB::table('wishlist')->whereRaw('customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'") AND product_id = '.$request->id)->delete();
+            $delete_item = DB::table('wishlist')->whereRaw('customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'") AND product_id = '.$request->id)->delete();
             if($delete_item){
                 echo json_encode("successs");
             }else{
@@ -58,8 +58,8 @@ class AjaxController extends Controller
 
                 if($check_product_active->is_active > 0){
                     //check if product already exist
-                    $check_if_product_exist = DB::table('cart')->whereRaw('customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'") AND is_active = 1 AND product_id ='.$request->product_id )->first(); 
-                    $guest_user = DB::table('guest_info')->select('id')->whereRaw('session = "'.cookie::get('GI').'"')->first();
+                    $check_if_product_exist = DB::table('cart')->whereRaw('customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'") AND is_active = 1 AND product_id ='.$request->product_id )->first(); 
+                    $guest_user = DB::table('guest_info')->select('id')->whereRaw('session = "'.$_COOKIE['GI'].'"')->first();
                     if(empty($check_if_product_exist)){
                         $insert_to_cart = DB::table('cart')->insert([
                         ['customer_id' => $guest_user->id, 'customer_type' => 'Guest user', 'product_id' => $request->product_id,
@@ -73,7 +73,7 @@ class AjaxController extends Controller
                     }else{
                        $new_quantity = $check_if_product_exist->quantity + $request->quantity;
                        $update_cart = DB::table('cart')
-                       ->whereRaw('customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'") AND product_id ='.$request->product_id)
+                       ->whereRaw('customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'") AND product_id ='.$request->product_id)
                        ->update(['quantity' => $new_quantity]);
                        if($update_cart){
                             echo json_encode('update success');
@@ -131,12 +131,15 @@ class AjaxController extends Controller
 
     //AJAX Add item to wishlist
     public function response_add_to_wishlist(Request $request){
+        //echo json_encode($_COOKIE['GI']); die;
         $check_product_active = DB::table('product_variants')->select('is_active')->where ('id', '=', $request->product_id)->first();
         if($request->user_id == "guest_user"){
            //echo json_encode("Please register first to add this product to your favourites");
            if($check_product_active){
-               $check_if_product_exist = DB::table('wishlist')->whereRaw('customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'") AND product_id = '.$request->product_id)->first(); 
-               $guest_user = DB::table('guest_info')->select('id')->whereRaw('session = "'.cookie::get('GI').'"')->first();
+               $check_if_product_exist = DB::table('wishlist')->whereRaw('customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'") AND product_id = '.$request->product_id)->first(); 
+               $guest_user = DB::table('guest_info')->select('id')->whereRaw('session = "'.$_COOKIE['GI'].'"')->first();
+              // echo json_encode($_COOKIE['GI']); die;
+               //print_r(json_encode($guest_user)); die;
                if(empty($check_if_product_exist)){
                    $insert_to_wishlist = DB::table('wishlist')->insert([
                        ['customer_id' => $guest_user->id, 'customer_type' => 'Guest user', 'product_id' => $request->product_id]
@@ -181,7 +184,7 @@ class AjaxController extends Controller
     //AJAX Delete one item from cart
     public function response_delete_one_item(Request $request){
         if(!Auth::id()){
-            $delete_item = DB::table('cart')->whereRaw('customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'") AND product_id ='.$request->id)->delete();
+            $delete_item = DB::table('cart')->whereRaw('customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'") AND product_id ='.$request->id)->delete();
             if($delete_item){
                 echo json_encode("successs");
             }else{
@@ -201,7 +204,7 @@ class AjaxController extends Controller
     //AJAX Clear whole cart
     public function response_clear_cart(Request $request){
         if(!Auth::id()){
-            $delete_item = DB::table('cart')->whereRaw('customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'")')->delete();
+            $delete_item = DB::table('cart')->whereRaw('customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'")')->delete();
             if($delete_item){
                 echo json_encode("successs");
             }else{
@@ -258,7 +261,7 @@ class AjaxController extends Controller
     //Ajax clear whole wishlist
     public function clear_wishlist(Request $request){
         if(!Auth::id()){
-            $delete_item = DB::table('wishlist')->whereRaw('customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'")')->delete();
+            $delete_item = DB::table('wishlist')->whereRaw('customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'")')->delete();
             if($delete_item){
                 echo json_encode("successs");
             }else{
@@ -278,7 +281,8 @@ class AjaxController extends Controller
     public function set_filter_cookie(Request $request){
         $minutes = 300;
         $filter_val = $request->id;
-        Cookie::queue(Cookie::make('filter', $filter_val, 30));
+        //Cookie::queue(Cookie::make('filter', $filter_val, 30));
+        setcookie('filter', $filter_val, time() + (86400 * 30), "/");
             echo json_encode('success');
         
     }
@@ -352,41 +356,48 @@ class AjaxController extends Controller
 
     public function compare_products(Request $request){
 
-        if($request->cookie('cp_2')){
-            Cookie::queue(Cookie::forget('cp'));
-            Cookie::queue(Cookie::forget('cp_2'));
+        // if($request->cookie('cp_2')){
+        //     // Cookie::queue(Cookie::forget('cp'));
+        //     // Cookie::queue(Cookie::forget('cp_2'));
 
-            $compare_product_id = $request->id;
-            Cookie::queue(Cookie::make('cp', $compare_product_id, 30));
-            echo json_encode('saved_1');
+        //     // $compare_product_id = $request->id;
+        //     // Cookie::queue(Cookie::make('cp', $compare_product_id, 30));
+        //     echo json_encode('saved_1');
 
-        }else{
-            if($request->cookie('cp')){
-                if($request->cookie('cp') == $request->id){
-                    echo json_encode('same_ids');
-                }else{
+        // }else{
+        //     if($request->cookie('cp')){
+        //         if($request->cookie('cp') == $request->id){
+        //             echo json_encode('same_ids');
+        //         }else{
                     //First Check both ids are of same spec type
                     $check_spec_type = DB::table('product_core as pc')
                         ->selectRaw('product_type_id')
-                        ->whereRaw('id = (Select product_id from product_variants where id = "'.$request->cookie('cp').'") AND
+                        ->whereRaw('id = (Select product_id from product_variants where id = "'.$_COOKIE['cp'].'") AND
                         pc.product_type_id = (Select product_type_id from product_core where id = (Select product_id from product_variants where id = "'.$request->id.'"))')
                         ->first();
+
+                        if($check_spec_type){
+                            echo json_encode('success');
+                        }else{
+                            echo json_encode('failed');
+                        }
                     
-                    if($check_spec_type){
-                        $compare_product_id = $request->id;
-                        Cookie::queue(Cookie::make('cp_2', $compare_product_id, 30));
-                        echo json_encode('saved_2');
-                    }else{
-                        echo json_encode('different_types');
-                    }
+        //             if($check_spec_type){
+        //                 // $compare_product_id = $request->id;
+        //                 // Cookie::queue(Cookie::make('cp_2', $compare_product_id, 30));
+        //                 echo json_encode('saved_2');
+        //             }else{
+        //                 echo json_encode('different_types');
+        //             }
                     
-                }
-            }else{
-                $compare_product_id = $request->id;
-                Cookie::queue(Cookie::make('cp', $compare_product_id, 30));
-                echo json_encode('saved_1');
-            }
-        }
+        //         }
+        //     }else{
+        //         // $compare_product_id = $request->id;
+        //         // Cookie::queue(Cookie::make('cp', $compare_product_id, 30));
+        //         // echo $compare_product_id;die;
+        //         echo json_encode('saved_1');
+        //     }
+        // }
     }
 
     public function resonse_proceed_to_checkout(){
@@ -398,7 +409,7 @@ class AjaxController extends Controller
         }else{
             $select_product_quantity = DB::table('cart')
             ->select('quantity', 'product_id')
-            ->whereRaw('customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'") AND is_active = 1')
+            ->whereRaw('customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'") AND is_active = 1')
             ->get();
         }
         
@@ -406,7 +417,9 @@ class AjaxController extends Controller
         if($select_product_quantity->isEmpty()){
             echo json_encode('unavailable');
         }else{
-            Cookie::queue(Cookie::make('PP', "active", 30));
+            setcookie('PP', "active", time() + 1800, "/");
+            //Cookie::queue(Cookie::make('PP', "active", 30));
+
             foreach($select_product_quantity as $items){
                 $check_quantity = DB::table('product_variants')
                     ->selectRaw('product_quantity >= '.$items->quantity)
@@ -482,7 +495,7 @@ class AjaxController extends Controller
             }
         }else{
             $insert = DB::table('orders')->insertGetId([
-                'customer_id' => DB::raw('(Select id from guest_info where session = "'.cookie::get('GI').'")'),
+                'customer_id' => DB::raw('(Select id from guest_info where session = "'.$_COOKIE['GI'].'")'),
                 'delivery_address' => $request->address,
                 'customer_type' => "guest",
                 'delivery_charges' => $request->shipping_charges,
@@ -491,7 +504,7 @@ class AjaxController extends Controller
             if($insert){
                 //$insert->id;
                 $select_cart = DB::table('cart')
-                ->whereRaw('customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'") AND is_active = "1" ')
+                ->whereRaw('customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'") AND is_active = "1" ')
                 ->get();
                 if($select_cart->isEmpty()){
                     echo json_encode('failed');
@@ -518,7 +531,7 @@ class AjaxController extends Controller
                             ]);
         
                         $update_cart = DB::table('cart')
-                            ->whereRaw('customer_id = (Select id from guest_info where session = "'.cookie::get('GI').'")')
+                            ->whereRaw('customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'")')
                             ->update(['is_active' => '0']);
                     }
                 }

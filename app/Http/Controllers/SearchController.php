@@ -30,7 +30,7 @@ class SearchController extends ParentController
       //Search items FORM
     public function search_items(Request $request){
         if(!Auth::id()){
-            if(cookie::get('GI')){
+            if(isset($_COOKIE['GI'])){
                 
             }else{
                 $random_token = $this->random_string(50);
@@ -39,11 +39,13 @@ class SearchController extends ParentController
                     'guest_ip' => $request->ip()]
                 ]);
                 if($insert_token){
-                    Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
                 }
             }
         }else{
-            Cookie::queue(  Cookie::forget('GI') );
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
         }
         parent::navFunction();
         if ($request->cat == 0 || $request->search_dropdown == ""){
