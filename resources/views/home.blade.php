@@ -64,6 +64,9 @@
                         <ul>
 
                             <?php 
+                            if(!$campaigns->isEmpty()){
+
+                           
                             foreach($campaigns as $campaign){ ?>
 
                             <li data-transition='random' data-slotamount='7' data-masterspeed='1000' data-thumb="
@@ -98,6 +101,7 @@
 
 
                             <?php }
+                             }
                                 ?>
 
                     </div>
@@ -248,20 +252,22 @@
     <div class="container">
         <div class="row">
             <?php
-                //print_r($top_products[0]);
+                if(!$top_products->isEmpty()){
+
                 foreach($top_products as $data[]){
                  }
             ?>
           
            <div class="col-lg-4 col-sm-4">
                 <a href="/product_detail/<?= $data[0]->product_id ?>"><img alt="" src="<?= Config::get('constants.options.quickProducts_img_host_url').$data[0]->custom_banner?>"></a>
-        </div>
+            </div>
             <div class="col-lg-4 col-sm-4 last">
                 <a href="/product_detail/<?= $data[1]->product_id ?>"><img alt="" src="<?= Config::get('constants.options.quickProducts_img_host_url').$data[1]->custom_banner?>"></a>
             </div>
             <div class="col-lg-4 col-sm-4 last">
                 <a href="/product_detail/<?= $data[2]->product_id ?>"><img alt="" src="<?= Config::get('constants.options.quickProducts_img_host_url').$data[2]->custom_banner?>"></a>
             </div>
+        <?php } ?>
         </div>
     </div>
 </div>

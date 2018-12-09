@@ -31,13 +31,13 @@
                             <div class="slider-items slider-width-col1 owl-carousel owl-theme">
 
                                 <!-- Item -->
-                                <div class="item"> <a href="#"><img alt="" src="/resources/images/category-img1.jpg"></a>
+                                {{-- <div class="item"> <a href="#"><img alt="" src="/resources/images/category-img1.jpg"></a>
                                     <div class="cat-img-title cat-bg cat-box">
                                         <div class="small-tag">Big Sale</div>
                                         <h2 class="cat-heading">Mobiles Collection</h2>
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <!-- End Item -->
 
                                 <!-- Item -->
@@ -359,204 +359,27 @@
                         <!--block-title-->
                         <!-- BEGIN BOX-CATEGORY -->
                         <div class="box-content box-category">
-                            <ul>
-                                <li> <a class="active" href="grid.html">Women</a> <span class="subDropdown minus"></span>
-                                    <ul class="level0_415" style="display:block">
-                                        <li> <a href="grid.html"> Tops </a> <span class="subDropdown plus"></span>
-                                            <ul class="level1" style="display:none">
-                                                <li> <a href="grid.html"> Evening Tops </a> </li>
-                                                <li> <a href="grid.html"> Shirts &amp; Blouses </a> </li>
-                                                <li> <a href="grid.html"> Tunics </a> </li>
-                                                <li> <a href="grid.html"> Vests </a> </li>
-                                                <!--end for-each -->
-                                            </ul>
-                                            <!--level1-->
-                                        </li>
-                                        <!--level1-->
-                                        <li> <a href="grid.html"> Bags </a> <span class="subDropdown plus"></span>
-                                            <ul class="level1" style="display:none">
-                                                <li> <a href="grid.html"> Bags </a> </li>
-                                                <li> <a href="grid.html"> Designer Handbags </a> </li>
-                                                <li> <a href="grid.html"> Purses </a> </li>
-                                                <li> <a href="grid.html"> Shoulder Bags </a> </li>
-                                                <!--end for-each -->
-                                            </ul>
-                                            <!--level1-->
-                                        </li>
-                                        <!--level1-->
-                                        <li> <a href="grid.html"> Shoes </a> <span class="subDropdown plus"></span>
-                                            <ul class="level1" style="display:none">
-                                                <li> <a href="grid.html"> Flat Shoes </a> </li>
-                                                <li> <a href="grid.html"> Flat Sandals </a> </li>
-                                                <li> <a href="grid.html"> Boots </a> </li>
-                                                <li> <a href="grid.html"> Heels </a> </li>
-                                                <!--end for-each -->
-                                            </ul>
-                                            <!--level1-->
-                                        </li>
-                                        <!--level1-->
-                                        <li> <a href="grid.html"> Jewellery </a>
-                                            <ul class="level1" style="display:none">
-                                                <li> <a href="grid.html"> Bracelets </a> </li>
-                                                <li> <a href="grid.html"> Necklaces &amp; Pendants </a> </li>
-                                                <li> <a href="grid.html"> Pins &amp; Brooches </a> </li>
-                                                <!--end for-each -->
-                                            </ul>
-                                            <!--level1-->
-                                        </li>
-                                        <!--level1-->
-                                        <li> <a href="grid.html"> Dresses </a> <span class="subDropdown plus"></span>
-                                            <ul class="level1" style="display:none">
-                                                <li> <a href="grid.html"> Casual Dresses </a> </li>
-                                                <li> <a href="grid.html"> Evening </a> </li>
-                                                <li> <a href="grid.html"> Designer </a> </li>
-                                                <li> <a href="grid.html"> Party </a> </li>
-                                                <!--end for-each -->
-                                            </ul>
-                                            <!--level1-->
-                                        </li>
-                                        <!--level1-->
-                                        <li> <a href="grid.html"> Lingerie </a> <span class="subDropdown plus"></span>
-                                            <ul class="level1" style="display:none">
-                                                <li> <a href="grid.html"> Bras </a> </li>
-                                                <li> <a href="grid.html"> Bodies </a> </li>
-                                                <li> <a href="grid.html"> Lingerie Sets </a> </li>
-                                                <li> <a href="grid.html"> Shapewear </a> </li>
-                                                <!--end for-each -->
-                                            </ul>
-                                            <!--level1-->
-                                        </li>
-                                        <!--level1-->
-                                        <li> <a href="grid.html"> Jackets </a> <span class="subDropdown plus"></span>
-                                            <ul class="level1" style="display:none">
-                                                <li> <a href="grid.html"> Coats </a> </li>
-                                                <li> <a href="grid.html"> Jackets </a> </li>
-                                                <li> <a href="grid.html"> Leather Jackets </a> </li>
-                                                <li> <a href="grid.html"> Blazers </a> </li>
-                                                <!--end for-each -->
-                                            </ul>
-                                            <!--level1-->
-                                        </li>
-                                        <!--level1-->
-                                        <li> <a href="grid.html"> Swimwear </a> <span class="subDropdown plus"></span>
-                                            <ul class="level1" style="display:none">
-                                                <li> <a href="grid.html"> Swimsuits </a> </li>
-                                                <li> <a href="grid.html"> Beach Clothing </a> </li>
-                                                <li> <a href="grid.html"> Bikinis </a> </li>
-                                                <!--end for-each -->
-                                            </ul>
-                                            <!--level1-->
-                                        </li>
-                                        <!--level1-->
-                                    </ul>
-                                    <!--level0-->
-                                </li>
-                                <!--level 0-->
-                                <li> <a href="grid.html">Men</a> <span class="subDropdown plus"></span>
-                                    <ul class="level0_455" style="display:none">
-                                        <li> <a href="grid.html"> Shoes </a> <span class="subDropdown plus"></span>
-                                            <ul class="level1" style="display:none">
-                                                <li> <a href="grid.html"> Flat Shoes </a> </li>
-                                                <li> <a href="grid.html"> Boots </a> </li>
-                                                <li> <a href="grid.html"> Heels </a> </li>
-                                                <!--end for-each -->
-                                            </ul>
-                                            <!--level1-->
-                                        </li>
-                                        <!--level1-->
-                                        <li> <a href="grid.html"> Jewellery </a> <span class="subDropdown plus"></span>
-                                            <ul class="level1" style="display:none">
-                                                <li> <a href="grid.html"> Bracelets </a> </li>
-                                                <li> <a href="grid.html"> Necklaces &amp; Pendants </a> </li>
-                                                <li> <a href="grid.html"> Pins &amp; Brooches </a> </li>
-                                                <!--end for-each -->
-                                            </ul>
-                                            <!--level1-->
-                                        </li>
-                                        <!--level1-->
-                                        <li> <a href="grid.html"> Dresses </a> <span class="subDropdown plus"></span>
-                                            <ul class="level1" style="display:none">
-                                                <li> <a href="grid.html"> Casual Dresses </a> </li>
-                                                <li> <a href="grid.html"> Evening </a> </li>
-                                                <li> <a href="grid.html"> Designer </a> </li>
-                                                <li> <a href="grid.html"> Party </a> </li>
-                                                <!--end for-each -->
-                                            </ul>
-                                            <!--level1-->
-                                        </li>
-                                        <!--level1-->
-                                        <li> <a href="grid.html"> Jackets </a> <span class="subDropdown plus"></span>
-                                            <ul class="level1" style="display:none">
-                                                <li> <a href="grid.html"> Coats </a> </li>
-                                                <li> <a href="grid.html"> Jackets </a> </li>
-                                                <li> <a href="grid.html"> Leather Jackets </a> </li>
-                                                <li> <a href="grid.html"> Blazers </a> </li>
-                                                <!--end for-each -->
-                                            </ul>
-                                            <!--level1-->
-                                        </li>
-                                        <!--level1-->
-                                        <li> <a href="grid.html"> Swimwear </a> <span class="subDropdown plus"></span>
-                                            <ul class="level1" style="display:none">
-                                                <li> <a href="grid.html"> Swimsuits </a> </li>
-                                                <li> <a href="grid.html"> Beach Clothing </a> </li>
-                                                <!--end for-each -->
-                                            </ul>
-                                            <!--level1-->
-                                        </li>
-                                        <!--level1-->
-                                    </ul>
-                                    <!--level0-->
-                                </li>
-                                <!--level 0-->
-                                <li> <a href="grid.html">Electronics</a> <span class="subDropdown plus"></span>
-                                    <ul class="level0_482" style="display:none">
-                                        <li> <a href="grid.html"> Smartphones </a> <span class="subDropdown plus"></span>
-                                            <ul class="level1" style="display:none">
-                                                <li> <a href="grid.html"> Samsung </a> </li>
-                                                <li> <a href="grid.html"> Apple </a> </li>
-                                                <li> <a href="grid.html"> Blackberry </a> </li>
-                                                <li> <a href="grid.html"> Nokia </a> </li>
-                                                <li> <a href="grid.html"> HTC </a> </li>
-                                                <!--end for-each -->
-                                            </ul>
-                                            <!--level1-->
-                                        </li>
-                                        <!--level1-->
-                                        <li> <a href="grid.html"> Cameras </a> <span class="subDropdown plus"></span>
-                                            <ul class="level1" style="display:none">
-                                                <li> <a href="grid.html"> Digital Cameras </a> </li>
-                                                <li> <a href="grid.html"> Camcorders </a> </li>
-                                                <li> <a href="grid.html"> Lenses </a> </li>
-                                                <li> <a href="grid.html"> Filters </a> </li>
-                                                <li> <a href="grid.html"> Tripod </a> </li>
-                                                <!--end for-each -->
-                                            </ul>
-                                            <!--level1-->
-                                        </li>
-                                        <!--level1-->
-                                        <li> <a href="grid.html"> Accesories </a> <span class="subDropdown plus"></span>
-                                            <ul class="level1" style="display:none">
-                                                <li> <a href="grid.html"> HeadSets </a> </li>
-                                                <li> <a href="grid.html"> Batteries </a> </li>
-                                                <li> <a href="grid.html"> Screen Protectors </a> </li>
-                                                <li> <a href="grid.html"> Memory Cards </a> </li>
-                                                <li> <a href="grid.html"> Cases </a> </li>
-                                                <!--end for-each -->
-                                            </ul>
-                                            <!--level1-->
-                                        </li>
-                                        <!--level1-->
-                                    </ul>
-                                    <!--level0-->
-                                </li>
-                                <!--level 0-->
-                                <li> <a href="grid.html">Digital</a> </li>
-                                <!--level 0-->
-                                <li class="last"> <a href="grid.html">Fashion</a> </li>
-                                <!--level 0-->
-                            </ul>
-                        </div>
+                            
+                                <ul>
+                                    @foreach ($nav_links as $nav)
+                                    <li> <a class="active" >{{ $nav["name"] }}</a> <span class="subDropdown minus"></span> 
+                                        <ul class="level0_415" style="display:block">
+                                            @foreach ($nav["sub_category"] as $sub)
+                                            <li> <a > {{ $sub["name"] }} </a> <span class="subDropdown plus"></span>
+                                                <ul class="level1" style="display:none">
+                                                    @foreach ($sub["product_categories"] as $prod)
+                                                    <li> <a href="/category/<?= $prod["name"] ?>"> {{ $prod["name"] }} </a> </li>
+                                                    
+                                                    @endforeach
+                                                </ul>
+                                            </li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                               
+                            </div>
                         <!--box-content box-category-->
                     </div>
                    

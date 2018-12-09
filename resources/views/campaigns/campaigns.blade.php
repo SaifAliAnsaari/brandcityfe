@@ -21,13 +21,13 @@
                             <div class="slider-items slider-width-col1 owl-carousel owl-theme">
 
                                 <!-- Item -->
-                                <div class="item"> <a href="#"><img alt="" src="/resources/images/category-img1.jpg"></a>
+                                {{-- <div class="item"> <a href="#"><img alt="" src="/resources/images/category-img1.jpg"></a>
                                     <div class="cat-img-title cat-bg cat-box">
                                         <div class="small-tag">Big Sale</div>
                                         <h2 class="cat-heading">Mobiles Collection</h2>
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <!-- End Item -->
 
                                 <!-- Item -->
@@ -506,84 +506,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="block block-list block-viewed">
-                        <div class="block-title"> Recently Viewed </div>
-                        <div class="block-content">
-                            <ol id="recently-viewed-items">
-                                <li class="item odd">
-                                    <p class="product-name"><a href="#"> Armchair with Box-Edge Upholstered Arm</a></p>
-                                </li>
-                                <li class="item even">
-                                    <p class="product-name"><a href="#"> Pearce Upholstered Slee pere</a></p>
-                                </li>
-                                <li class="item last odd">
-                                    <p class="product-name"><a href="#"> Sofa with Box-Edge Down-Blend Wrapped Cushions</a></p>
-                                </li>
-                            </ol>
-                        </div>
-                    </div>
-                    <div class="block block-poll">
-                        <div class="block-title">Community Poll </div>
-                        <form id="pollForm" action="#" method="post" onSubmit="return validatePollAnswerIsSelected();">
-                            <div class="block-content">
-                                <p class="block-subtitle">What is your favorite Magento feature?</p>
-                                <ul id="poll-answers">
-                                    <li class="odd">
-                                        <input type="radio" name="vote" class="radio poll_vote" id="vote_5" value="5">
-                                        <span class="label">
-                                            <label for="vote_5">Layered Navigation</label>
-                                        </span> </li>
-                                    <li class="even">
-                                        <input type="radio" name="vote" class="radio poll_vote" id="vote_6" value="6">
-                                        <span class="label">
-                                            <label for="vote_6">Price Rules</label>
-                                        </span> </li>
-                                    <li class="odd">
-                                        <input type="radio" name="vote" class="radio poll_vote" id="vote_7" value="7">
-                                        <span class="label">
-                                            <label for="vote_7">Category Management</label>
-                                        </span> </li>
-                                    <li class="last even">
-                                        <input type="radio" name="vote" class="radio poll_vote" id="vote_8" value="8">
-                                        <span class="label">
-                                            <label for="vote_8">Compare Products</label>
-                                        </span> </li>
-                                </ul>
-                                <div class="actions">
-                                    <button type="submit" title="Vote" class="button button-vote"><span>Vote</span></button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                   
                     <div class="hot-banner"><img alt="banner" src="/resources/images/hot-trends-banner.jpg"></div>
-                    <div class="block block-tags">
-                        <div class="block-title"> Popular Tags</div>
-                        <div class="block-content">
-                            <ul class="tags-list">
-                                <li><a href="#" style="font-size:98.3333333333%;">Camera</a></li>
-                                <li><a href="#" style="font-size:86.6666666667%;">Hohoho</a></li>
-                                <li><a href="#" style="font-size:145%;">SEXY</a></li>
-                                <li><a href="#" style="font-size:75%;">Tag</a></li>
-                                <li><a href="#" style="font-size:110%;">Test</a></li>
-                                <li><a href="#" style="font-size:86.6666666667%;">bones</a></li>
-                                <li><a href="#" style="font-size:110%;">cool</a></li>
-                                <li><a href="#" style="font-size:86.6666666667%;">cool t-shirt</a></li>
-                                <li><a href="#" style="font-size:86.6666666667%;">crap</a></li>
-                                <li><a href="#" style="font-size:86.6666666667%;">good</a></li>
-                                <li><a href="#" style="font-size:86.6666666667%;">green</a></li>
-                                <li><a href="#" style="font-size:86.6666666667%;">hip</a></li>
-                                <li><a href="#" style="font-size:75%;">laptop</a></li>
-                                <li><a href="#" style="font-size:75%;">mobile</a></li>
-                                <li><a href="#" style="font-size:75%;">nice</a></li>
-                                <li><a href="#" style="font-size:86.6666666667%;">phone</a></li>
-                                <li><a href="#" style="font-size:98.3333333333%;">red</a></li>
-                                <li><a href="#" style="font-size:86.6666666667%;">tight</a></li>
-                                <li><a href="#" style="font-size:75%;">trendy</a></li>
-                                <li><a href="#" style="font-size:86.6666666667%;">young</a></li>
-                            </ul>
-                            <div class="actions"> <a href="#" class="view-all">View All Tags</a> </div>
-                        </div>
-                    </div>
+                   
                 </aside>
             </div>
         </div>

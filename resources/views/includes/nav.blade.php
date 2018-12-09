@@ -19,20 +19,50 @@
                                     <div class="wrap-popup">
                                         <div class="popup">
                                             <div class="row">
-                                                @foreach ($nav["sub_category"] as $sub)
-                                                    <div class="col-md-4 col-sm-6">
-                                                        <a >
-                                                            <h3>{{ $sub["name"] }}</h3>
-                                                        </a>
-                                                        <ul class="nav">
-                                                            @foreach ($sub["product_categories"] as $prod)
-                                                                <li> <a href="/category/<?= $prod["name"] ?>"><span>{{ $prod["name"] }}</span></a>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                        <br>
-                                                    </div>
-                                                @endforeach
+                                                
+                                                <?php 
+                                                    $total_sub = count($nav["sub_category"]);
+                                                    $sub_printable = $total_sub/2;
+                                                    ceil($sub_printable);
+                                                      ?>
+                                                        <div class="col-md-4 col-sm-6">
+                                                            <?php  $counter = 0;
+                                                            for($i=0; $i<$sub_printable; $i++){ ?>
+                                                                <a > <?= $nav["sub_category"][$i]['name'] ?> </a>
+                                                                <ul class="nav">
+
+                                                                    <?php 
+                                                                        foreach($nav["sub_category"][$i]["product_categories"] as $pro){ ?>
+                                                                        <li> <a href="/category/<?= $pro["name"] ?>"><span>{{ $pro['name'] }}</span></a>
+                                                                        </li>
+                                                                       <?php }
+                                                                    ?>
+                                                                        
+                                                                </ul>
+                                                                <br>
+                                                                <?php $counter++;
+                                                             } ?>
+                                                            </div>
+                                                       
+                                                        <div class="col-md-4 col-sm-6">
+                                                            <?php 
+                                                            for($j = $counter; $j < $counter+2; $j++){ 
+                                                                if(isset($nav["sub_category"][$j]['name'])){?>
+                                                                <a> <?= $nav["sub_category"][$j]['name'] ?> </a>
+                                                                <ul class="nav">
+                                                                    <?php 
+                                                                        foreach($nav["sub_category"][$j]["product_categories"] as $pro){ ?>
+                                                                        <li> <a href="/category/<?= $pro["name"] ?>"><span>{{ $pro['name'] }}</span></a>
+                                                                        </li>
+                                                                    <?php }
+                                                                    ?>
+                                                                </ul>
+                                                                <br>
+                                                                <?php }
+                                                            } ?>
+                                                            </div>
+
+                                                
                                                 <div class="col-md-4 has-sep hidden-sm">
                                                     <div class="custom-menu-right">
                                                         <div class="box-banner media">
@@ -43,11 +73,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <br>
-                                            <p>
-                                                <a class="ads" href="#"><img class="img-responsive" alt="bottom image"
-                                                        src="/resources/images/menu-img4.jpg"></a>
-                                            </p>
                                         </div>
                                     </div>
                                 </li>

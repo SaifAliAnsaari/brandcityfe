@@ -112,15 +112,11 @@
                     <div class="block-content">
                         <ul>
                             <li><a href="/account_info">Account Dashboard</a></li>
-                            <li><a href="#">Account Information</a></li>
-                            <li><a href="#">Address Book</a></li>
-                            <li><a href="#">My Orders</a></li>
-                            <li><a href="#">Billing Agreements</a></li>
-                            <li><a href="#">Recurring Profiles</a></li>
-                            <li><a href="#">My Product Reviews</a></li>
+                            <li><a href="/account_info">Account Information</a></li>
+                            <li><a href="/orders">My Orders</a></li>
                             <li class="current"><a href="/wishlist">My Wishlist</a></li>
                             </li>
-                            <li class="last"><a href="#">Newsletter Subscriptions</a></li>
+                            <li class="last"><a href="/account_info">Newsletter Subscriptions</a></li>
                         </ul>
                     </div>
                 </div>

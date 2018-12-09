@@ -35,13 +35,13 @@
                             <div class="slider-items slider-width-col1 owl-carousel owl-theme">
 
                                 <!-- Item -->
-                                <div class="item"> <a href="#"><img alt="" src="/resources/images/category-img1.jpg"></a>
+                                {{-- <div class="item"> <a href="#"><img alt="" src="/resources/images/category-img1.jpg"></a>
                                     <div class="cat-img-title cat-bg cat-box">
                                         <div class="small-tag">Big Sale</div>
                                         <h2 class="cat-heading">Mobiles Collection</h2>
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <!-- End Item -->
 
                                 <!-- Item -->
@@ -457,25 +457,7 @@
                                 </ul>
                             </div>
                     </div>
-                    {{-- <div class="block block-compare">
-                        <div class="block-title ">Compare Products (2)</div>
-                        <div class="block-content">
-                            <ol id="compare-items">
-                                <li class="item odd">
-                                    <input type="hidden" value="2173" class="compare-item-id">
-                                    <a class="btn-remove1" title="Remove This Item" href="#"></a> <a href="#" class="product-name">
-                                        Sofa with Box-Edge Polyester Wrapped Cushions</a> </li>
-                                <li class="item last even">
-                                    <input type="hidden" value="2174" class="compare-item-id">
-                                    <a class="btn-remove1" title="Remove This Item" href="#"></a> <a href="#" class="product-name">
-                                        Sofa with Box-Edge Down-Blend Wrapped Cushions</a> </li>
-                            </ol>
-                            <div class="ajax-checkout">
-                                <button type="submit" title="Submit" class="button button-compare"><span>Compare</span></button>
-                                <button type="submit" title="Submit" class="button button-clear"><span>Clear</span></button>
-                            </div>
-                        </div>
-                    </div> --}}
+                    
                     <div class="custom-slider">
                         <div>
                             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -511,55 +493,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="block block-list block-viewed">
-                        <div class="block-title"> Recently Viewed </div>
-                        <div class="block-content">
-                            <ol id="recently-viewed-items">
-                                <li class="item odd">
-                                    <p class="product-name"><a href="#"> Armchair with Box-Edge Upholstered Arm</a></p>
-                                </li>
-                                <li class="item even">
-                                    <p class="product-name"><a href="#"> Pearce Upholstered Slee pere</a></p>
-                                </li>
-                                <li class="item last odd">
-                                    <p class="product-name"><a href="#"> Sofa with Box-Edge Down-Blend Wrapped Cushions</a></p>
-                                </li>
-                            </ol>
-                        </div>
-                    </div>
-                    <div class="block block-poll">
-                        <div class="block-title">Community Poll </div>
-                        <form id="pollForm" action="#" method="post" onSubmit="return validatePollAnswerIsSelected();">
-                            <div class="block-content">
-                                <p class="block-subtitle">What is your favorite Magento feature?</p>
-                                <ul id="poll-answers">
-                                    <li class="odd">
-                                        <input type="radio" name="vote" class="radio poll_vote" id="vote_5" value="5">
-                                        <span class="label">
-                                            <label for="vote_5">Layered Navigation</label>
-                                        </span> </li>
-                                    <li class="even">
-                                        <input type="radio" name="vote" class="radio poll_vote" id="vote_6" value="6">
-                                        <span class="label">
-                                            <label for="vote_6">Price Rules</label>
-                                        </span> </li>
-                                    <li class="odd">
-                                        <input type="radio" name="vote" class="radio poll_vote" id="vote_7" value="7">
-                                        <span class="label">
-                                            <label for="vote_7">Category Management</label>
-                                        </span> </li>
-                                    <li class="last even">
-                                        <input type="radio" name="vote" class="radio poll_vote" id="vote_8" value="8">
-                                        <span class="label">
-                                            <label for="vote_8">Compare Products</label>
-                                        </span> </li>
-                                </ul>
-                                <div class="actions">
-                                    <button type="submit" title="Vote" class="button button-vote"><span>Vote</span></button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                  
                     <div class="hot-banner"><img alt="banner" src="/resources/images/hot-trends-banner.jpg"></div>
                     
                 </aside>
