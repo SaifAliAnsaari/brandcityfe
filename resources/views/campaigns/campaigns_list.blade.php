@@ -31,15 +31,14 @@
                     <!-- End Item -->
 
                     <!-- Item -->
-                    <div class="item"> <a href="#"><img alt="" src="/resources/images/category-img2.jpg"></a>
+                    {{-- <div class="item"> <a href="#"><img alt="" src="/resources/images/category-img2.jpg"></a>
                         <div class="cat-img-title cat-bg cat-box">
                             <div class="small-tag">Street Style</div>
                             <h2 class="cat-heading">New Season</h2>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
                         </div>
-                        <!-- End Item -->
                         
-                      </div>
+                      </div> --}}
                     </div>
                   </div>
                 </div>
@@ -193,27 +192,20 @@
                             <a class="button btn-quickview quickViewModal" id = "<?= $campaign_data["id"] ?>" type="button"
                                 title="" data-original-title="Add to Cart"><span>Quick View</span></a>
                             @endif
-                          <span class="add-to-links"><a title="Add to Compare" class="button link-compare compare_product" id="<?php 
-                            if(sizeof($campaign_data["variants"]) > 1){
-                                //echo "greater"; die;
-                                foreach($campaign_data["variants"] as $variants){
+                            <?php 
+                            if(sizeof($campaign_data["variants"]) == 1){ ?>
+                                <span class="add-to-links"><a title="Add to Compare" class="button link-compare compare_product" id="<?php 
+                                    foreach($campaign_data["variants"] as $variants){
                                     
-                                }
-                                echo $variants["variant_id"];
-                            }else{
-                                foreach($campaign_data["variants"] as $variants){
-                                   
-                                }
-                                echo $variants["variant_id"];
-                            } ?>"><span>Compare</span></a> </span>
+                                    }
+                                    echo $variants["variant_id"];
+                                ?>"><span>Compare</span></a> </span>
+                           <?php  }
+                            ?>
+
                           <span class="add-to-links"><a title="Add to Wishlist" class="button link-wishlist wishlist" id="<?php 
                             if(sizeof($campaign_data["variants"]) > 1){
-                                //echo "greater"; die;
-                                foreach($campaign_data["variants"] as $variants){
-                                    
-                                }
-                                //echo $variants[0]["variant_id"];
-                                echo "test";
+                                echo $campaign_data["variants"][0]["variant_id"];
                             }else{
                                 foreach($campaign_data["variants"] as $variants){
                                    
@@ -441,7 +433,7 @@
                             </div>
                         </div>
               
-                <div class="custom-slider">
+                     {{-- <div class="custom-slider">
                         <div>
                             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                                 <ol class="carousel-indicators">
@@ -475,9 +467,9 @@
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                
-                 <div class="hot-banner"><img alt="banner" src="/resources/images/hot-trends-banner.jpg"></div>
+                 {{-- <div class="hot-banner"><img alt="banner" src="/resources/images/hot-trends-banner.jpg"></div> --}}
               
               </aside>
             </div>

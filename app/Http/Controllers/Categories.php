@@ -49,6 +49,11 @@ class Categories extends ParentController
         }
         parent::navFunction();
         $array = array();
+
+        $cat_img = DB::table('product_categories')
+         ->select('category_image')
+         ->where('category_name', "=", $category_name)
+         ->first();
  
         $core = DB::table('product_core')
             ->selectRaw('id, product_name, product_discount, product_thumbnail')
@@ -84,7 +89,12 @@ class Categories extends ParentController
             $counter ++;
         }
 
-       // echo "<pre>"; print_r($products); die;
+        $today_deal = DB::table('product_category_today_offer as offer')
+            ->selectRaw('sku, banner_img, (Select id from product_core where product_sku = offer.sku) as id')
+            ->whereRaw('category_id = (Select id from product_categories where category_name = "'.$category_name.'")')
+            ->first();
+
+        //echo "<pre>"; print_r($today_deal); die;
 
         $product_cat  = $category_name;
 
@@ -99,7 +109,8 @@ class Categories extends ParentController
 
         return view ('categories', ["category_data" => $products, "product_category" => $product_cat, "core" => $core,
                 "categories" => $categories_name, 'cart_detail' => $this->get_cart_items_detail, "brands" => $get_brands, 
-                "colors" => $get_colors, 'all_product_cats' => $this->get_all_productCats, 'nav_links' => $this->navigationData]);
+                "colors" => $get_colors, 'all_product_cats' => $this->get_all_productCats, 'nav_links' => $this->navigationData,
+                "today_offer" => $today_deal, "cat_img" => $cat_img]);
     }
 
     public function categories_list($category_name){
@@ -125,6 +136,11 @@ class Categories extends ParentController
         }
         parent::navFunction();
         $array = array();
+
+        $cat_img = DB::table('product_categories')
+        ->select('category_image')
+        ->where('category_name', "=", $category_name)
+        ->first();
 
         $core = DB::table('product_core')
         ->selectRaw('id, product_name, product_discount, product_thumbnail, product_description')
@@ -168,13 +184,19 @@ class Categories extends ParentController
         ->whereRaw('id = (Select sub_category_id from  product_categories where category_name = "'.$category_name.'")')
         ->first();
 
+        $today_deal = DB::table('product_category_today_offer as offer')
+        ->selectRaw('sku, banner_img, (Select id from product_core where product_sku = offer.sku) as id')
+        ->whereRaw('category_id = (Select id from product_categories where category_name = "'.$category_name.'")')
+        ->first();
+
         //Filters data
         $get_brands = DB::table('product_core')->select('product_brand')->orderBy('id', 'desc')->groupBy('product_brand')->limit(3)->get(); 
         $get_colors = DB::table('product_variants')->select('product_color')->groupBy('product_color')->orderBy('id', 'desc')->limit(5)->get(); 
 
         return view ('categories_list', ["category_data" => $products, "product_category" => $product_cat, "core" => $core,
                 "categories" => $categories_name, 'cart_detail' => $this->get_cart_items_detail, "brands" => $get_brands, 
-                "colors" => $get_colors, 'all_product_cats' => $this->get_all_productCats, 'nav_links' => $this->navigationData]);
+                "colors" => $get_colors, 'all_product_cats' => $this->get_all_productCats, 'nav_links' => $this->navigationData,
+                "today_offer" => $today_deal, "cat_img" => $cat_img]);
     }
 
     public function compare_products(Request $request){
@@ -216,13 +238,12 @@ class Categories extends ParentController
             ->whereRaw('id ='.$_COOKIE["cp"])
             ->get();
 
-        // $spec_one = DB::table('product_spec_sheet as ps')
-        //     ->selectRaw('spec_id, description, (Select specification from product_type_specs where id = ps.spec_id) as spec_type')
-        //     ->whereRaw('product_id = (Select product_id from product_variants where id = "'.$request->cookie('cp').'")')
-        //     ->get();
-        $spec_one = DB::table('product_type_specs as pts')
-            ->selectRaw('id, specification, IFNULL((SELECT description from product_spec_sheet where spec_id = pts.id and product_id = (Select product_id from product_variants where id = "'.$request->cookie('cp').'")), "NA") as description')->get();
+       
+        // $spec_one = DB::table('product_type_specs as pts')
+        //     ->selectRaw('id, specification, IFNULL((SELECT description from product_spec_sheet where spec_id = pts.id and product_id = (Select product_id from product_variants where id = "'.$_COOKIE['cp'].'")), "NA") as description')->get();
 
+        $spec_one = DB::table('product_spec_sheet as pss')
+            ->selectRaw('id, (SELECT specification from product_type_specs where id = pss.spec_id) as specification, IFNULL(description, "NA") as description')->where('product_id', $_COOKIE['cp'])->get();
         // echo "<pre>"; print_r($test); die;
        
         $compare_data_two = DB::table('product_variants as pv')
@@ -236,12 +257,11 @@ class Categories extends ParentController
             ->whereRaw('id ='.$_COOKIE["cp_2"])
             ->get();
 
-        // $spec_two = DB::table('product_spec_sheet as ps')
-        //     ->selectRaw('spec_id, description, (Select specification from product_type_specs where id = ps.spec_id) as spec_type')
-        //     ->whereRaw('product_id = (Select product_id from product_variants where id = "'.$request->cookie('cp_2').'")')
-        //     ->get();
-        $spec_two = DB::table('product_type_specs as pts')
-            ->selectRaw('id, specification, IFNULL((SELECT description from product_spec_sheet where spec_id = pts.id and product_id = (Select product_id from product_variants where id = "'.$request->cookie('cp_2').'")), "NA") as description')->get();
+        $spec_two = DB::table('product_spec_sheet as pss')
+            ->selectRaw('id, (SELECT specification from product_type_specs where id = pss.spec_id) as specification, IFNULL(description, "NA") as description')->where('product_id', $_COOKIE['cp_2'])->get();
+       
+        // $spec_two = DB::table('product_type_specs as pts')
+        //     ->selectRaw('id, specification, IFNULL((SELECT description from product_spec_sheet where spec_id = pts.id and product_id = (Select product_id from product_variants where id = "'.$request->cookie('cp_2').'")), "NA") as description')->get();
         //echo "<pre>";print_r($compare_data_two); die;
 
         return view ('compare_products', ['cart_detail' => $this->get_cart_items_detail, 'all_product_cats' => $this->get_all_productCats,
@@ -504,13 +524,13 @@ class Categories extends ParentController
         }
         parent::navFunction();
         //echo cookie::get('filter');die;
-        $filter_val = cookie::get('filter');
+        $filter_val = $_COOKIE['filter'];
         $split_val = explode('-', $filter_val, 2);
-       // echo $split_val[1]; die;
+        //echo $split_val[1]; die;
         $get_brands = DB::table('product_core')->select('product_brand')->orderBy('id', 'desc')->groupBy('product_brand')->limit(3)->get(); 
         $get_colors = DB::table('product_variants')->select('product_color')->groupBy('product_color')->orderBy('id', 'desc')->limit(5)->get(); 
         
-       
+
 
         if($split_val[0] == 'price'){
             //echo 'price'; die;
@@ -587,6 +607,8 @@ class Categories extends ParentController
                     $counter ++;
                 }
             }
+
+
            
         }else if($split_val[0] == 'brand'){
             $core = DB::table('product_core as pc')
@@ -697,6 +719,8 @@ class Categories extends ParentController
                 }
             
         }
+
+        //echo "<pre>"; print_r($products); die;
         return view("filter/filter_ListView", ['cart_detail' => $this->get_cart_items_detail, 'all_product_cats' => $this->get_all_productCats,
             "brands" => $get_brands, "colors" => $get_colors, 'category_data' => $products, 'nav_links' => $this->navigationData,
             "core" => $core]);

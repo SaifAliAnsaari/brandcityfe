@@ -72,14 +72,25 @@ class AjaxController extends Controller
                         }  
                     }else{
                        $new_quantity = $check_if_product_exist->quantity + $request->quantity;
-                       $update_cart = DB::table('cart')
-                       ->whereRaw('customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'") AND product_id ='.$request->product_id)
-                       ->update(['quantity' => $new_quantity]);
-                       if($update_cart){
-                            echo json_encode('update success');
-                       }else{
-                           echo json_encode('failed');
-                       }
+                       $check_limit_exceed = DB::table('product_variants as pv')
+                        ->select('product_quantity')
+                        ->where('id', '=', $request->product_id)
+                        ->first();
+
+                        if($new_quantity > $check_limit_exceed->product_quantity){
+                            echo json_encode('limit exceed');
+                        }else{
+                            $update_cart = DB::table('cart')
+                            ->whereRaw('customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'") AND product_id ='.$request->product_id)
+                            ->update(['quantity' => $new_quantity]);
+                            if($update_cart){
+                                 echo json_encode('update success');
+                            }else{
+                                echo json_encode('failed');
+                            }
+                        }
+
+                       
                     }
                 }else{
                     //Sorry this item is no longer available.
@@ -356,48 +367,21 @@ class AjaxController extends Controller
 
     public function compare_products(Request $request){
 
-        // if($request->cookie('cp_2')){
-        //     // Cookie::queue(Cookie::forget('cp'));
-        //     // Cookie::queue(Cookie::forget('cp_2'));
-
-        //     // $compare_product_id = $request->id;
-        //     // Cookie::queue(Cookie::make('cp', $compare_product_id, 30));
-        //     echo json_encode('saved_1');
-
-        // }else{
-        //     if($request->cookie('cp')){
-        //         if($request->cookie('cp') == $request->id){
-        //             echo json_encode('same_ids');
-        //         }else{
-                    //First Check both ids are of same spec type
-                    $check_spec_type = DB::table('product_core as pc')
-                        ->selectRaw('product_type_id')
-                        ->whereRaw('id = (Select product_id from product_variants where id = "'.$_COOKIE['cp'].'") AND
-                        pc.product_type_id = (Select product_type_id from product_core where id = (Select product_id from product_variants where id = "'.$request->id.'"))')
-                        ->first();
-
-                        if($check_spec_type){
-                            echo json_encode('success');
-                        }else{
-                            echo json_encode('failed');
-                        }
-                    
-        //             if($check_spec_type){
-        //                 // $compare_product_id = $request->id;
-        //                 // Cookie::queue(Cookie::make('cp_2', $compare_product_id, 30));
-        //                 echo json_encode('saved_2');
-        //             }else{
-        //                 echo json_encode('different_types');
-        //             }
-                    
-        //         }
-        //     }else{
-        //         // $compare_product_id = $request->id;
-        //         // Cookie::queue(Cookie::make('cp', $compare_product_id, 30));
-        //         // echo $compare_product_id;die;
-        //         echo json_encode('saved_1');
-        //     }
-        // }
+        if(isset($_COOKIE['cp'])){
+            $check_spec_type = DB::table('product_core as pc')
+            ->selectRaw('product_type_id')
+            ->whereRaw('id = (Select product_id from product_variants where id = "'.$_COOKIE['cp'].'") AND
+                pc.product_type_id = (Select product_type_id from product_core where id = (Select product_id from product_variants where id = "'.$request->id.'"))')
+            ->first();
+    
+            if($check_spec_type){
+                echo json_encode('success');
+            }else{
+                echo json_encode('failed');
+            }
+        }
+       
+       
     }
 
     public function resonse_proceed_to_checkout(){

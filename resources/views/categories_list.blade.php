@@ -51,15 +51,17 @@
                     <!-- End Item -->
 
                     <!-- Item -->
-                    <div class="item"> <a href="#"><img alt="" src="/resources/images/category-img2.jpg"></a>
-                        <div class="cat-img-title cat-bg cat-box">
-                            <div class="small-tag">Street Style</div>
-                            <h2 class="cat-heading">New Season</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                    <?php 
+                    if(!empty($cat_img)){ ?>
+                        <div class="item"> <a ><img alt="" src="<?= Config::get('constants.options.category_img_host_url').$cat_img->category_image ?>"></a>
+                            <div class="cat-img-title cat-bg cat-box">
+                                <div class="small-tag">Street Style</div>
+                                <h2 class="cat-heading">New Season</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                            </div>
                         </div>
-                        <!-- End Item -->
-                        
-                      </div>
+                   <?php }
+                ?>
                     </div>
                   </div>
                 </div>
@@ -127,7 +129,7 @@
                     <li class="item first">
                       <div class="product-image"> <a href="/product_detail/<?= $category_data["id"] ?>" title="HTC Rhyme Sense"> 
                         <img class="small-image" src="<?= Config::get('constants.options.product_img_host_url').$category_data["image"] ?>" alt="HTC Rhyme Sense"> </a>
-                       <div class="new-label new-top-left">New</div>
+                       {{-- <div class="new-label new-top-left">New</div> --}}
                        </div>
                       <div class="product-shop">
                         <h2 class="product-name"><a href="product_detail.html" title="HTC Rhyme Sense"><?= $category_data["name"] ?></a></h2>
@@ -213,27 +215,22 @@
                             <a class="button btn-quickview quickViewModal" id = "<?= $category_data["id"] ?>" type="button"
                                 title="" data-original-title="Add to Cart"><span>Quick View</span></a>
                             @endif
-                          <span class="add-to-links"><a title="Add to Compare" class="button link-compare compare_product" id="<?php 
-                            if(sizeof($category_data["variants"]) > 1){
-                                //echo "greater"; die;
-                                foreach($category_data["variants"] as $variants){
+
+                            <?php 
+                            if(sizeof($category_data["variants"]) == 1){ ?>
+                                <span class="add-to-links"><a title="Add to Compare" class="button link-compare compare_product" id="<?php 
+                                    foreach($category_data["variants"] as $variants){
                                     
-                                }
-                                echo $variants["variant_id"];
-                            }else{
-                                foreach($category_data["variants"] as $variants){
-                                   
-                                }
-                                echo $variants["variant_id"];
-                            } ?>"><span>Compare</span></a> </span>
+                                    }
+                                    echo $variants["variant_id"];
+                                ?>"><span>Compare</span></a> </span>
+                           <?php  }
+                            ?>
+
+                          
                           <span class="add-to-links"><a title="Add to Wishlist" class="button link-wishlist wishlist" id="<?php 
                             if(sizeof($category_data["variants"]) > 1){
-                                //echo "greater"; die;
-                                foreach($category_data["variants"] as $variants){
-                                    
-                                }
-                                //echo $variants[0]["variant_id"];
-                                echo "test";
+                                echo $category_data["variants"][0]["variant_id"];
                             }else{
                                 foreach($category_data["variants"] as $variants){
                                    
@@ -461,7 +458,7 @@
                             </div>
                         </div>
               
-                <div class="custom-slider">
+                    {{-- <div class="custom-slider">
                         <div>
                             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                                 <ol class="carousel-indicators">
@@ -495,9 +492,13 @@
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                
-                 <div class="hot-banner"><img alt="banner" src="/resources/images/hot-trends-banner.jpg"></div>
+                    <?php 
+                    if(!empty($today_offer)){ ?>
+                        <div class="hot-banner"><a href = "/product_detail/<?= $today_offer->id ?>"><img alt="banner" src="<?= Config::get('constants.options.offer_img_host_url').$today_offer->banner_img?>"></a></div>
+                   <?php }
+                ?>
               
               </aside>
             </div>

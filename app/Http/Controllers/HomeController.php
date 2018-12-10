@@ -31,7 +31,7 @@ class HomeController extends ParentController
         return redirect('/login');
     }
 
-    public function index(Request $request)
+    public function index()
     {
        //proceed to checkout
        setcookie('PP', "", time() - (86400 * 30), "/");
@@ -43,7 +43,7 @@ class HomeController extends ParentController
                 $random_token = $this->random_string(50);
                 $insert_token = DB::table('guest_info')->insert([
                     ['session' => $random_token,
-                    'guest_ip' => $request->ip()]
+                    'guest_ip' => $_SERVER['REMOTE_ADDR']]
                 ]);
                 if($insert_token){
                     setcookie('GI', $random_token, time() + (86400 * 30), "/");
@@ -70,19 +70,41 @@ class HomeController extends ParentController
         //echo "<pre>";print_r($get_hot_deal); die;
         
        
-        $featured_products = DB::table('featured_products as fp')
-        ->selectRaw('sku, (Select id from product_core where product_sku = fp.sku) as id,
-            (Select product_name from product_core where product_sku = fp.sku) as name,
-            (Select product_thumbnail from product_core where product_sku = fp.sku) as image,
-            (Select product_discount from product_core where product_sku = fp.sku) as discount,
-            (Select AVG(quality) from ratting where product_id = (Select id from product_core where product_sku = fp.sku)) as average_rating,
-            (SELECT count(*) from product_variants where product_id =(Select id from product_core where product_sku = fp.sku)) as total_variants,
-            (Select id from product_variants where product_id = (Select id from product_core where product_sku = fp.sku)) as product_id, 
-            (Case when (SELECT count(*) from product_variants where product_id = (Select id from product_core where product_sku = fp.sku)) = 1 then (Select product_sale_price from product_variants where product_id = (Select id from product_core where product_sku = fp.sku)) Else NULL 
-                    End) as price')
-        ->whereRaw('(Select is_active from product_variants where product_id = (Select id from product_core where product_sku = fp.sku)) = 1')
-        ->limit(6)
-        ->get();
+        $featured_core = DB::table('product_core')
+            ->selectRaw('id, product_name, product_discount, product_thumbnail')
+            ->whereRaw('product_sku IN (Select sku from featured_products) ')
+            ->get();
+
+        //echo "<pre>"; print_r($featured_core); die;
+        $featured_variants = DB::table('product_variants as pv')
+            ->selectRaw('id, product_id, product_sale_price, product_color, product_size,
+                (Select AVG(quality) from ratting where product_id = pv.product_id) as ratting')
+            ->whereRaw('product_id IN (Select id from product_core where product_sku IN (Select sku from featured_products) )')
+            ->get();
+            
+
+        $featured_products = array();
+        $counter = 0;
+        foreach($featured_core as $core_pro){
+            $featured_products[$counter]["id"] = $core_pro->id;
+            $featured_products[$counter]["name"] = $core_pro->product_name;
+            $featured_products[$counter]["discount"] = $core_pro->product_discount;
+            $featured_products[$counter]["image"] = $core_pro->product_thumbnail;
+            $v_products = array();
+            foreach($featured_variants as $variants_pro){
+                if($variants_pro->product_id == $core_pro->id){
+                    $v_products[] = array(
+                        "variant_id" => $variants_pro->id,
+                        "price" => $variants_pro->product_sale_price,
+                        "color" => $variants_pro->product_color,
+                        "size" => $variants_pro->product_size,
+                        "ratting" => $variants_pro->ratting
+                    ); 
+                }
+            }
+            $featured_products[$counter]["variants"] = $v_products;
+            $counter ++;
+        }
         //echo "<pre>"; print_r($featured_products); die;
 
         $top_three_products = DB::table('quick_products as qp')
@@ -204,12 +226,23 @@ class HomeController extends ParentController
         // }
 
         // echo "<pre>"; print_r($data); die;
+
+
+        // $featured_banner = DB::table('home_misc')
+        //     ->select('new_product_banner_sku', 'new_product_banner_img')
+        //     ->first();
+
+        $featured_banner = DB::table('product_core as pc')
+            ->selectRaw('id, product_name, (Select new_product_banner_img from home_misc) as image')
+            ->whereRaw('product_sku = (Select new_product_banner_sku from home_misc)')
+            ->first();
+            //echo "<pre>"; print_r($featured_banner); die;
          
         return view('home', ['campaigns' => $get_campaign, 'hot_deal' => $get_hot_deal, 'top_products' => $top_three_products,
             'cart_detail' => $this->get_cart_items_detail, 'featured_products' => $featured_products, 
             'all_product_cats' => $this->get_all_productCats, 'nav_links' => $this->navigationData, "new_pro_1" => $latest_cat_data_one,
             "new_pro_2" => $latest_cat_data_two,  "new_pro_3" => $latest_cat_data_three,  "new_pro_4" => $latest_cat_data_four,
-            "latest_cat" => $latest_categories
+            "latest_cat" => $latest_categories, 'featured_banner' => $featured_banner
             // 'new_products' => $data
             ]);
     }
@@ -243,7 +276,7 @@ class HomeController extends ParentController
                 $random_token = $this->random_string(50);
                 $insert_token = DB::table('guest_info')->insert([
                     ['session' => $random_token,
-                    'guest_ip' => $request->ip()]
+                    'guest_ip' => $_SERVER['REMOTE_ADDR']]
                 ]);
                 if($insert_token){
                     setcookie('GI', $random_token, time() + (86400 * 30), "/");
@@ -328,8 +361,8 @@ class HomeController extends ParentController
             // $pCore->product_type_id
 
             // spec_id, description, (Select specification from product_type_specs where id = ps.spec_id) as spec_type
-        $specs = DB::table('product_type_specs as pts')
-            ->selectRaw('id, specification, IFNULL((SELECT description from product_spec_sheet where spec_id = pts.id and product_id = '.$product_id.'), "NA") as description')->get();
+        $specs = DB::table('product_spec_sheet as pss')
+            ->selectRaw('id, (SELECT specification from product_type_specs where id = pss.spec_id) as specification, IFNULL(description, "NA") as description')->where('product_id', $product_id)->get();
 
         // echo "<pre>"; print_r($specs); die;
 
@@ -485,7 +518,7 @@ class HomeController extends ParentController
                     $random_token = $this->random_string(50);
                     $insert_token = DB::table('guest_info')->insert([
                         ['session' => $random_token,
-                        'guest_ip' => $request->ip()]
+                        'guest_ip' => $_SERVER['REMOTE_ADDR']]
                     ]);
                     if($insert_token){
                         setcookie('GI', $random_token, time() + (86400 * 30), "/");
@@ -552,7 +585,7 @@ class HomeController extends ParentController
                 $random_token = $this->random_string(50);
                 $insert_token = DB::table('guest_info')->insert([
                     ['session' => $random_token,
-                    'guest_ip' => $request->ip()]
+                    'guest_ip' => $_SERVER['REMOTE_ADDR']]
                 ]);
                 if($insert_token){
                     setcookie('GI', $random_token, time() + (86400 * 30), "/");

@@ -355,7 +355,7 @@
                                                                         <div class="item-img">
                                                                             <div class="item-img-info">
                                                                                 <a class="product-image" title="Retis lapen casen" href="/product_detail/<?= $product->core_id ?>">
-                                                                                    <img alt="Retis lapen casen"
+                                                                                    <img alt="Retis lapen casen" style = "width:200px; height:300px;"
                                                                                      src="<?= Config::get('constants.options.product_img_host_url').$product->image ?>">
                                                                                 </a>
                                                                                 <div class="box-hover">
@@ -457,7 +457,7 @@
                                                                         <div class="item-img">
                                                                             <div class="item-img-info">
                                                                                 <a class="product-image" title="Retis lapen casen" href="/product_detail/<?= $product->core_id ?>">
-                                                                                    <img alt="Retis lapen casen"
+                                                                                    <img alt="Retis lapen casen" style = "width:200px; height:300px;"
                                                                                      src="<?= Config::get('constants.options.product_img_host_url').$product->image ?>">
                                                                                 </a>
                                                                                 <div class="box-hover">
@@ -561,7 +561,7 @@
                                                                         <div class="item-img">
                                                                             <div class="item-img-info">
                                                                                 <a class="product-image" title="Retis lapen casen" href="/product_detail/<?= $product->core_id ?>">
-                                                                                    <img alt="Retis lapen casen"
+                                                                                    <img alt="Retis lapen casen" style = "width:200px; height:300px;"
                                                                                      src="<?= Config::get('constants.options.product_img_host_url').$product->image ?>">
                                                                                 </a>
                                                                                 <div class="box-hover">
@@ -665,7 +665,7 @@
                                                                         <div class="item-img">
                                                                             <div class="item-img-info">
                                                                                 <a class="product-image" title="Retis lapen casen" href="/product_detail/<?= $product->core_id ?>">
-                                                                                    <img alt="Retis lapen casen"
+                                                                                    <img alt="Retis lapen casen" style = "width:200px; height:300px;"
                                                                                      src="<?= Config::get('constants.options.product_img_host_url').$product->image ?>">
                                                                                 </a>
                                                                                 <div class="box-hover">
@@ -1124,15 +1124,18 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3 col-sm-4 col-xs-12 featured-add-box">
-                <div class="featured-add-inner">
-                    <a href="#"> <img src="/resources/images/banner7.jpg" alt="f-img"></a>
-                    <div class="banner-content">
-                        <div class="banner-text">Grinder Mixer</div>
-                        <div class="banner-text1">49% off</div>
-                        <p>on selected products</p>
-                        <a href="#" class="view-bnt">Shop now</a>
-                    </div>
-                </div>
+                <?php
+                    if(!empty($featured_banner)){ ?>
+                        <div class="featured-add-inner">
+                            <a href="/product_detail/<?= $featured_banner->id ?>"> <img src="<?= Config::get('constants.options.featured_banner_host_url').$featured_banner->image ?>" alt="f-img"></a>
+                            <div class="banner-content">
+                                <div class="banner-text"><?= $featured_banner->product_name ?></div>
+                                <p>Featured Product</p>
+                                <a href="/product_detail/<?= $featured_banner->id ?>" class="view-bnt">Shop now</a>
+                            </div>
+                        </div>
+                    <?php }
+                ?>
             </div>
             <div class="col-md-9 col-sm-8 col-xs-12 featured-pro-block">
                 <div class="slider-items-products">
@@ -1146,99 +1149,130 @@
                             <div class="slider-items slider-width-col4 products-grid block-content">
 
                                 <?php
-                                    if($featured_products->isEmpty()){
+                                    if(empty($featured_products)){
 
                                     }else{
-                                        foreach($featured_products as $data){
-                                            if(empty($data->image) && empty($data->name)){
-
-                                            }else{ ?>
+                                        foreach($featured_products as $products){
+                                           ?>
                                                  <div class="item">
                                                         <div class="item-inner">
                                                             <div class="item-img">
-                                                                <div class="item-img-info">
-                                                                    <a class="product-image" title="Retis lapen casen" href="/product_detail/<?= $data->id ?>">
-                                                                        <img alt="Retis lapen casen" src=" <?= Config::get('constants.options.product_img_host_url').$data->image?>">
+                                                                <div class="item-img-info"> <a class="product-image" title="Retis lapen casen" href="/product_detail/<?= $products["id"] ?>">
+                                                                        <img alt="Retis lapen casen" style = "width:200px; height:300px;" src="<?= Config::get('constants.options.product_img_host_url').$products["image"] ?>">
                                                                     </a>
-                                                                    {{-- <div class="new-label new-top-right">new</div> --}}
                                                                     <div class="box-hover">
                                                                         <ul class="add-to-links">
-                                                                            <li><a class="link-quickview quickViewModal" id = "<?= $data->id?>">Quick View</a>
-                                                                            </li>
-                                                                            <li><a class="link-wishlist wishlist" id="<?= $data->product_id ?>">Wishlist</a>
-                                                                            </li>
-                                                                            <li><a class="link-compare compare_product" id="<?= $data->product_id ?>">Compare</a>
-                                                                            </li>
+                                                                                <li><a class="link-quickview quickViewModal" id = "<?= $products["id"] ?>">Quick View</a>
+                                                                                </li>
+                                                                                <li><a class="link-wishlist wishlist" id="<?php 
+                                                                                    if(sizeof($products["variants"]) > 1){
+                                                                                        echo $products["variants"][0]["variant_id"];
+                                                                                    }else{
+                                                                                        foreach($products["variants"] as $variants){
+                                                                                        
+                                                                                        }
+                                                                                        echo $variants["variant_id"];
+                                                                                    } ?>">Wishlist</a> 
+                                                                                    </li>
+
+                                                                                    <?php if(sizeof($products["variants"]) == 1){ ?>
+                                                                                        <li><a class="link-compare compare_product" id="<?php 
+                                                                                        
+                                                                                            foreach($products["variants"] as $variants){
+                                                                                            
+                                                                                            }
+                                                                                            echo $variants["variant_id"];
+                                                                                       ?>" >Compare</a>
+                                                                                    </li>
+                                                                                    <?php } ?>
+
                                                                         </ul>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="item-info">
                                                                 <div class="info-inner">
-                                                                    <div class="item-title"> <a title="Retis lapen casen" href="/product_detail/<?= $data->id ?>">
-                                                                            <?= $data->name ?> </a> </div>
+                                                                    <div class="item-title"> <a title="Retis lapen casen" href="/product_detail/<?= $products["id"] ?>">
+                                                                            <?= $products["name"] ?> </a> </div>
                                                                     <div class="rating">
                                                                         <div class="ratings">
                                                                             <div class="rating-box">
-                                                                                <?php
-                                                                                if($data->average_rating == ""){
-                                                                                    echo "0";
-                                                                                }else{ 
-                                                                                    //obtained / total * 100
-                                                                                    $rating = ($data->average_rating / 5) * 100;
+                                                                                    <?php
+                                                                                        if(sizeof($products["variants"]) > 1){
+                                                                                        foreach($products["variants"] as $variants){
+                                                                                            if($variants["ratting"] == ""){
+                                                                                                echo "0";
+                                                                                            }else{
+                                                                                            $rating = 
+                                                                                            ($variants["ratting"] / 5) * 100; ?>
+                                                                                            <div style="width:<?= $rating ?>%" class="rating"></div>
+                                                                                        <?php }
+                                                                                    }                            
+                                                                                    }else{
+                                                                                        foreach($products["variants"] as $variants){
+                                                                                        }
+                                                                                    if($variants["ratting"] == ""){
+                                                                                        echo "0";
+                                                                                    }else{
+                                                                                        $rating = ($variants["ratting"] / 5) * 100; ?>
+                                                                                        <div style="width:<?= $rating ?>%" class="rating"></div>
+                                                                                    <?php }
+                                                                                    }
                                                                                     ?>
-                                                                                   <div style="width:<?= $rating ?>%" class="rating"></div>
-                                                                                <?php }
-                                                                                ?>
-                                                                                
                                                                             </div>
-                                                                           
+                                                                            
                                                                         </div>
                                                                     </div>
                                                                     <div class="item-content">
-                                                                            <div class="item-price">
-                                                                                    <div class="price-box">
-                                                                                        <p class="old-price"><span class="price-label">Regular Price:</span>
-                                                                                            <span class="price">
-                                                                                                <?php
-                                                                                                if($data->total_variants == 1){
-                                                                                                if($data->discount == ""){
-                                
+                                                                        <div class="item-price">
+                                                                                <p class="special-price"> <span class="price-label">Special Price</span>
+                                                                                    <span id="product-price-48" class="price">
+                                                                                            <?php
+                                                                                            if(sizeof($products["variants"]) == 1){
+                                                                                                if($products["discount"] == ""){
+                                                                                                    foreach($products["variants"] as $variants){
+                                                                                                        echo "RS : ".$variants["price"];
+                                                                                                    }
                                                                                                 }else{
-                                                                                                    echo "RS : ".$data->price;
+                                                                                                    foreach($products["variants"] as $variants){
+                                                                                                        $total_price = $variants["price"];
+                                                                                                        $discount = $total_price - (($products["discount"] / 100) * $total_price);
+                                                                                                        echo "RS : ".$discount;
+                                                                                                    }
                                                                                                 }
-                                                                                            }
-                                                                                                        
-                                                                                                    ?>
-                                                                                            </span> </p>
-                                                                                        <p class="special-price"><span class="price-label">Special
-                                                                                                Price</span> <span class="price">
-                                                                                                <?php
-                                                                                                        if($data->total_variants == 1){
-                                                                                                            //echo "$".$data->price;
-                                                                                                            if($data->discount == ""){
-                                                                                                                echo "RS : ".$data->price;
-                                                                                                            }else{
-                                                                                                                $total_price = $data->price;
-                                                                                                                $discount = $total_price - (($data->discount / 100) * $total_price);
-                                                                                                                echo "RS : ".$discount;
-                                                                                                            }
-                                                                                                        }else{
-                                                                                                            echo "RS : 00";
-                                                                                                        }
-                                                                                                    ?>
-                                                                                            </span> </p>
-                                                                                    </div>
-                                                                                </div>
+                                                                                            }else{
+                                                                                                echo "RS : 00";
+                                                                                            } 
+                            
+                                                                                                ?>
+                                                                                    </span> </p>
+                                                                                <p class="old-price"> <span class="price-label">Regular Price:</span> <span
+                                                                                        class="price">
+                                                                                        <?php
+                                                                                            if(sizeof($products["variants"]) == 1){
+                                                                                                if($products["discount"] == ""){
+                                                                                                }else{
+                                                                                                    foreach($products["variants"] as $variants){
+                                                                                                    echo "RS : ".$variants["price"];
+                                                                                                    }
+                                                                                                }
+                                                                                            }    
+                                                                                        ?>
+                                                                                    </span> </p>
+                                                                            
+                                                                        </div>
                                                                         <div class="action">
-                                                                                @if($data->total_variants == 1)
-                                                                                <input class = "qty" type = "text" value = "1" hidden/>
-                                                                                <button class="button btn-cart test" id = "<?= $data->product_id ?>" type="button" title=""
-                                                                                    data-original-title="Add to Cart"><span>Add to Cart</span></button>
-                                                                                @else
-                                                                                <a  class="button btn-quickview quickViewModal" id = "<?= $data->id?>" type="button"
-                                                                                    title="" data-original-title="Add to Cart"><span>Quick View</span></a>
-                                                                                @endif
+                                                                            @if(sizeof($products["variants"]) == 1)
+                                                                            <input class = "qty" type = "text" value = "1" hidden/>
+                                                                            <button class="button btn-cart test" id = "<?php 
+                                                                            foreach($products["variants"] as $variants){
+                                                                               echo $variants["variant_id"];
+                                                                            } ?>" type="button" title=""
+                                                                                data-original-title="Add to Cart"><span>Add to Cart</span></button>
+                                                                            @else
+                                                                            <a class="button btn-quickview quickViewModal" id = "<?= $products["id"] ?>" type="button"
+                                                                                title="" data-original-title="Add to Cart"><span>Quick View</span></a>
+                                                                            @endif
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1246,68 +1280,10 @@
                                                         </div>
                                                     </div>
                                             <?php }
-                                        }
+                                        
                                     }
                                 ?>
-                               
-
-                                
-                             
-
-                                 
-                                {{-- <div class="item">
-                                    <div class="item-inner">
-                                        <div class="item-img">
-                                            <div class="item-img-info">
-                                                <a class="product-image" title="Retis lapen casen" href="product_detail.html">
-                                                    <img alt="Retis lapen casen" src="/resources/products-images/product14.jpg">
-                                                </a>
-                                                <div class="box-hover">
-                                                    <ul class="add-to-links">
-                                                        <li><a class="link-quickview" href="quick_view.html">Quick View</a>
-                                                        </li>
-                                                        <li><a class="link-wishlist" href="wishlist.html">Wishlist</a>
-                                                        </li>
-                                                        <li><a class="link-compare" href="compare.html">Compare</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item-info">
-                                            <div class="info-inner">
-                                                <div class="item-title"> <a title="Retis lapen casen" href="product_detail.html">
-                                                        Retis lapen casen </a> </div>
-                                                <div class="item-content">
-                                                    <div class="rating">
-                                                        <div class="ratings">
-                                                            <div class="rating-box">
-                                                                <div style="width:80%" class="rating"></div>
-                                                            </div>
-                                                            <p class="rating-links"> <a href="#">1 Review(s)</a> <span
-                                                                    class="separator">|</span> <a href="#">Add Review</a>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="item-price">
-                                                        <div class="price-box"> <span class="regular-price"> <span
-                                                                    class="price">$225.00</span> </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="action">
-                                                        <button class="button btn-cart" type="button" title=""
-                                                            data-original-title="Add to Cart"><span>Add to Cart</span>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
-                               
-
-                                
-
+                              
                             </div>
                         </div>
                     </div>
@@ -1321,7 +1297,7 @@
 <!-- Testimonials Box Slider -->
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-sm-12 testimonials">
+        {{-- <div class="col-md-6 col-sm-12 testimonials">
             <div class="ts-testimonial-widget">
                 <div class="slider-items-products">
                     <div id="testimonials-slider" class="product-flexslider hidden-buttons home-testimonials">
@@ -1366,10 +1342,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Custom Slider -->
-        <div class="col-md-6 col-sm-12 custom-slider-wrap">
+        <div class="col-md-12 col-sm-12 custom-slider-wrap">
             <div class="custom-slider-inner">
                 <div class="home-custom-slider">
                     <div>
@@ -1413,74 +1389,6 @@
     </div>
 </div>
 
-<!-- Latest Blog -->
-{{-- <div class="container">
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="blog-outer-container">
-                <div class="block-title">
-                    <h2>Latest Blog</h2>
-                    <div class="hidden-xs">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
-                </div>
-                <div class="blog-inner">
-                    <div class="col-lg-4 col-md-4 col-sm-4 blog-preview_item">
-                        <h4 class="blog-preview_title"><a href="blog_single_post.html">Standard blog post with photo</a></h4>
-                        <div class="entry-thumb image-hover2">
-                            <a href="blog_single_post.html"> <img alt="Blog" src="/resources/images/blog-img1.jpg"> </a>
-                        </div>
-                        <div class="blog-preview_info">
-                            <ul class="post-meta">
-                                <li><i class="fa fa-user"></i>posted by <a href="#">admin</a> </li>
-                                <li><i class="fa fa-comments"></i><a href="#">8 comments</a> </li>
-                                <li><i class="fa fa-clock-o"></i><span class="day">12</span> <span class="month">Feb</span></li>
-                            </ul>
-                            <div class="blog-preview_desc">Lid est laborum dolo rumes fugats untras. Etharums ser
-                                quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers
-                                sadips.</div>
-                            <a class="blog-preview_btn" href="/blog_post?post=1">READ MORE</a>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 blog-preview_item">
-                        <h4 class="blog-preview_title"><a href="blog_single_post.html">Standard blog post with photo</a></h4>
-                        <div class="entry-thumb image-hover2">
-                            <a href="blog_single_post.html"> <img alt="Blog" src="/resources/images/blog-img2.jpg"> </a>
-                        </div>
-                        <div class="blog-preview_info">
-                            <ul class="post-meta">
-                                <li><i class="fa fa-user"></i>posted by <a href="#">admin</a> </li>
-                                <li><i class="fa fa-comments"></i><a href="#">4 comments</a> </li>
-                                <li><i class="fa fa-clock-o"></i><span class="day">25</span> <span class="month">Jan</span></li>
-                            </ul>
-                            <div class="blog-preview_desc">Ut tellus dolor, dapibus eget, elementum vel, cursus
-                                eleifend, elit. Aenean auctor wisi et urna. Aliquam erat volutpat. Duis ac turpis.
-                                Donec sit amet eros.</div>
-                            <a class="blog-preview_btn" href="/blog_post?post=2">READ MORE</a>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 blog-preview_item">
-                        <h4 class="blog-preview_title"><a href="blog_single_post.html">Standard blog post with photo</a></h4>
-                        <div class="entry-thumb image-hover2">
-                            <a href="blog_single_post.html"> <img alt="Blog" src="/resources/images/blog-img3.jpg"> </a>
-                        </div>
-                        <div class="blog-preview_info">
-                            <ul class="post-meta">
-                                <li><i class="fa fa-user"></i>posted by <a href="#">admin</a> </li>
-                                <li><i class="fa fa-comments"></i><a href="#">4 comments</a> </li>
-                                <li><i class="fa fa-clock-o"></i><span class="day">10</span> <span class="month">Jan</span></li>
-                            </ul>
-                            <div class="blog-preview_desc">Ut tellus dolor, dapibus eget, elementum vel, cursus
-                                eleifend, elit. Aenean auctor wisi et urna. Aliquam erat volutpat. Duis ac turpis.
-                                Donec sit amet eros.</div>
-                            <a class="blog-preview_btn" href="/blog_post?post=3">READ MORE</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> --}}
-
-<!-- End Latest Blog -->
 <!-- Brand Logo -->
 
 <div class="brand-logo">

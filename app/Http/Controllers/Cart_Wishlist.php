@@ -48,20 +48,55 @@ class Cart_Wishlist extends ParentController
         }
         parent::navFunction();
 
-        $latest_items = DB::table('product_core as pc')
-            ->selectRaw('id, product_name, product_thumbnail, product_discount,
-                (Select id from product_variants where product_id = pc.id)  as product_id,
-                (Select AVG(quality) from ratting where product_id = (Select id from product_variants where product_id = pc.id)) as average_rating,
-                (SELECT count(*) from product_variants where product_id = pc.id) as total_variants,
-                (Case when (SELECT count(*) from product_variants where product_id = pc.id) = 1 then (Select product_sale_price from product_variants where product_id = pc.id) Else NULL 
-                        End) as price')
+        // $latest_items = DB::table('product_core as pc')
+        //     ->selectRaw('id, product_name, product_thumbnail, product_discount,
+        //         (Select id from product_variants where product_id = pc.id)  as product_id,
+        //         (Select AVG(quality) from ratting where product_id = (Select id from product_variants where product_id = pc.id)) as average_rating,
+        //         (SELECT count(*) from product_variants where product_id = pc.id) as total_variants,
+        //         (Case when (SELECT count(*) from product_variants where product_id = pc.id) = 1 then (Select product_sale_price from product_variants where product_id = pc.id) Else NULL 
+        //                 End) as price')
+        //     ->limit(4)
+        //     ->orderBy('id', 'desc')
+        //     ->get();
+
+            $core = DB::table('product_core')
+            ->selectRaw('id, product_name, product_discount, product_thumbnail')
             ->limit(4)
             ->orderBy('id', 'desc')
             ->get();
-        // echo "<pre>"; print_r($this->get_cart_items_detail); die;
+
+            $variants = DB::table('product_variants as pv')
+                ->selectRaw('id, product_id, product_sale_price, product_color, product_size,
+                    (Select AVG(quality) from ratting where product_id = pv.product_id) as ratting')
+                ->get();
+
+            $products = array();
+            $counter = 0;
+            foreach($core as $core_pro){
+                $products[$counter]["id"] = $core_pro->id;
+                $products[$counter]["name"] = $core_pro->product_name;
+                $products[$counter]["discount"] = $core_pro->product_discount;
+                $products[$counter]["image"] = $core_pro->product_thumbnail;
+                $v_products = array();
+                foreach($variants as $variants_pro){
+                    if($variants_pro->product_id == $core_pro->id){
+                        $v_products[] = array(
+                            "variant_id" => $variants_pro->id,
+                            "price" => $variants_pro->product_sale_price,
+                            "color" => $variants_pro->product_color,
+                            "size" => $variants_pro->product_size,
+                            "ratting" => $variants_pro->ratting
+                        ); 
+                    }
+                }
+                $products[$counter]["variants"] = $v_products;
+                $counter ++;
+            }
+            //echo "<pre>"; print_r($products); die;
+         //echo "<pre>"; print_r($this->get_cart_items_detail); die;
 
         return view ('cart_and_wishlist/cart', ['cart_detail' => $this->get_cart_items_detail, 'all_product_cats' => $this->get_all_productCats,
-            'nav_links' => $this->navigationData, 'latest_products' => $latest_items]);
+            'nav_links' => $this->navigationData, 'latest_products' => $products]);
     }
 
     public function wishlist(Request $request){

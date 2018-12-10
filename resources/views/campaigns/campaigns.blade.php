@@ -31,15 +31,13 @@
                                 <!-- End Item -->
 
                                 <!-- Item -->
-                                <div class="item"> <a href="#"><img alt="" src="/resources/images/category-img2.jpg"></a>
+                                {{-- <div class="item"> <a href="#"><img alt="" src="/resources/images/category-img2.jpg"></a>
                                     <div class="cat-img-title cat-bg cat-box">
                                         <div class="small-tag">Street Style</div>
                                         <h2 class="cat-heading">New Season</h2>
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
                                     </div>
-                                    <!-- End Item -->
-
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -123,12 +121,7 @@
 
                                                                     <li><a class="link-wishlist wishlist" id="<?php 
                                                                     if(sizeof($campaign_data[$j]["variants"]) > 1){
-                                                                        //echo "greater"; die;
-                                                                        foreach($campaign_data[$j]["variants"] as $variants){
-                                                                            
-                                                                        }
-                                                                        echo $variants["variant_id"][0];
-                                                                        //echo "test";
+                                                                        echo $category_data[$j]["variants"][0]["variant_id"];
                                                                     }else{
                                                                         foreach($campaign_data[$j]["variants"] as $variants){
                                                                         
@@ -136,20 +129,17 @@
                                                                         echo $variants["variant_id"];
                                                                     } ?>">Wishlist</a> 
                                                                     </li>
-                                                                    <li><a class="link-compare compare_product" id="<?php 
-                                                                        if(sizeof($campaign_data[$j]["variants"]) > 1){
-                                                                            //echo "greater"; die;
-                                                                            foreach($campaign_data[$j]["variants"] as $variants){
-                                                                                
-                                                                            }
-                                                                            echo $variants["variant_id"];
-                                                                        }else{
+
+                                                                     <?php if(sizeof($campaign_data[$j]["variants"]) == 1){ ?>
+                                                                        <li><a class="link-compare compare_product" id="<?php 
+                                                                        
                                                                             foreach($campaign_data[$j]["variants"] as $variants){
                                                                             
                                                                             }
                                                                             echo $variants["variant_id"];
-                                                                        } ?>" >Compare</a>
+                                                                       ?>" >Compare</a>
                                                                     </li>
+                                                                    <?php } ?>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -471,7 +461,7 @@
                         </div>
                     </div>
                    
-                    <div class="custom-slider">
+                    {{-- <div class="custom-slider">
                         <div>
                             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                                 <ol class="carousel-indicators">
@@ -505,9 +495,9 @@
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                    
-                    <div class="hot-banner"><img alt="banner" src="/resources/images/hot-trends-banner.jpg"></div>
+                    {{-- <div class="hot-banner"><img alt="banner" src="/resources/images/hot-trends-banner.jpg"></div> --}}
                    
                 </aside>
             </div>

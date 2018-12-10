@@ -50,15 +50,18 @@
                                 <!-- End Item -->
 
                                 <!-- Item -->
-                                <div class="item"> <a href="#"><img alt="" src="/resources/images/category-img2.jpg"></a>
-                                    <div class="cat-img-title cat-bg cat-box">
-                                        <div class="small-tag">Street Style</div>
-                                        <h2 class="cat-heading">New Season</h2>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
-                                    </div>
-                                    <!-- End Item -->
-
-                                </div>
+                                <?php 
+                                    if(!empty($cat_img)){ ?>
+                                        <div class="item"> <a ><img alt="" src="<?= Config::get('constants.options.category_img_host_url').$cat_img->category_image ?>"></a>
+                                            <div class="cat-img-title cat-bg cat-box">
+                                                <div class="small-tag">Street Style</div>
+                                                <h2 class="cat-heading">New Season</h2>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                                            </div>
+                                        </div>
+                                   <?php }
+                                ?>
+                                
                             </div>
                         </div>
                     </div>
@@ -132,8 +135,8 @@
                                                         <div class="item-img-info"><a href="/product_detail/<?= $category_data[$j]["id"] ?>" title="Retis lapen casen"
                                                                 class="product-image"><img src="
                                                         <?= Config::get('constants.options.product_img_host_url').$category_data[$j]["image"] ?>
-                                                        " alt="Retis lapen casen" style="max-height: 250px; width: auto"></a>
-                                                            <div class="new-label new-top-left">New</div>
+                                                        " alt="Retis lapen casen" style="height: 250px; width: auto"></a>
+                                                            {{-- <div class="new-label new-top-left">New</div> --}}
                                                             <div class="box-hover">
                                                                 <ul class="add-to-links">
                                                                     <li><a class="link-quickview quickViewModal" id = "<?= $category_data[$j]["id"] ?>">Quick View</a>
@@ -141,33 +144,25 @@
 
                                                                     <li><a class="link-wishlist wishlist" id="<?php 
                                                                     if(sizeof($category_data[$j]["variants"]) > 1){
-                                                                        //echo "greater"; die;
-                                                                        foreach($category_data[$j]["variants"] as $variants){
-                                                                            
-                                                                        }
-                                                                        echo $variants["variant_id"][0];
-                                                                        //echo "test";
-                                                                    }else{
+                                                                       echo $category_data[$j]["variants"][0]["variant_id"];
+                                                                    }else if(sizeof($category_data[$j]["variants"]) == 1){
                                                                         foreach($category_data[$j]["variants"] as $variants){
                                                                         
                                                                         }
                                                                         echo $variants["variant_id"];
                                                                     } ?>">Wishlist</a> 
                                                                     </li>
-                                                                    <li><a class="link-compare compare_product" id="<?php 
-                                                                        if(sizeof($category_data[$j]["variants"]) > 1){
-                                                                            //echo "greater"; die;
-                                                                            foreach($category_data[$j]["variants"] as $variants){
-                                                                                
-                                                                            }
-                                                                            echo $variants["variant_id"];
-                                                                        }else{
+                                                                    <?php if(sizeof($category_data[$j]["variants"]) == 1){ ?>
+                                                                        <li><a class="link-compare compare_product" id="<?php 
+                                                                        
                                                                             foreach($category_data[$j]["variants"] as $variants){
                                                                             
                                                                             }
                                                                             echo $variants["variant_id"];
-                                                                        } ?>" >Compare</a>
+                                                                       ?>" >Compare</a>
                                                                     </li>
+                                                                    <?php } ?>
+                                                                    
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -195,7 +190,7 @@
                                                                                             
                                                                                         }
                                                                                     
-                                                                                    }else{
+                                                                                    }else if(sizeof($category_data[$j]["variants"]) == 1){
                                                                                         foreach($category_data[$j]["variants"] as $variants){
                                                                                         
                                                                                         }
@@ -471,9 +466,9 @@
                                         //echo "<pre>"; print_r($cart_detail); die;
                                         foreach($cart_detail as $detail){  ?>
 
-                                <li class="item"> <a href="/product_detail/<?= $detail->product_core_id ?>" title="Fisher-Price Bubble Mower"
+                                <li class="item"> <a href="/product_detail/<?= $detail->product_core_id ?>" title="Product image"
                                         class="product-image"><img src="<?= Config::get('constants.options.product_img_host_url').$detail->product_thumbnail?>"
-                                            alt="Fisher-Price Bubble Mower"></a>
+                                            alt="Product image"></a>
                                     <div class="product-details">
                                         <div class="access"> <a href="/cart" title="Remove This Item" class="btn-remove1">
                                                 <span class="icon"></span> Remove </a> </div>
@@ -489,7 +484,7 @@
                         </div>
                     </div>
                    
-                    <div class="custom-slider">
+                    {{-- <div class="custom-slider">
                         <div>
                             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                                 <ol class="carousel-indicators">
@@ -523,9 +518,14 @@
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                   
-                    <div class="hot-banner"><img alt="banner" src="/resources/images/hot-trends-banner.jpg"></div>
+                    <?php 
+                        if(!empty($today_offer)){ ?>
+                            <div class="hot-banner"><a href = "/product_detail/<?= $today_offer->id ?>"><img alt="banner" src="<?= Config::get('constants.options.offer_img_host_url').$today_offer->banner_img?>"></a></div>
+                       <?php }
+                    ?>
+                    
                    
                 </aside>
             </div>

@@ -145,7 +145,7 @@
                 var thisRef = $(this);
                 $('#addToCartBtn').attr('disabled', 'disabled');
                 $('#addToCartText').text('PROCESSING');
-                if (product_id) {
+                if (product_id && quantity != 0) {
                     showLoader();
                     $.ajax({
                         type: "POST",
@@ -174,6 +174,8 @@
                             $('#addToCartText').text('ADD TO CART');
                         }
                     });
+                }else{
+                    alert("Invalid information");
                 }
             });
 
@@ -582,9 +584,10 @@
                 $(this).attr('disabled', 'disabled');
                 var id = this.id;
                 if(getCookie('cp_2')){
-                    document.cookie = 'cp=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-                    document.cookie = 'cp_2=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-                    document.cookie = "cp="+id;
+                    document.cookie = 'cp=;expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/';
+                    document.cookie = 'cp_2=;expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/';
+                    //document.cookie = "cp="+id"; path=/";
+                    document.cookie = "cp=" + id + ";"  + ";path=/"
                     $.confirm({
                                 title: 'Alert!',
                                 content: 'Please select another product to compare!',
@@ -632,7 +635,8 @@
                                     //console.log(response);
                                     var result = JSON.parse(response);
                                     if(result == "success"){
-                                        document.cookie = "cp_2="+id;
+                                        //document.cookie = "cp_2="+id"; path=/";
+                                        document.cookie = "cp_2=" + id + ";"  + ";path=/"
                                         window.location.href='/compare_products';
                                     }else{
                                         $.confirm({
@@ -657,7 +661,8 @@
                            
                         }
                     }else{
-                        document.cookie = "cp="+id;
+                       // document.cookie = "cp= +id ; path=/";
+                        document.cookie = "cp=" + id + ";"  + ";path=/"
                         $.confirm({
                                 title: 'Alert!',
                                 content: 'Please select another product to compare!',
@@ -817,7 +822,8 @@
                         //console.log(response);
                         var result = JSON.parse(response);
                         if(result == "success"){
-                            location.reload();
+                            //location.reload();
+                            window.location.href='/';
                         }else if(result == "failed"){
                             alert('Unable to place order');
                         }	
@@ -841,12 +847,14 @@
                         var result = JSON.parse(response);
                         if(result == "success"){
                             window.location = '/checkout';
-                            $(this).removeattr('disabled', 'disabled');
+                            $(this).removeAttr('disabled', 'disabled');
                             $(this).text('PROCEED TO CHECKOUT');
                         }else if(result == "failed"){
                             alert('The product you added to cart is no longer available!');
+                            location.reload();
                         }else{
                             alert('There is no item in your cart. First add item and then Checkout.')
+                            location.reload();
                         }	
                     }
                 });
