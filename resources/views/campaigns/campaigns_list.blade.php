@@ -153,7 +153,7 @@
 
                                             }else{
                                               foreach($campaign_data["variants"] as $variants){
-                                                echo "RS : ".$variants["price"];
+                                                echo "PKR: ".$variants["price"];
                                               }
                                             }
                                           }    
@@ -165,17 +165,17 @@
                                         if(sizeof($campaign_data["variants"]) == 1){
                                             if($campaign_data["discount"] == ""){
                                                 foreach($campaign_data["variants"] as $variants){
-                                                    echo "RS : ".$variants["price"];
+                                                    echo "PKR: ".$variants["price"];
                                                 }
                                             }else{
                                                 foreach($campaign_data["variants"] as $variants){
                                                     $total_price = $variants["price"];
                                                     $discount = $total_price - (($campaign_data["discount"] / 100) * $total_price);
-                                                    echo "RS : ".$discount;
+                                                    echo "PKR: ".$discount;
                                                 }
                                             }
                                         }else{
-                                             echo "RS : 00";
+                                             echo "PKR: 00";
                                         } 
                                         ?>
                                     </span> </p>

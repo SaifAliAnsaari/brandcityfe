@@ -112,6 +112,13 @@ class HomeController extends ParentController
         ->limit(3)
         ->get();
 
+        // $categories_banner = DB::table('product_categories as pc')
+        //     ->select('category_image')
+        //     ->whereRaw('id IN (Select category_id from home_categories_banner)')
+        //     ->get();
+
+            //echo "<pre>"; print_r($categories_banner); die;
+
         $latCats = DB::table('product_categories')->select('id', 'category_name')->orderby("id","desc")->limit(4)->get();
         $latest_categories = array();
         foreach($latCats as $cat){
@@ -536,13 +543,13 @@ class HomeController extends ParentController
 
         $core = DB::table('product_core')
             ->selectRaw('id, product_name, product_discount, product_thumbnail')
-            ->whereRaw('product_sku = (Select sku from campaign_products where campaign_id = "'.$campaign_id.'")')
+            ->whereRaw('product_sku IN (Select sku from campaign_products where campaign_id = "'.$campaign_id.'")')
             ->paginate(6);
 
         $variants = DB::table('product_variants as pv')
             ->selectRaw('id, product_id, product_sale_price, product_color, product_size,
                 (Select AVG(quality) from ratting where product_id = pv.product_id) as ratting')
-            ->whereRaw('product_id IN (Select id from product_core where product_sku = (Select sku from campaign_products where campaign_id = "'.$campaign_id.'") )')
+            ->whereRaw('product_id IN (Select id from product_core where product_sku IN (Select sku from campaign_products where campaign_id = "'.$campaign_id.'") )')
             ->get();
 
         $products = array();
@@ -567,6 +574,8 @@ class HomeController extends ParentController
             $products[$counter]["variants"] = $v_products;
             $counter ++;
         }
+
+        //echo "<pre>"; print_r($products); die;
 
         return view ('campaigns/campaigns', ['cart_detail' => $this->get_cart_items_detail, "brands" => $get_brands, 
                 "colors" => $get_colors, 'all_product_cats' => $this->get_all_productCats, 'nav_links' => $this->navigationData,

@@ -41,7 +41,7 @@
                                                         if($pro_one->discount == ""){
 
                                                         }else{
-                                                            echo "RS : ".$pro_one->product_sale_price;
+                                                            echo "PKR: ".$pro_one->product_sale_price;
                                                         }     
                                                             ?>
                                                     </span> </p>
@@ -49,11 +49,11 @@
                                                         Price</span> <span class="price">
                                                         <?php
                                                             if($pro_one->discount == ""){
-                                                                echo "RS : ".$pro_one->product_sale_price;
+                                                                echo "PKR: ".$pro_one->product_sale_price;
                                                             }else{
                                                                 $total_price = $pro_one->product_sale_price;
                                                                 $discount = $total_price - (($pro_one->discount / 100) * $total_price);
-                                                                echo "RS : ".$discount;
+                                                                echo "PKR: ".$discount;
                                                             }
                                                                 
                                                             ?>
@@ -79,7 +79,7 @@
                                                     if($pro_two->discount == ""){
 
                                                     }else{
-                                                        echo "RS : ".$pro_two->product_sale_price;
+                                                        echo "PKR: ".$pro_two->product_sale_price;
                                                     }     
                                                         ?>
                                                 </span> </p>
@@ -87,11 +87,11 @@
                                                     Price</span> <span class="price">
                                                     <?php
                                                         if($pro_two->discount == ""){
-                                                            echo "RS : ".$pro_two->product_sale_price;
+                                                            echo "PKR: ".$pro_two->product_sale_price;
                                                         }else{
                                                             $total_price = $pro_two->product_sale_price;
                                                             $discount = $total_price - (($pro_two->discount / 100) * $total_price);
-                                                            echo "RS : ".$discount;
+                                                            echo "PKR: ".$discount;
                                                         }
                                                             
                                                         ?>
@@ -193,7 +193,7 @@
                                                     if($pro_one->discount == ""){
 
                                                     }else{
-                                                        echo "RS : ".$pro_one->product_sale_price;
+                                                        echo "PKR: ".$pro_one->product_sale_price;
                                                     }     
                                                         ?>
                                                 </span> </p>
@@ -201,11 +201,11 @@
                                                     Price</span> <span class="price">
                                                     <?php
                                                         if($pro_one->discount == ""){
-                                                            echo "RS : ".$pro_one->product_sale_price;
+                                                            echo "PKR: ".$pro_one->product_sale_price;
                                                         }else{
                                                             $total_price = $pro_one->product_sale_price;
                                                             $discount = $total_price - (($pro_one->discount / 100) * $total_price);
-                                                            echo "RS : ".$discount;
+                                                            echo "PKR: ".$discount;
                                                         }
                                                             
                                                         ?>
@@ -228,7 +228,7 @@
                                                     if($pro_two->discount == ""){
 
                                                     }else{
-                                                        echo "RS : ".$pro_two->product_sale_price;
+                                                        echo "PKR: ".$pro_two->product_sale_price;
                                                     }     
                                                         ?>
                                                 </span> </p>
@@ -236,11 +236,11 @@
                                                     Price</span> <span class="price">
                                                     <?php
                                                         if($pro_two->discount == ""){
-                                                            echo "RS : ".$pro_two->product_sale_price;
+                                                            echo "PKR: ".$pro_two->product_sale_price;
                                                         }else{
                                                             $total_price = $pro_two->product_sale_price;
                                                             $discount = $total_price - (($pro_two->discount / 100) * $total_price);
-                                                            echo "RS : ".$discount;
+                                                            echo "PKR: ".$discount;
                                                         }
                                                             
                                                         ?>

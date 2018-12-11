@@ -611,7 +611,7 @@
                                                                                                     if($product["discount"] == ""){
                                                                                                     }else{
                                                                                                         foreach($product["variants"] as $variants){
-                                                                                                        echo "RS : ".$variants["price"];
+                                                                                                        echo "PKR: ".$variants["price"];
                                                                                                         }
                                                                                                     }
                                                                                                 }    
@@ -623,17 +623,17 @@
                                                                                                     if(sizeof($product["variants"]) == 1){
                                                                                                         if($product["discount"] == ""){
                                                                                                             foreach($product["variants"] as $variants){
-                                                                                                                echo "RS : ".$variants["price"];
+                                                                                                                echo "PKR: ".$variants["price"];
                                                                                                             }
                                                                                                         }else{
                                                                                                             foreach($product["variants"] as $variants){
                                                                                                                 $total_price = $variants["price"];
                                                                                                                 $discount = $total_price - (($product["discount"] / 100) * $total_price);
-                                                                                                                echo "RS : ".$discount;
+                                                                                                                echo "PKR: ".$discount;
                                                                                                             }
                                                                                                         }
                                                                                                     }else{
-                                                                                                        echo "RS : 00";
+                                                                                                        echo "PKR: 00";
                                                                                                     } 
                                     
                                                                                                         ?>

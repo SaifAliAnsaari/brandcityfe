@@ -55,7 +55,6 @@ class AjaxController extends Controller
             if(empty($check_product_active)){
                 echo json_encode("limit exceed");
             }else{
-
                 if($check_product_active->is_active > 0){
                     //check if product already exist
                     $check_if_product_exist = DB::table('cart')->whereRaw('customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'") AND is_active = 1 AND product_id ='.$request->product_id )->first(); 

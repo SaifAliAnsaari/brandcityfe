@@ -126,54 +126,45 @@
                                     }else{
                                         echo count($cart_detail);
                                         } ?></span>
-                            </a> </div>
-                        <div>
-                            <div class="top-cart-content">
-                                <!--block-subtitle-->
-                                <ul class="mini-products-list" id="cart-sidebar">
-                                    <?php 
-                                    if(empty($cart_detail)){
-                                        echo "Empty Cart";
-                                    }else{
-                                        foreach($cart_detail as $detail){  ?>
-
-                                    <li class="item first">
-                                        <div class="item-inner">
-                                            <a class="product-image" title="Retis lapen casen" href="/product_detail/<?= $detail->product_core_id ?>"><img alt="Retis lapen casen"
-                                                    src=" <?= Config::get('constants.options.product_img_host_url').$detail->product_thumbnail?>">
-                                            </a>
-                                            <div class="product-details">
-                                                <div class="access"><a class="btn-remove1" title="Remove This Item"
-                                                        href="/cart">Remove</a> <a class="btn-edit" title="Edit item" href="#"><i
-                                                            class="icon-pencil"></i><span class="hidden">Edit item</span></a>
-                                                </div>
-                                                <span class="price">RS : <?php
-                                                if($detail->product_discount == "") {
-                                                    echo $detail->product_sale_price;
-                                                }else{
-                                                    $total_price = $detail->product_sale_price;
-                                                    $discount = $total_price - (($detail->product_discount / 100) * $total_price);
-                                                    echo $discount;
-                                                } ?></span>
-                                                <p class="product-name"><a href="/product_detail/<?= $detail->product_core_id ?>">
-                                                        <?= $detail->product_name ?></a> </p>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <?php }  
-                                    }
-                                    ?>
-
-
-                                </ul>
-                                <!--actions-->
-                                <div class="actions">
-                                    <button class="btn-checkout" title="Checkout" type="button" onclick="window.location.href='/checkout'"><span>Checkout</span>
-                                    </button>
-                                    <a href="/cart" class="view-cart"><span>View Cart</span></a> </div>
-                            </div>
+                            </a>
                         </div>
+                        @if(count($cart_detail) > 0)
+                        <div class="top-cart-content">
+                            <!--block-subtitle-->
+                            <ul class="mini-products-list" id="cart-sidebar">
+                                <?php foreach($cart_detail as $detail){  ?>
+                                        <li class="item first">
+                                            <div class="item-inner">
+                                                <a class="product-image" title="Retis lapen casen" href="/product_detail/<?= $detail->product_core_id ?>"><img alt="Retis lapen casen"
+                                                        src=" <?= Config::get('constants.options.product_img_host_url').$detail->product_thumbnail?>">
+                                                </a>
+                                                <div class="product-details">
+                                                    <div class="access"><a class="btn-remove1 remove_item" id="<?= $detail->id; ?>" title="Remove This Item" >Remove</a> <a class="btn-edit" title="Edit item" href="#"><i
+                                                                class="icon-pencil"></i><span class="hidden">Edit item</span></a>
+                                                    </div>
+                                                    <span class="price">RS : <?php
+                                                    if($detail->product_discount == "") {
+                                                        echo $detail->product_sale_price;
+                                                    }else{
+                                                        $total_price = $detail->product_sale_price;
+                                                        $discount = $total_price - (($detail->product_discount / 100) * $total_price);
+                                                        echo $discount;
+                                                    } ?></span>
+                                                    <p class="product-name"><a href="/product_detail/<?= $detail->product_core_id ?>">
+                                                            <?= $detail->product_name ?></a> </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    <?php } ?>
+
+                            </ul>
+                            <!--actions-->
+                            <div class="actions" style="">
+                                {{-- <button class="btn-checkout" title="Checkout" type="button" onclick="window.location.href='/checkout'"><span>Checkout</span>
+                                </button> --}}
+                                <a href="/cart" class="view-cart"><span>View Cart</span></a> </div>
+                        </div>
+                        @endif
                     </div>
                     <!-- Top Cart -->
                 </div>

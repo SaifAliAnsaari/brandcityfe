@@ -135,12 +135,12 @@
                                                             if(empty($availability[0]->product_sale_price)){
                                                                 echo "Incomplete information of this product";
                                                             }else{
-                                                                echo "RS : ".$availability[0]->product_sale_price;
+                                                                echo "PKR: ".$availability[0]->product_sale_price;
                                                             }
                                                         }else{
                                                             $total_price = $availability[0]->product_sale_price;
                                                             $discount = $total_price - (($product_core->product_discount / 100) * $total_price);
-                                                            echo "RS : ".$discount;
+                                                            echo "PKR: ".$discount;
                                                         }
                                                     ?>
                                                 </span> </p>
@@ -151,7 +151,7 @@
                                                         if(empty($product_core->product_discount)){
                                                             
                                                         }else{
-                                                            echo "RS : ".$availability[0]->product_sale_price;
+                                                            echo "PKR: ".$availability[0]->product_sale_price;
                                                         }
                                                     ?>
                                                 </span> </p>
@@ -160,7 +160,7 @@
                                             if(sizeof($availability) > 1){
                                                 foreach ($availability as $avaiable_items){
                                                     if(empty($avaiable_items->product_quantity)){ ?>
-                                                       <p class="availability in-stock pull-right"><span>Out of Stock</span></p>
+                                                       <p class="availability in-stock pull-right"><span style="background: red; font-weight: bold">Out of Stock</span></p>
                                                     <?php }else{ ?>
                                                        <p class="availability in-stock pull-right"><span>In Stock</span></p>
                                                     <?php }
@@ -168,7 +168,7 @@
                                             }else{
                                                 foreach ($availability as $avaiable_items){
                                                 if(empty($avaiable_items->product_quantity)){ ?>
-                                                   <p class="availability in-stock pull-right"><span>Out of Stock</span></p>
+                                                   <p class="availability in-stock pull-right"><span style="background: red; font-weight: bold">Out of Stock</span></p>
                                                <?php }else{ ?>
                                                     <p class="availability in-stock pull-right"><span>In Stock</span></p>
                                                <?php }
@@ -183,15 +183,18 @@
                                             <?= $product_core->product_description ?>
                                         </span>
                                     </div>
+                                    <span id="limitExceed" style="display:none; color: red; margin: 20px 0px">Unfortunately We don't have enough stock for this product</span>
+                                    <span id="productAdded" style="display:none; color: green; margin: 20px 0px">Product has been added to your cart</span>
+                                    @if($availability[0]->product_quantity > 0)
                                     <div class="add-to-box">
                                         <div class="add-to-cart">
                                             <div class="pull-left">
                                                 <div class="custom pull-left">
-                                                    <button onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 0 ) result.value--;return false;"
+                                                    <button onClick="document.getElementById('limitExceed').style.display = 'none'; var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) result.value--;return false;"
                                                         class="reduced items-count" type="button"><i class="fa fa-minus">&nbsp;</i></button>
                                                     <input type="text" class="input-text qty" title="Qty" value="1"
-                                                        maxlength="12" id="qty" name="qty">
-                                                    <button onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;"
+                                                        maxlength="12" id="qty" name="qty" disabled>
+                                                    <button onClick="document.getElementById('limitExceed').style.display = 'none'; var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;"
                                                         class="increase items-count" type="button"><i class="fa fa-plus">&nbsp;</i></button>
                                                 </div>
                                             </div>
@@ -272,6 +275,7 @@
                                         </div>
                                        
                                     </div>
+                                    @endif
                                     <div class="social">
                                         <ul class="link">
                                             <li class="fb"><a href="http://www.facebook.com/sharer.php?s=100&amp;p[url]=<?php echo urlencode(Request::fullUrl()); ?>"></a></li>
@@ -929,17 +933,17 @@
                                                                 if(sizeof($products["variants"]) == 1){
                                                                     if($products["discount"] == ""){
                                                                         foreach($products["variants"] as $variants){
-                                                                            echo "RS : ".$variants["price"];
+                                                                            echo "PKR: ".$variants["price"];
                                                                         }
                                                                     }else{
                                                                         foreach($products["variants"] as $variants){
                                                                             $total_price = $variants["price"];
                                                                             $discount = $total_price - (($products["discount"] / 100) * $total_price);
-                                                                            echo "RS : ".$discount;
+                                                                            echo "PKR: ".$discount;
                                                                         }
                                                                     }
                                                                 }else{
-                                                                    echo "RS : 00";
+                                                                    echo "PKR: 00";
                                                                 } 
 
                                                                     ?>
@@ -951,7 +955,7 @@
                                                                     if($products["discount"] == ""){
                                                                     }else{
                                                                         foreach($products["variants"] as $variants){
-                                                                        echo "RS : ".$variants["price"];
+                                                                        echo "PKR: ".$variants["price"];
                                                                         }
                                                                     }
                                                                 }    

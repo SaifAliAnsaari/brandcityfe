@@ -5,8 +5,7 @@
                 <div class="col-lg-4 col-md-2 col-sm-3 col-xs-12 logo-block">
                     <!-- Header Logo -->
                     <div class="logo">
-                        <a title="Brandcity" href="/home"><img alt="HTML Website Template" src="/resources/images/logo.png">
-                        </a>
+                        <a title="Brandcity" href="/home" style="color: white; font-weight: 600; font-size: 1.5em">BRANDCITY</a>
                     </div>
                     <!-- End Header Logo -->
                 </div>
@@ -17,10 +16,12 @@
                     <!-- Header Top Links -->
                     <div class="toplinks">
                         <div class="links">
+                            @if(Auth::user())
                             <div class="myaccount"><a title="My Account" href="/account_info"><span class="hidden-xs">My
-                                        Account</span></a> </div>
-                            <div class="check"><a title="Checkout" href="/checkout"><span class="hidden-xs">Checkout</span></a>
-                            </div>
+                                    Account</span></a> </div>
+                            @endif
+                            {{-- <div class="check"><a title="Checkout" href="/checkout"><span class="hidden-xs">Checkout</span></a>
+                            </div> --}}
                             {{-- <div class="demo"><a title="Blog" href="/blog"><span class="hidden-xs">Blog</span></a>
                             </div> --}}
                             <!-- Header Company -->

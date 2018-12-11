@@ -112,7 +112,7 @@
                                                         <div class="item-img-info"><a href="/product_detail/<?= $campaign_data[$j]["id"] ?>" title="Retis lapen casen"
                                                                 class="product-image"><img src="
                                                         <?= Config::get('constants.options.product_img_host_url').$campaign_data[$j]["image"] ?>
-                                                        " alt="Retis lapen casen" style="max-height: 250px; width: auto"></a>
+                                                        " alt="Retis lapen casen" style="width: 200px; height: 300"></a>
                                                             <div class="new-label new-top-left">New</div>
                                                             <div class="box-hover">
                                                                 <ul class="add-to-links">
@@ -194,7 +194,7 @@
 
                                                                                         }else{
                                                                                             foreach($campaign_data[$j]["variants"] as $variants){
-                                                                                                echo "RS : ".$variants["price"];
+                                                                                                echo "PKR: ".$variants["price"];
                                                                                             }
                                                                                         }
                                                                                     }    
@@ -206,17 +206,17 @@
                                                                                     if(sizeof($campaign_data[$j]["variants"]) == 1){
                                                                                         if($campaign_data[$j]["discount"] == ""){
                                                                                             foreach($campaign_data[$j]["variants"] as $variants){
-                                                                                                echo "RS : ".$variants["price"];
+                                                                                                echo "PKR: ".$variants["price"];
                                                                                             }
                                                                                         }else{
                                                                                             foreach($campaign_data[$j]["variants"] as $variants){
                                                                                                 $total_price = $variants["price"];
                                                                                                 $discount = $total_price - (($campaign_data[$j]["discount"] / 100) * $total_price);
-                                                                                                echo "RS : ".$discount;
+                                                                                                echo "PKR: ".$discount;
                                                                                             }
                                                                                         }
                                                                                     }else{
-                                                                                        echo "RS : 00";
+                                                                                        echo "PKR: 00";
                                                                                     } 
 
                                                                                         ?>

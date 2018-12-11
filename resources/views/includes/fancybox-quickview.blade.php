@@ -44,7 +44,10 @@
                                                  class="price price_special">  </span> </p>
                                         <p class="old-price"> <span class="price-label">Regular Price:</span> <span
                                                 class="price price_reqular">  </span> </p>
-                                        <p class="availability in-stock pull-right"><span class = "fancybox_availability">In Stock</span></p>
+                                                
+                                        <p class="availability in-stock pull-right" id="outOfStockFancy" style="display: none"><span style="background: red; font-weight: bold">Out of Stock</span></p>
+
+                                        <p class="availability in-stock pull-right" id="inStockFancy"><span class = "fancybox_availability">In Stock</span></p>
                                     </div>
                                 </div>
                                 <div class="short-description">
