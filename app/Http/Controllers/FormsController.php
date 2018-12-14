@@ -157,6 +157,22 @@ class FormsController extends Controller
        
     }
 
+    public function save_address_checkout_guest(Request $request){
+        $update = DB::table('guest_info')
+            ->whereRaw('session = "'.$_COOKIE['GI'].'" ')
+            ->update(['first_name' => $request->name,
+                    'address' => $request->address,
+                    'city' => $request->city,
+                    'email' => $request->email,
+                    'phone' => $request->phone
+                    ]);
+                if($update){
+                    return redirect()->back()->with('update_success', 'Updated successfully!'); 
+                }else{
+                    return redirect()->back()->with('update_failed', 'Unable to update, try again!');
+                }
+    }
+
     public function contact(Request $request){
         //echo $request->name. " " .$request->email;
         $comment = $request->comment;

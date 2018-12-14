@@ -109,13 +109,14 @@
                     <div class="col-sm-4">
                         <div class="discount">
                             <h3>Discount Codes</h3>
-                            <form method="post" action="#couponPost/" id="discount-coupon-form">
                                 <label for="coupon_code">Enter your coupon code if you have one.</label>
                                 <input type="hidden" value="0" id="remove-coupone" name="remove">
                                 <input type="text" name="coupon_code" id="coupon_code" class="input-text fullwidth">
-                                <button value="Apply Coupon" onclick="discountForm.submit(false)" class="button coupon "
+                                <button value="Apply Coupon"   class="button coupon btn_coupon_submit"
                                     title="Apply Coupon" type="button"><span>Apply Coupon</span></button>
-                            </form>
+                                <br>
+                            <span class = "applied_success" style = "color:green; display:none">Coupon Applied successfully!</span>
+                            <span class = "applied_failed" style = "color:red; display:none">Invalid Coupon!</span>
                         </div>
                     </div>
                     <div class="col-sm-4">
@@ -488,7 +489,7 @@
                                 <tfoot>
                                     <tr>
                                         <td colspan="1" class="a-left" style=""><strong>Grand Total</strong></td>
-                                        <td class="a-right" style=""><strong><span class="price grand_total"></span></strong></td>
+                                        <td class="a-right" style=""><strong><span class="price grand_total final_price"></span></strong></td>
                                     </tr>
                                 </tfoot>
                                 <tbody>

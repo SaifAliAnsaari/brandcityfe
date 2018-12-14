@@ -33,7 +33,6 @@ class HomeController extends ParentController
 
     public function index()
     {
-        setcookie('C-D', "", time() - (86400 * 30), "/");
        //proceed to checkout
        setcookie('PP', "", time() - (86400 * 30), "/");
         //Cookie::queue(  Cookie::forget('PP') );
@@ -109,75 +108,135 @@ class HomeController extends ParentController
         ->limit(3)
         ->get();
 
-        
-        $custom_categories = DB::table('home_new_products_categories')->first();
+       
 
+        // $categories_banner = DB::table('product_categories as pc')
+        //     ->select('category_image')
+        //     ->whereRaw('id IN (Select category_id from home_categories_banner)')
+        //     ->get();
 
-        if(!empty($custom_categories)){
+            //echo "<pre>"; print_r($categories_banner); die;
 
-            $custom_cat_names = DB::table('product_categories')
-                ->select('category_name')
-                ->whereRaw('id IN ("'.$custom_categories->category_1.'", "'.$custom_categories->category_2.'", "'.$custom_categories->category_3.'", "'.$custom_categories->category_4.'")')
-                ->get();
+        $latCats = DB::table('product_categories')->select('id', 'category_name')->orderby("id","desc")->limit(4)->get();
+        $latest_categories = array();
+        foreach($latCats as $cat){
+            $latest_categories[] = array('id' => $cat->id, 'name' => $cat->category_name);
+        }
+        //echo "<pre>"; print_r($latest_categories); die;
 
-            $custom_cat_one = DB::table('product_variants as pv')
+        if($latest_categories[0]['id']){
+            $latest_cat_data_one = DB::table('product_variants as pv')
             ->selectRaw('id, product_sale_price, product_id, product_color,
                 (Select id from product_core where id = pv.product_id) as core_id,
                 (Select product_thumbnail from product_core where id = pv.product_id) as image,
                 (Select product_name from product_core where id = pv.product_id) as name,
                 (Select product_discount from product_core where id = pv.product_id) as discount,
                 (Select AVG(quality) from ratting where product_id = pv.id) as ratting')
-            ->whereRaw('product_id IN (Select id from product_core where product_category_id = "'.$custom_categories->category_1.'" AND is_approved = 1) AND is_active = 1')
-            ->orderby('id', 'desc')
-            ->limit(4)
-            ->get();
-
-            $custom_cat_two = DB::table('product_variants as pv')
-            ->selectRaw('id, product_sale_price, product_id, product_color,
-                (Select id from product_core where id = pv.product_id) as core_id,
-                (Select product_thumbnail from product_core where id = pv.product_id) as image,
-                (Select product_name from product_core where id = pv.product_id) as name,
-                (Select product_discount from product_core where id = pv.product_id) as discount,
-                (Select AVG(quality) from ratting where product_id = pv.id) as ratting')
-            ->whereRaw('product_id IN (Select id from product_core where product_category_id = "'.$custom_categories->category_2.'" AND is_approved = 1) AND is_active = 1')
-            ->orderby('id', 'desc')
-            ->limit(4)
-            ->get();
-
-            $custom_cat_three = DB::table('product_variants as pv')
-            ->selectRaw('id, product_sale_price, product_id, product_color,
-                (Select id from product_core where id = pv.product_id) as core_id,
-                (Select product_thumbnail from product_core where id = pv.product_id) as image,
-                (Select product_name from product_core where id = pv.product_id) as name,
-                (Select product_discount from product_core where id = pv.product_id) as discount,
-                (Select AVG(quality) from ratting where product_id = pv.id) as ratting')
-            ->whereRaw('product_id IN (Select id from product_core where product_category_id = "'.$custom_categories->category_3.'" AND is_approved = 1) AND is_active = 1')
-            ->orderby('id', 'desc')
-            ->limit(4)
-            ->get();
-
-            $custom_cat_four = DB::table('product_variants as pv')
-            ->selectRaw('id, product_sale_price, product_id, product_color,
-                (Select id from product_core where id = pv.product_id) as core_id,
-                (Select product_thumbnail from product_core where id = pv.product_id) as image,
-                (Select product_name from product_core where id = pv.product_id) as name,
-                (Select product_discount from product_core where id = pv.product_id) as discount,
-                (Select AVG(quality) from ratting where product_id = pv.id) as ratting')
-            ->whereRaw('product_id IN (Select id from product_core where product_category_id = "'.$custom_categories->category_4.'" AND is_approved = 1) AND is_active = 1')
+            ->whereRaw('product_id IN (Select id from product_core where product_category_id = "'.$latest_categories[0]['id'].'" AND is_approved = 1) AND is_active = 1')
             ->orderby('id', 'desc')
             ->limit(4)
             ->get();
 
         }else{
-            $custom_cat_names = array();
-            $custom_cat_one = array();
-            $custom_cat_two = array();
-            $custom_cat_three = array();
-            $custom_cat_four = array();
+            $latest_cat_data_one = "";
         }
 
-        //echo "<pre>"; print_r($custom_cat_names); die;
- 
+        if($latest_categories[1]['id']){
+             $latest_cat_data_two = DB::table('product_variants as pv')
+             ->selectRaw('id, product_sale_price, product_id, product_color,
+                (Select id from product_core where id = pv.product_id) as core_id,
+                (Select product_thumbnail from product_core where id = pv.product_id) as image,
+                (Select product_name from product_core where id = pv.product_id) as name,
+                (Select product_discount from product_core where id = pv.product_id) as discount,
+                (Select AVG(quality) from ratting where product_id = pv.id) as ratting')
+             ->whereRaw('product_id IN (Select id from product_core where product_category_id = "'.$latest_categories[1]['id'].'" AND is_approved = 1) AND is_active = 1')
+             ->orderby('id', 'desc')
+            ->limit(4)
+             ->get();
+        }else{
+             $latest_cat_data_two = "";
+        }
+
+        if($latest_categories[2]['id']){
+            $latest_cat_data_three = DB::table('product_variants as pv')
+            ->selectRaw('id, product_sale_price, product_id, product_color,
+                (Select id from product_core where id = pv.product_id) as core_id,
+                (Select product_thumbnail from product_core where id = pv.product_id) as image,
+                (Select product_name from product_core where id = pv.product_id) as name,
+                (Select product_discount from product_core where id = pv.product_id) as discount,
+                (Select AVG(quality) from ratting where product_id = pv.id) as ratting')
+            ->whereRaw('product_id IN (Select id from product_core where product_category_id = "'.$latest_categories[2]['id'].'" AND is_approved = 1) AND is_active = 1')
+            ->orderby('id', 'desc')
+            ->limit(4)
+            ->get();
+        }else{
+            $latest_cat_data_three = "";
+        }
+
+        if($latest_categories[3]['id']){
+            $latest_cat_data_four = DB::table('product_variants as pv')
+            ->selectRaw('id, product_sale_price, product_id, product_color,
+                (Select id from product_core where id = pv.product_id) as core_id,
+                (Select product_thumbnail from product_core where id = pv.product_id) as image,
+                (Select product_name from product_core where id = pv.product_id) as name,
+                (Select product_discount from product_core where id = pv.product_id) as discount,
+                (Select AVG(quality) from ratting where product_id = pv.id) as ratting')
+            ->whereRaw('product_id IN (Select id from product_core where product_category_id = "'.$latest_categories[3]['id'].'" AND is_approved = 1) AND is_active = 1')
+            ->orderby('id', 'desc')
+            ->limit(4)
+            ->get();
+        }else{
+            $latest_cat_data_four = "";
+        }
+        //echo "<pre>"; print_r($latest_cat_data_one); die;
+
+        // $counter = 0;
+        // $latest_products = DB::table('product_core as pc')
+        //     ->selectRaw('id, product_name, product_description, product_discount, product_category_id, product_thumbnail,
+        //         (Select id from product_variants where product_id = pc.id)  as product_id,
+        //         (Select AVG(quality) from ratting where product_id = (Select id from product_variants where product_id = pc.id)) as average_rating,
+        //         (SELECT count(*) from product_variants where product_id = pc.id) as total_variants,
+        //         (Case when (SELECT count(*) from product_variants where product_id = pc.id) = 1 then (Select product_sale_price from product_variants where product_id = pc.id) Else NULL 
+        //                 End) as price')
+        //     ->whereRaw('(Select is_active from product_variants where product_id = pc.id) = 1 
+        //         AND find_in_set(product_category_id, ?)', implode(',', array_column($latest_categories, 'id')))
+        //     ->orderby("id","desc")
+        //     ->limit(16)
+        //     ->get();
+        // //echo "<pre>"; print_r($latest_products); die;
+
+        // $data = array();
+        // $catCounter = 0;
+        // foreach($latCats as $cat){
+        //     $data[$catCounter]["id"] = $cat->id;
+        //     $data[$catCounter]["category_name"] = $cat->category_name;
+        //     $products = array();
+        //     foreach($latest_products as $prod){
+        //         if($prod->product_category_id == $cat->id){
+        //             $products[] = array(
+        //                 'id' => $prod->id, 
+        //                 'name' => $prod->product_name,
+        //                 'description' => $prod->product_description,
+        //                 'discount' => $prod->product_discount,
+        //                 'image' => $prod->product_thumbnail,
+        //                 'category_id' => $prod->product_category_id,
+        //                 'product_id' => $prod->product_id,
+        //                 'rating' => $prod->average_rating,
+        //                 'variants' => $prod->total_variants,
+        //                 'price' => $prod->price);
+        //         }
+        //     }
+        //     $data[$catCounter]["products"] = $products;
+        //     $catCounter++;
+        // }
+
+        // echo "<pre>"; print_r($data); die;
+
+
+        // $featured_banner = DB::table('home_misc')
+        //     ->select('new_product_banner_sku', 'new_product_banner_img')
+        //     ->first();
+
         $featured_banner = DB::table('product_core as pc')
             ->selectRaw('id, product_name, (Select new_product_banner_img from home_misc) as image')
             ->whereRaw('product_sku = (Select new_product_banner_sku from home_misc) AND is_approved = 1')
@@ -186,9 +245,9 @@ class HomeController extends ParentController
          
         return view('home', ['campaigns' => $get_campaign, 'hot_deal' => $get_hot_deal, 'top_products' => $top_three_products,
             'cart_detail' => $this->get_cart_items_detail, 'featured_products' => $featured_products, 
-            'all_product_cats' => $this->get_all_productCats, 'nav_links' => $this->navigationData, "custom_cat_1" => $custom_cat_one,
-            "custom_cat_2" => $custom_cat_two,  "custom_cat_3" => $custom_cat_three,  "custom_cat_4" => $custom_cat_four,
-            "custom_cat_names" => $custom_cat_names, 'featured_banner' => $featured_banner
+            'all_product_cats' => $this->get_all_productCats, 'nav_links' => $this->navigationData, "new_pro_1" => $latest_cat_data_one,
+            "new_pro_2" => $latest_cat_data_two,  "new_pro_3" => $latest_cat_data_three,  "new_pro_4" => $latest_cat_data_four,
+            "latest_cat" => $latest_categories, 'featured_banner' => $featured_banner
             // 'new_products' => $data
             ]);
     }
@@ -213,7 +272,6 @@ class HomeController extends ParentController
     }
 
     public function product_detail($product_id){
-        setcookie('C-D', "", time() - (86400 * 30), "/");
         //Cookie::queue(  Cookie::forget('PP') );
         //proceed to checkout
         setcookie('PP', "", time() - (86400 * 30), "/");
@@ -244,62 +302,70 @@ class HomeController extends ParentController
             ->whereRaw('id = (SELECT product_category_id FROM product_core WHERE id = "'.$product_id.'")')
             ->first();
 
-        //Selected product_detail
-        $pCore = DB::table('product_core')
-            ->selectRaw('id, product_name, product_brand, product_discount, product_thumbnail, product_description, product_type_id,
-                (Select AVG(quality) from ratting where product_id = "'.$product_id.'") as average_rating,
-                (Select COUNT(*) from ratting where product_id = "'.$product_id.'") as rate_counts')
-            ->whereRaw('id = "'.$product_id.'" AND is_approved = 1')
-            ->first();
-    
-        $variant = DB::table('product_variants as pv')
-                ->selectRaw('id, product_quantity, product_sale_price, product_color, product_size')
-                ->whereRaw('product_id ='.$product_id)
-                ->get();
+        // $related_products = DB::table('product_core AS pc')->selectRaw('`id`, `product_name`, `product_brand`, `product_discount`, `product_thumbnail`, `product_description`,  
+        //     (SELECT count(*) from product_variants where product_id = pc.id) as total_variants,
+        //     (Case when (SELECT count(*) from product_variants where product_id = pc.id) = 1 then (Select product_sale_price from product_variants where product_id = pc.id) Else NULL 
+        //             End) as price,
+        //     (Select AVG(quality) from ratting where product_id = (Select id from product_variants where product_id = pc.id)) as average_rating,
+        //     (Case when (SELECT count(*) from product_variants where product_id = pc.id) = 1 then 
+        //     (Select id from product_variants where product_id = pc.id) Else NULL 
+        //             End) as wishlist_id')
+        //     ->whereRaw ('(Select is_active from product_variants where product_id = pc.id) = 1 AND product_category_id ='.$categories->id)
+        //     ->get();
 
-        //echo "<pre>"; print_r($pCore); die;
-
-
-        //Agar Core khali nae hai to related products ani chaiya warna error page
-        if($pCore){
-            $related_core = DB::table('product_core')
+        $related_core = DB::table('product_core')
             ->selectRaw('id, product_name, product_discount, product_thumbnail')
             ->whereRaw('is_approved= 1 AND product_category_id ='.$categories->id)
             ->get();
 
-            $related_variants = DB::table('product_variants as pv')
-                ->selectRaw('id, product_id, product_sale_price, product_color, product_size,
-                    (Select AVG(quality) from ratting where product_id = pv.product_id) as ratting')
-                ->whereRaw('product_id IN (Select id from product_core where product_category_id = "'.$categories->id.'" )')
-                ->get();
+        $related_variants = DB::table('product_variants as pv')
+            ->selectRaw('id, product_id, product_sale_price, product_color, product_size,
+                (Select AVG(quality) from ratting where product_id = pv.product_id) as ratting')
+            ->whereRaw('product_id IN (Select id from product_core where product_category_id = "'.$categories->id.'" )')
+            ->get();
 
-            $products = array();
-            $counter = 0;
-            foreach($related_core as $core_pro){
-                $products[$counter]["id"] = $core_pro->id;
-                $products[$counter]["name"] = $core_pro->product_name;
-                $products[$counter]["discount"] = $core_pro->product_discount;
-                $products[$counter]["image"] = $core_pro->product_thumbnail;
-                $v_products = array();
-                foreach($related_variants as $variants_pro){
-                    if($variants_pro->product_id == $core_pro->id){
-                        $v_products[] = array(
-                            "variant_id" => $variants_pro->id,
-                            "price" => $variants_pro->product_sale_price,
-                            "color" => $variants_pro->product_color,
-                            "size" => $variants_pro->product_size,
-                            "ratting" => $variants_pro->ratting
-                        ); 
-                    }
+        $products = array();
+        $counter = 0;
+        foreach($related_core as $core_pro){
+            $products[$counter]["id"] = $core_pro->id;
+            $products[$counter]["name"] = $core_pro->product_name;
+            $products[$counter]["discount"] = $core_pro->product_discount;
+            $products[$counter]["image"] = $core_pro->product_thumbnail;
+            $v_products = array();
+            foreach($related_variants as $variants_pro){
+                if($variants_pro->product_id == $core_pro->id){
+                    $v_products[] = array(
+                        "variant_id" => $variants_pro->id,
+                        "price" => $variants_pro->product_sale_price,
+                        "color" => $variants_pro->product_color,
+                        "size" => $variants_pro->product_size,
+                        "ratting" => $variants_pro->ratting
+                    ); 
                 }
-                $products[$counter]["variants"] = $v_products;
-                $counter ++;
             }
+            $products[$counter]["variants"] = $v_products;
+            $counter ++;
         }
-        
 
         //echo "<pre>"; print_r($products); die;
 
+
+
+        $pCore = DB::table('product_core')
+        ->selectRaw('id, product_name, product_brand, product_discount, product_thumbnail, product_description, product_type_id,
+            (Select AVG(quality) from ratting where product_id = "'.$product_id.'") as average_rating,
+            (Select COUNT(*) from ratting where product_id = "'.$product_id.'") as rate_counts')
+        ->whereRaw('id = "'.$product_id.'" AND is_approved = 1')
+        ->first();
+
+        $variant = DB::table('product_variants as pv')
+            ->selectRaw('id, product_quantity, product_sale_price, product_color, product_size')
+            ->whereRaw('product_id ='.$product_id)
+            ->get();
+
+            // $pCore->product_type_id
+
+            // spec_id, description, (Select specification from product_type_specs where id = ps.spec_id) as spec_type
         $specs = DB::table('product_spec_sheet as pss')
             ->selectRaw('id, (SELECT specification from product_type_specs where id = pss.spec_id) as specification, IFNULL(description, "NA") as description')->where('product_id', $product_id)->get();
 
@@ -329,7 +395,7 @@ class HomeController extends ParentController
         //}
        // echo "<pre>"; print_r($pCore); die;
 
-       if(empty($pCore) || !$pCore){
+       if(empty($pCore)){
             return redirect('/error');
        }else{
         return view('product_detail', ["product_core" => $pCore, "product_images" => $product_images, "specs" => $specs,
@@ -405,7 +471,6 @@ class HomeController extends ParentController
     }
 
     public function account_info(){
-        setcookie('C-D', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
             return redirect('/login');
             // $account_info = DB::table('guest_info')->select()->where('session', '=', cookie::get('GI'))->first();
@@ -455,7 +520,6 @@ class HomeController extends ParentController
 
     //Campaigns layout
     public function campaigns($campaign_id){
-        setcookie('C-D', "", time() - (86400 * 30), "/");
         //Cookie::queue(  Cookie::forget('PP') );
        //proceed to checkout
        setcookie('PP', "", time() - (86400 * 30), "/");
@@ -525,7 +589,6 @@ class HomeController extends ParentController
 
     //Campaigns list layout
     public function campaigns_list($campaign_id){
-        setcookie('C-D', "", time() - (86400 * 30), "/");
        // Cookie::queue(  Cookie::forget('PP') );
        //proceed to checkout
         setcookie('PP', "", time() - (86400 * 30), "/");

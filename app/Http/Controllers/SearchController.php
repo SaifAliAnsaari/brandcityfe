@@ -29,6 +29,7 @@ class SearchController extends ParentController
 
       //Search items FORM
     public function search_items(Request $request){
+        setcookie('C-D', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
             if(isset($_COOKIE['GI'])){
                 
@@ -52,9 +53,9 @@ class SearchController extends ParentController
             echo "Please fill both fields";
         }else{
            
-            $core = DB::table('product_core')
+            $core = DB::table('product_core as pc')
             ->selectRaw('id, product_name, product_discount, product_thumbnail')
-            ->whereRaw('product_category_id = "'.$request->cat.'" AND product_name like "%" "'.$request->search_dropdown.'" "%" ')
+            ->whereRaw('product_category_id = "'.$request->cat.'" AND product_name like "%" "'.$request->search_dropdown.'" "%" AND id IN (Select product_id from product_variants where is_active = 1) AND is_approved = 1')
             ->paginate(6);
 
             $variants = DB::table('product_variants as pv')

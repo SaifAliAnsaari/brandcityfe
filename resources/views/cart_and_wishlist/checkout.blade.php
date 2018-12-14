@@ -78,26 +78,77 @@
                                                     <legend>New Address</legend>
                                                     {{-- <input type="hidden" name="billing[address_id]" value="4269" id="billing:address_id"> --}}
                                                     <ul> 
-                                                        {!! Form::open(['action' => "FormsController@save_address_checkout"]) !!}
-                                                        <li>
-                                                            <label>Address <span class="required">*</span></label> 
-                                                        </li>
-                                                        <li>
-                                                            <input required type="text" title="Street Address" name="secondary_address"
-                                                                class="input-text">
-                                                        </li>  
-                                                        <li>
-                                                            <label>Email <span class="required">*</span></label> 
-                                                        </li>
-                                                         <li>
-                                                            <input required type="email" title="email" name="secondary_email"
-                                                                class="input-text">
-                                                        </li> 
-                                                        <li>
-                                                            <p class="require"><em class="required">* </em>Required Fields</p>
-                                                            <button type="submit" class="button continue"  ><span>Save</span></button>
-                                                        </li>
-                                                        </form>
+                                                        <?php
+                                                            if($user = Auth::user()){ ?>
+
+                                                                {!! Form::open(['action' => "FormsController@save_address_checkout"]) !!}
+                                                                <li>
+                                                                    <label>Address <span class="required">*</span></label> 
+                                                                </li>
+                                                                <li>
+                                                                    <input required type="text" title="Street Address" name="secondary_address"
+                                                                        class="input-text">
+                                                                </li>  
+                                                                <li>
+                                                                    <label>Email <span class="required">*</span></label> 
+                                                                </li>
+                                                                <li>
+                                                                    <input required type="email" title="email" name="secondary_email"
+                                                                        class="input-text">
+                                                                </li> 
+                                                                <li>
+                                                                    <p class="require"><em class="required">* </em>Required Fields</p>
+                                                                    <button type="submit" class="button continue"  ><span>Save</span></button>
+                                                                </li>
+                                                                </form>
+
+                                                           <?php }else{ ?>
+
+                                                                {!! Form::open(['action' => "FormsController@save_address_checkout_guest"]) !!}
+                                                                <li>
+                                                                    <label>Name <span class="required">*</span></label> 
+                                                                </li>
+                                                                <li>
+                                                                    <input required type="text" title="name" name="name"
+                                                                        class="input-text">
+                                                                </li>
+                                                                <li>
+                                                                    <label>Address <span class="required">*</span></label> 
+                                                                </li>
+                                                                <li>
+                                                                    <input required type="text" title="Street Address" name="address"
+                                                                        class="input-text">
+                                                                </li>  
+                                                                <li>
+                                                                    <label>City <span class="required">*</span></label> 
+                                                                </li>
+                                                                <li>
+                                                                    <input required type="text" title="city" name="city"
+                                                                        class="input-text">
+                                                                </li>
+                                                                <li>
+                                                                    <label>Email <span class="required">*</span></label> 
+                                                                </li>
+                                                                <li>
+                                                                    <input required type="email" title="email" name="email"
+                                                                        class="input-text">
+                                                                </li> 
+                                                                <li>
+                                                                    <label>Phone <span class="required">*</span></label> 
+                                                                </li>
+                                                                <li>
+                                                                    <input required type="text" title="phone" name="phone"
+                                                                        class="input-text">
+                                                                </li>
+                                                                <li>
+                                                                    <p class="require"><em class="required">* </em>Required Fields</p>
+                                                                    <button type="submit" class="button continue"  ><span>Save</span></button>
+                                                                </li>
+                                                                </form>
+
+                                                            <?php }
+                                                        ?>
+                                                        
                                                         {{-- <li>
                                                             <input type="checkbox" name="billing[save_in_address_book]"
                                                                 value="1" title="Save in address book" id="billing:save_in_address_book"
@@ -743,6 +794,12 @@
                                                         <col width="1">
                                                     </colgroup>
                                                     <thead>
+                                                        <?php
+                                                            if(isset($_COOKIE['C-D'])){ ?>
+                                                                <h1>Coupon Applied</h1>
+                                                            <?php }
+                                                        ?>
+                                                        
                                                         <tr class="first last">
                                                             <th rowspan="1">&nbsp;</th>
                                                             <th rowspan="1"><span class="nobr">Product Name</span></th>
@@ -765,7 +822,7 @@
                                                                     </a> </h2>
                                                             </td>
                                                             <td class="a-center"><a title="Edit item parameters" class="edit-bnt" href="#configure/id/15945/"></a></td>
-                                                            <td class="a-right"><span class="cart-price"> <span class="price">RS : <?php
+                                                            <td class="a-right"><span class="cart-price"> <span class="price">PKR : <?php
                                                             if($detail->product_discount == "") {
                                                                 echo $detail->product_sale_price;
                                                             }else{
@@ -777,7 +834,7 @@
                                                             <td class="a-center movewishlist">
                                                                 <?php echo $detail->quantity; ?>
                                                             </td>
-                                                            <td class="a-right movewishlist"><span class="cart-price">RS : <span class="price product_subtotal"><?php
+                                                            <td class="a-right movewishlist"><span class="cart-price">PKR : <span class="price product_subtotal"><?php
                                                              if($detail->product_discount == "") {
                                                                 echo $detail->product_sale_price * $detail->quantity ;
                                                             }else{
@@ -793,6 +850,7 @@
                                                     </tbody>
                                                 </table>
                                             </fieldset>
+                                            
                                             <h1 class = "grand_total"> </h1>
                                     {{-- {!! Form::open(['action' => "FormsController@place_order"]) !!} --}}
                                     <a href="/">Forgot an Item?</a> <br>

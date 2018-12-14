@@ -181,6 +181,50 @@
                 }
             });
 
+            //Add to cart fancy-box
+            $(document).on('click', '.fancybox_cart_button', function(){
+                var product_id = this.id;
+                var user_id = $('.user_id').val();
+                var quantity = $('.qty-fancy').val();
+                var thisRef = $(this);
+                $('.fancybox_cart_button').attr('disabled', 'disabled');
+                $('.fancybox_cart_button').text('PROCESSING');
+                if (product_id && quantity != 0) {
+                    showLoader();
+                    $.ajax({
+                        type: "POST",
+                        url: '/response_add_to_cart',
+                        data: {
+                            _token: '{!! csrf_token() !!}',
+                            product_id: product_id,
+                            user_id: user_id,
+                            quantity: quantity
+                        },
+                        success: function (response) {
+                            hideLoader();
+                            var result = JSON.parse(response);
+                            if (result == "success") {
+                                $('#productAdded').fadeIn();
+                                location.reload();
+                            } else if (result == "update success") {
+                                $('#productAdded').fadeIn();
+                                location.reload();
+                            } else if (result == "sorry message") {
+                                alert("Sorry this item is no longer available!");
+                            } else if (result == "failed") {
+                                alert("Failed");
+                            } else if (result == "limit exceed"){
+                                $('#limitExceed').fadeIn();
+                            }
+                            $('.fancybox_cart_button').removeAttr('disabled');
+                            $('.fancybox_cart_button').text('ADD TO CART');
+                        }
+                    });
+                }else{
+                    alert("Invalid information");
+                }
+            });
+
             //Add to wishlist
             $('.wishlist').click(function () {
                 var product_id = this.id;
@@ -342,7 +386,40 @@
             $('.product_subtotal').each(function() {
                 sum += Number($(this).text());
             });
-            $(".grand_total").text("PKR: " + sum); 
+            
+
+            //Set text on grand price Span
+            if(getCookie("C-D")){
+                var coupon = getCookie('C-D');
+                showLoader();
+                $.ajax({
+					type: "POST",
+					url: '/resonse_add_coupon',
+					data: {
+                        _token: '{!! csrf_token() !!}',
+                        coupon: coupon
+					},
+					success: function (response) {
+                        hideLoader();
+                        var result = JSON.parse(response);
+                        if (result == "failed") {
+                            alert('Coupon expire');
+                        } else {
+                            var array = result;
+                            $(result).each(function(i, item){
+                                if(item['status'] == "success"){
+                                    var total_after_coupon = sum - item['value'];
+                                    $(".grand_total").text("Grand Total - PKR: " + total_after_coupon);
+                                }
+                            });
+                        }
+					}
+				});
+                
+            }else{
+                $(".grand_total").text("PKR: " + sum);
+            }
+             
 
             //Update Cart
             $(document).on('click', '.update_cart', function () {
@@ -728,7 +805,7 @@
                                     _token: '{!! csrf_token() !!}'
                                 },
                                 success: function (response) {
-                                    console.log(response);
+                                    //console.log(response);
                                     var result = JSON.parse(response);
                                     if(result == "success"){
                                         location.reload();
@@ -762,6 +839,50 @@
                 $('.continue_checkout').hide();
                 $('#billing-new-address-form').show();
                }
+            });
+
+            //Add Coupon
+            $(document).on('click', '.btn_coupon_submit', function(){
+                if(!$('#coupon_code').val() == ""){
+                    var coupon = $('#coupon_code').val();
+                    showLoader();
+                    $.ajax({
+                        type: "POST",
+                        url: '/resonse_add_coupon',
+                        data: {
+                            _token: '{!! csrf_token() !!}',
+                            coupon: coupon
+                        },
+                        success: function (response) {
+                       // console.log(response);
+                            var result = JSON.parse(response);
+                             if(result == "failed"){
+                                hideLoader();
+                                $('.applied_failed').show();
+                                $('.applied_success').hide();
+                                $('.applied_failed').text('This coupon is invalid or deactivated by admin!');
+                            }else{
+                                var array = result;
+                                hideLoader();
+                                $(result).each(function(i, item){
+                                    if(item['status'] == "success"){
+                                        var g_total = $(".grand_total").html().split(" ");
+                                        var total_after_coupon = g_total[1] - item['value']
+                                        $('.applied_failed').hide();
+                                        $('.applied_success').show();
+                                        $('.applied_success').text('Coupon Applied successfully!');
+                                        document.cookie = "C-D=" + coupon + ";"  + ";path=/"
+                                        $('.final_price').text("PKR: " + total_after_coupon);
+                                    }
+                                });
+                            }	
+                        }
+                    });
+                }else{
+                    hideLoader();
+                    $('.applied_failed').show();
+                    $('.applied_failed').text('Please enter valid coupon!');
+                }
             });
 
             //save address and continue (Place Order Page)

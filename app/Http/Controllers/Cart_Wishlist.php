@@ -27,6 +27,7 @@ class Cart_Wishlist extends ParentController
      */
     public function cart(Request $request){
        // Cookie::queue(  Cookie::forget('PP') );
+       setcookie('C-D', "", time() - (86400 * 30), "/");
        //proceed to checkout
        setcookie('PP', "", time() - (86400 * 30), "/");
         if(!Auth::id()){
@@ -46,21 +47,13 @@ class Cart_Wishlist extends ParentController
             //Cookie::queue(  Cookie::forget('GI') );
             setcookie('GI', "", time() - (86400 * 30), "/");
         }
-        parent::navFunction();
 
-        // $latest_items = DB::table('product_core as pc')
-        //     ->selectRaw('id, product_name, product_thumbnail, product_discount,
-        //         (Select id from product_variants where product_id = pc.id)  as product_id,
-        //         (Select AVG(quality) from ratting where product_id = (Select id from product_variants where product_id = pc.id)) as average_rating,
-        //         (SELECT count(*) from product_variants where product_id = pc.id) as total_variants,
-        //         (Case when (SELECT count(*) from product_variants where product_id = pc.id) = 1 then (Select product_sale_price from product_variants where product_id = pc.id) Else NULL 
-        //                 End) as price')
-        //     ->limit(4)
-        //     ->orderBy('id', 'desc')
-        //     ->get();
+  
+        parent::navFunction();
 
             $core = DB::table('product_core')
             ->selectRaw('id, product_name, product_discount, product_thumbnail')
+            ->whereRaw('id IN (Select product_id from product_variants where is_active = 1) AND is_approved = 1')
             ->limit(4)
             ->orderBy('id', 'desc')
             ->get();
@@ -101,6 +94,7 @@ class Cart_Wishlist extends ParentController
 
     public function wishlist(Request $request){
        // Cookie::queue(  Cookie::forget('PP') );
+       setcookie('C-D', "", time() - (86400 * 30), "/");
        //proceed to checkout
        setcookie('PP', "", time() - (86400 * 30), "/");
         if(!Auth::id()){

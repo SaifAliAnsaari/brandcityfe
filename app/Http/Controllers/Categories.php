@@ -27,6 +27,7 @@ class Categories extends ParentController
      */
     public function categories($category_name)
     {
+        setcookie('C-D', "", time() - (86400 * 30), "/");
         //Cookie::queue(  Cookie::forget('PP') );
         //proceed to checkout
         setcookie('PP', "", time() - (86400 * 30), "/");
@@ -57,7 +58,7 @@ class Categories extends ParentController
  
         $core = DB::table('product_core')
             ->selectRaw('id, product_name, product_discount, product_thumbnail')
-            ->whereRaw('product_category_id = (SELECT id FROM product_categories WHERE category_name = "'.$category_name.'")')
+            ->whereRaw('product_category_id = (SELECT id FROM product_categories WHERE category_name = "'.$category_name.'") AND is_approved = 1')
             ->paginate(6);
 
         $variants = DB::table('product_variants as pv')
@@ -114,6 +115,7 @@ class Categories extends ParentController
     }
 
     public function categories_list($category_name){
+        setcookie('C-D', "", time() - (86400 * 30), "/");
        // Cookie::queue(  Cookie::forget('PP') );
        //proceed to checkout
        setcookie('PP', "", time() - (86400 * 30), "/");
@@ -144,7 +146,7 @@ class Categories extends ParentController
 
         $core = DB::table('product_core')
         ->selectRaw('id, product_name, product_discount, product_thumbnail, product_description')
-        ->whereRaw('product_category_id = (SELECT id FROM product_categories WHERE category_name = "'.$category_name.'")')
+        ->whereRaw('product_category_id = (SELECT id FROM product_categories WHERE category_name = "'.$category_name.'") AND is_approved = 1')
         ->paginate(6);
 
         $variants = DB::table('product_variants as pv')
@@ -200,6 +202,7 @@ class Categories extends ParentController
     }
 
     public function compare_products(Request $request){
+        setcookie('C-D', "", time() - (86400 * 30), "/");
         //Cookie::queue(  Cookie::forget('PP') );
         //proceed to checkout
         setcookie('PP', "", time() - (86400 * 30), "/");
@@ -270,6 +273,7 @@ class Categories extends ParentController
     }
 
     public function filter(Request $request){
+        setcookie('C-D', "", time() - (86400 * 30), "/");
         //Cookie::queue(  Cookie::forget('PP') );
         //proceed to checkout
         setcookie('PP', "", time() - (86400 * 30), "/");
@@ -306,7 +310,7 @@ class Categories extends ParentController
 
                 $core = DB::table('product_core as pc')
                 ->selectRaw('id, product_name, product_discount, product_thumbnail')
-                ->whereRaw('id IN (Select product_id from product_variants where product_sale_price  <= "'.$split_val[1].'" AND is_active > 0)  ')
+                ->whereRaw('id IN (Select product_id from product_variants where product_sale_price  <= "'.$split_val[1].'" AND is_active > 0) AND is_approved = 1 ')
                 ->paginate(6);
     
                 $variants = DB::table('product_variants as pv')
@@ -341,7 +345,7 @@ class Categories extends ParentController
             }else{
                 $core = DB::table('product_core as pc')
                 ->selectRaw('id, product_name, product_discount, product_thumbnail')
-                ->whereRaw('id IN (Select product_id from product_variants where product_sale_price  >= "'.$split_val[1].'" AND is_active > 0)  ')
+                ->whereRaw('id IN (Select product_id from product_variants where product_sale_price  >= "'.$split_val[1].'" AND is_active > 0) AND is_approved = 1 ')
                 ->paginate(3);
     
                 $variants = DB::table('product_variants as pv')
@@ -377,7 +381,7 @@ class Categories extends ParentController
         }else if($split_val[0] == 'brand'){
             $core = DB::table('product_core as pc')
                 ->selectRaw('id, product_name, product_discount, product_thumbnail')
-                ->whereRaw('id IN (Select product_id from product_variants where is_active > 0) AND product_brand = "'.$split_val[1].'" ')
+                ->whereRaw('id IN (Select product_id from product_variants where is_active > 0) AND product_brand = "'.$split_val[1].'" AND is_approved = 1 ')
                 ->paginate(3);
     
                 $variants = DB::table('product_variants as pv')
@@ -412,7 +416,7 @@ class Categories extends ParentController
         }else if($split_val[0] == 'color'){
             $core = DB::table('product_core as pc')
             ->selectRaw('id, product_name, product_discount, product_thumbnail')
-            ->whereRaw('id IN (Select product_id from product_variants where product_color = "'.$split_val[1].'" AND is_active > 0) ')
+            ->whereRaw('id IN (Select product_id from product_variants where product_color = "'.$split_val[1].'" AND is_active > 0) AND is_approved = 1 ')
             ->paginate(3);
 
             $variants = DB::table('product_variants as pv')
@@ -462,7 +466,7 @@ class Categories extends ParentController
         }else if($split_val[0] == 'discount'){
             $core = DB::table('product_core as pc')
                 ->selectRaw('id, product_name, product_discount, product_thumbnail')
-                ->whereRaw('id IN (Select product_id from product_variants where is_active > 0) AND product_discount <= "'.$split_val[1].'" ')
+                ->whereRaw('id IN (Select product_id from product_variants where is_active > 0) AND product_discount <= "'.$split_val[1].'" AND is_approved = 1 ')
                 ->paginate(3);
     
                 $variants = DB::table('product_variants as pv')
@@ -502,6 +506,7 @@ class Categories extends ParentController
     }
 
     public function filter_list(Request $request){
+        setcookie('C-D', "", time() - (86400 * 30), "/");
         //Cookie::queue(  Cookie::forget('PP') );
         //proceed to checkout
         setcookie('PP', "", time() - (86400 * 30), "/");
@@ -538,7 +543,7 @@ class Categories extends ParentController
 
                 $core = DB::table('product_core as pc')
                 ->selectRaw('id, product_name, product_discount, product_thumbnail, product_description')
-                ->whereRaw('id IN (Select product_id from product_variants where product_sale_price  <= "'.$split_val[1].'" AND is_active > 0)  ')
+                ->whereRaw('id IN (Select product_id from product_variants where product_sale_price  <= "'.$split_val[1].'" AND is_active > 0) AND is_approved = 1 ')
                 ->paginate(6);
     
                 $variants = DB::table('product_variants as pv')
@@ -574,7 +579,7 @@ class Categories extends ParentController
             }else{
                 $core = DB::table('product_core as pc')
                 ->selectRaw('id, product_name, product_discount, product_thumbnail, product_description')
-                ->whereRaw('id IN (Select product_id from product_variants where product_sale_price  >= "'.$split_val[1].'" AND is_active > 0)  ')
+                ->whereRaw('id IN (Select product_id from product_variants where product_sale_price  >= "'.$split_val[1].'" AND is_active > 0) AND is_approved = 1 ')
                 ->paginate(3);
     
                 $variants = DB::table('product_variants as pv')
@@ -613,7 +618,7 @@ class Categories extends ParentController
         }else if($split_val[0] == 'brand'){
             $core = DB::table('product_core as pc')
                 ->selectRaw('id, product_name, product_discount, product_thumbnail, product_description')
-                ->whereRaw('id IN (Select product_id from product_variants where is_active > 0) AND product_brand = "'.$split_val[1].'" ')
+                ->whereRaw('id IN (Select product_id from product_variants where is_active > 0) AND product_brand = "'.$split_val[1].'" AND is_approved = 1 ')
                 ->paginate(3);
     
                 $variants = DB::table('product_variants as pv')
@@ -649,7 +654,7 @@ class Categories extends ParentController
         }else if($split_val[0] == 'color'){
             $core = DB::table('product_core as pc')
             ->selectRaw('id, product_name, product_discount, product_thumbnail, product_description')
-            ->whereRaw('id IN (Select product_id from product_variants where product_color = "'.$split_val[1].'" AND is_active > 0) ')
+            ->whereRaw('id IN (Select product_id from product_variants where product_color = "'.$split_val[1].'" AND is_active > 0) AND is_approved = 1 ')
             ->paginate(3);
 
             $variants = DB::table('product_variants as pv')
@@ -685,7 +690,7 @@ class Categories extends ParentController
         }else if($split_val[0] == 'discount'){
             $core = DB::table('product_core as pc')
                 ->selectRaw('id, product_name, product_discount, product_thumbnail, product_description')
-                ->whereRaw('id IN (Select product_id from product_variants where is_active > 0) AND product_discount <= "'.$split_val[1].'" ')
+                ->whereRaw('id IN (Select product_id from product_variants where is_active > 0) AND product_discount <= "'.$split_val[1].'" AND is_approved = 1')
                 ->paginate(3);
     
                 $variants = DB::table('product_variants as pv')

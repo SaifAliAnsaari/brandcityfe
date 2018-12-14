@@ -291,46 +291,47 @@
                         <li><a data-toggle="tab" href="#tab-3">Computer</a> </li>
                         <li><a data-toggle="tab" href="#tab-4">TV & Audio</a> </li>
                         <li><a data-toggle="tab" href="#tab-5">Accessories</a> </li> --}}
-                        <?php 
-                           
-                        ?>
+                        
                         <?php
-                            if(empty($latest_cat)){
-
-                            }else{
+                       // print_r(sizeof($custom_cat_1)); die;
+                            if(!sizeof($custom_cat_names) == 1){
+                                
+                            }else{ 
                                 $test = array(); 
                                 $counter = 0;
-                                foreach ($latest_cat as $data) { 
-                                    $test[$counter] = $data['name'];
+                                 
+                                foreach ($custom_cat_names as $data) { 
+                                    $test[$counter] = $data->category_name;
                                     $counter++;
                                 }
+
+                                 if(sizeof($test) == 1){ ?>
+                                <li class="active"><a data-toggle="tab" href="#tab-1"><?= $test[0]; ?></a> </li>
+                                <?php }else if(sizeof($test) == 2){ ?>
+                                    <li class="active"><a data-toggle="tab" href="#tab-1"><?= $test[0]; ?></a> </li>
+                                    <li><a data-toggle="tab" href="#tab-2"><?= $test[1]; ?></a> </li>
+                                <?php }else if(sizeof($test) == 3){ ?>
+                                    <li class="active"><a data-toggle="tab" href="#tab-1"><?= $test[0]; ?></a> </li>
+                                    <li><a data-toggle="tab" href="#tab-2"><?= $test[1]; ?></a> </li>
+                                    <li><a data-toggle="tab" href="#tab-3"><?= $test[2]; ?></a> </li>
+                                <?php }else if(sizeof($test) == 4){ ?>
+                                    <li class="active"><a data-toggle="tab" href="#tab-1"><?= $test[0]; ?></a> </li>
+                                    <li><a data-toggle="tab" href="#tab-2"><?= $test[1]; ?></a> </li>
+                                    <li><a data-toggle="tab" href="#tab-3"><?= $test[2]; ?></a> </li>
+                                    <li><a data-toggle="tab" href="#tab-4"><?= $test[3]; ?></a> </li>
+                                <?php }
                                 
                             }
-                            //echo sizeof($test);
+                             
                         ?>
-                        <?php
-                            if(sizeof($test) == 1){ ?>
-                                <li class="active"><a data-toggle="tab" href="#tab-1"><?= $test[0]; ?></a> </li>
-                            <?php }else if(sizeof($test) == 2){ ?>
-                                <li class="active"><a data-toggle="tab" href="#tab-1"><?= $test[0]; ?></a> </li>
-                                <li><a data-toggle="tab" href="#tab-2"><?= $test[1]; ?></a> </li>
-                            <?php }else if(sizeof($test) == 3){ ?>
-                                <li class="active"><a data-toggle="tab" href="#tab-1"><?= $test[0]; ?></a> </li>
-                                <li><a data-toggle="tab" href="#tab-2"><?= $test[1]; ?></a> </li>
-                                <li><a data-toggle="tab" href="#tab-3"><?= $test[2]; ?></a> </li>
-                            <?php }else if(sizeof($test) == 4){ ?>
-                                <li class="active"><a data-toggle="tab" href="#tab-1"><?= $test[0]; ?></a> </li>
-                                <li><a data-toggle="tab" href="#tab-2"><?= $test[1]; ?></a> </li>
-                                <li><a data-toggle="tab" href="#tab-3"><?= $test[2]; ?></a> </li>
-                                <li><a data-toggle="tab" href="#tab-4"><?= $test[3]; ?></a> </li>
-                            <?php }
-                        ?>
+                        
                         
                        
                         
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
+                
 
             </div>
             <div class="product-bestseller">
@@ -344,10 +345,10 @@
                                     <ul class="products-grid">
                                             <?php
                                
-                                            if($new_pro_1->isEmpty()){
+                                            if(!sizeof($custom_cat_1) == 1 ){
             
                                             }else{
-                                                foreach($new_pro_1 as $product){
+                                                foreach($custom_cat_1 as $product){
                                                     //echo $product->product_id;
                                                  ?>
                                                    <li class="item col-lg-3 col-md-3 col-sm-4 col-xs-6">
@@ -447,10 +448,10 @@
                                     <ul class="products-grid">
                                             <?php
                                
-                                            if($new_pro_2->isEmpty()){
+                                            if(!sizeof($custom_cat_2) == 1){
             
                                             }else{
-                                                foreach($new_pro_2 as $product){
+                                                foreach($custom_cat_2 as $product){
                                                  ?>
                                                              <li class="item col-lg-3 col-md-3 col-sm-4 col-xs-6">
                                                                     <div class="item-inner">
@@ -549,10 +550,10 @@
                                     <ul class="products-grid">
                                             <?php
                                
-                                            if($new_pro_3->isEmpty()){
+                                            if(!sizeof($custom_cat_3) == 1){
             
                                             }else{
-                                                foreach($new_pro_3 as $product){
+                                                foreach($custom_cat_3 as $product){
                                                     
                                                 
                                                  ?>
@@ -653,10 +654,10 @@
                                     <ul class="products-grid">
                                             <?php
                                
-                                            if($new_pro_4->isEmpty()){
+                                            if(!sizeof($custom_cat_4) == 1){
             
                                             }else{
-                                                foreach($new_pro_4 as $product){
+                                                foreach($custom_cat_4 as $product){
                                                     
                                                 
                                                  ?>

@@ -419,18 +419,47 @@ class AjaxController extends Controller
         
     }
 
+    public function resonse_add_coupon(Request $request){
+        $check_validity = DB::table('discount_coupons')
+            ->select('value')
+            ->whereRaw('coupon = "'.$request->coupon.'" AND active = 1 AND usage_limit_remaining > 0')
+            ->first();
+        $array = array();
+        if($check_validity){
+            print_r(json_encode($array[] = array('status' => 'success' ,'value' => $check_validity->value)));
+        }else{
+            echo json_encode('failed');
+        }
+    }
+
+   
+
     public function resonse_place_order(Request $request){
         //echo json_encode($request->address. " - " .$request->shipping_charges ." - " .$request->payment_method);
         if(Auth::id()){
-            $insert = DB::table('orders')->insertGetId([
-                'customer_id' => Auth::id(),
-                'delivery_address' => $request->address,
-                'customer_type' => "registered",
-                'delivery_charges' => $request->shipping_charges,
-                'payment_method' => $request->payment_method
-            ]);
+
+            if($_COOKIE['C-D']){
+                $insert = DB::table('orders')->insertGetId([
+                    'customer_id' => Auth::id(),
+                    'delivery_address' => $request->address,
+                    'customer_type' => "registered",
+                    'delivery_charges' => $request->shipping_charges,
+                    'payment_method' => $request->payment_method,
+                    'discount_coupon' => $_COOKIE['C-D'],
+                    'discount_coupon_price' => DB::raw('(Select value from discount_coupons where coupon = "'.$_COOKIE['C-D'].'")')
+                ]);
+            }else{
+                $insert = DB::table('orders')->insertGetId([
+                    'customer_id' => Auth::id(),
+                    'delivery_address' => $request->address,
+                    'customer_type' => "registered",
+                    'delivery_charges' => $request->shipping_charges,
+                    'payment_method' => $request->payment_method
+                ]);
+            }
+            
             if($insert){
-                //echo json_encode($insert); die;
+               
                 $select_cart = DB::table('cart')
                 ->whereRaw('customer_id = "'.Auth::id().'" AND is_active = "1" ')
                 ->get();
@@ -466,6 +495,11 @@ class AjaxController extends Controller
                 }
 
                 if($update_products){
+                    if($_COOKIE['C-D']){
+                        $update_coupon_tab = DB:: table('discount_coupons as dc')
+                        ->where('coupon', '=', $_COOKIE['C-D'])
+                        ->update(['usage_limit_remaining' => DB::raw('(Select usage_limit_remaining where coupon = "'.$_COOKIE["C-D"].'") - 1' )]);
+                    }
                     echo json_encode('success');
                     //Cookie::queue(  Cookie::forget('PP') );
                     //return redirect()->back()->with('success', 'Order placed successfully!'); 
@@ -477,15 +511,28 @@ class AjaxController extends Controller
                 echo json_encode('failed');
             }
         }else{
-            $insert = DB::table('orders')->insertGetId([
-                'customer_id' => DB::raw('(Select id from guest_info where session = "'.$_COOKIE['GI'].'")'),
-                'delivery_address' => $request->address,
-                'customer_type' => "guest",
-                'delivery_charges' => $request->shipping_charges,
-                'payment_method' => $request->payment_method
-            ]);
+            if($_COOKIE['C-D']){
+                $insert = DB::table('orders')->insertGetId([
+                    'customer_id' => DB::raw('(Select id from guest_info where session = "'.$_COOKIE['GI'].'")'),
+                    'delivery_address' => $request->address,
+                    'customer_type' => "guest",
+                    'delivery_charges' => $request->shipping_charges,
+                    'payment_method' => $request->payment_method,
+                    'discount_coupon' => $_COOKIE['C-D'],
+                    'discount_coupon_price' => DB::raw('(Select value from discount_coupons where coupon = "'.$_COOKIE['C-D'].'")')
+                ]);
+            }else{
+                $insert = DB::table('orders')->insertGetId([
+                    'customer_id' => DB::raw('(Select id from guest_info where session = "'.$_COOKIE['GI'].'")'),
+                    'delivery_address' => $request->address,
+                    'customer_type' => "guest",
+                    'delivery_charges' => $request->shipping_charges,
+                    'payment_method' => $request->payment_method
+                ]);
+            }
+            
             if($insert){
-                //$insert->id;
+
                 $select_cart = DB::table('cart')
                 ->whereRaw('customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'") AND is_active = "1" ')
                 ->get();
@@ -517,8 +564,16 @@ class AjaxController extends Controller
                             ->whereRaw('customer_id = (Select id from guest_info where session = "'.$_COOKIE['GI'].'")')
                             ->update(['is_active' => '0']);
                     }
+                    
+
                 }
                 if($update_products){
+                    if($_COOKIE['C-D']){
+                        $update_coupon_tab = DB:: table('discount_coupons as dc')
+                        ->where('coupon', '=', $_COOKIE['C-D'])
+                        ->update(['usage_limit_remaining' => DB::raw('(Select usage_limit_remaining where coupon = "'.$_COOKIE["C-D"].'") - 1' )]);
+                    }
+                    
                     echo json_encode('success');
                     //Cookie::queue(  Cookie::forget('PP') );
                     //return redirect()->back()->with('success', 'Order placed successfully!'); 
@@ -531,5 +586,6 @@ class AjaxController extends Controller
             }
         }
     }
+    
 
 }

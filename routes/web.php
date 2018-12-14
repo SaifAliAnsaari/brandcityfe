@@ -58,6 +58,7 @@ Route::get('/contact_us', 'Other_links@contact_us')->name('contact_us');
 Route::get('/faq', 'Other_links@faq')->name('faq');
 Route::get('/orders', 'Other_links@orders')->name('orders');
 Route::get('/view_order/{order_id}', 'Other_links@view_order')->name('view_order');
+Route::get('/error', 'Other_links@error')->name('error');
 
 //Ajax Calls
 Route::post('response_add_to_cart', 'AjaxController@response_add_to_cart');
@@ -74,6 +75,8 @@ Route::post('resonse_compare_products', 'AjaxController@compare_products');
 Route::post('response_update_cart', 'AjaxController@response_update_cart');
 Route::post('resonse_proceed_to_checkout', 'AjaxController@resonse_proceed_to_checkout');
 Route::post('resonse_place_order', 'AjaxController@resonse_place_order');
+Route::post('resonse_add_coupon', 'AjaxController@resonse_add_coupon');
+Route::post('coupon_val', 'AjaxController@coupon_val');
 
 //Newsletter subscription 
 Route::post('newsletter', 'HomeController@newsletter');
@@ -85,5 +88,6 @@ Route::post('contact_info', 'FormsController@contact_info');
 Route::post('billing_address', 'FormsController@billing_address');
 Route::post('manage_address', 'FormsController@manage_address');
 Route::post('save_address_checkout', 'FormsController@save_address_checkout');
+Route::post('save_address_checkout_guest', 'FormsController@save_address_checkout_guest');
 Route::post('place_order', 'FormsController@place_order');
 Route::post('contact', 'FormsController@contact');

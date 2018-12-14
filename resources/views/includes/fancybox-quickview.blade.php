@@ -60,30 +60,44 @@
                                             <div class="custom pull-left">
                                                 <input hidden class = "product_discount_hidden" type = "text"  />
                                                 <input class = "qty" type = "text" value = "1" hidden/>
-                                                {{-- <button onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 0 ) result.value--;return false;"
+                                                <button onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 0 ) result.value--;return false;"
                                                     class="reduced items-count" type="button"><i class="fa fa-minus">&nbsp;</i></button>
-                                                <input type="text" class="input-text qty" title="Qty" value="1"
+                                                <input type="text" class="input-text qty-fancy" title="Qty" value="1" style = "width:35px;"
                                                     maxlength="12" id="qty" name="qty">
                                                 <button onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;"
-                                                    class="increase items-count" type="button"><i class="fa fa-plus">&nbsp;</i></button> --}}
+                                                    class="increase items-count" type="button"><i class="fa fa-plus">&nbsp;</i></button>
                                             </div>
                                         </div>
-                                        <button id="addToCartBtn" class="button btn-cart fancybox_cart_button"
-                                            title="Add to Cart" type="button">
+                                        <button id="addToCartBtn" class="button fancybox_cart_button"
+                                            title="Add to Cart" type="button" style="background-color:gold; color:white">
                                             <span id="addToCartText">Add to Cart</span>
                                         </button>
+
+                                        <ul class="add-to-links">
+                                                <li> <a class="link-wishlist wishlist" id = ""><span>Add to Wishlist</span></a></li>
+                                                <li><span class="separator">|</span> <a class="link-compare compare_product" id = ""><span>Add
+                                                            to Compare</span></a></li>
+                                                
+                                        </ul>
                                     </div>
-                                    <div class="email-addto-box">
+
+                                    <div class = "row" style = "margin-right:auto; margin-left:auto;">
+                                            
+                                       <select class="form-control select_size" >
+                                            {{-- <option id = "1" class = "price" >size</option> --}}
+                                            </select>
+                                    </div>
+
+
+                                    {{-- <div class="email-addto-box">
                                         <ul class="add-to-links">
                                             <li> <a class="link-wishlist wishlist" id = ""><span>Add to Wishlist</span></a></li>
                                             <li><span class="separator">|</span> <a class="link-compare compare_product" id = ""><span>Add
                                                         to Compare</span></a></li>
                                             <li><select class="form-control select_size" >
-                                                {{-- <option id = "1" class = "price" >size</option> --}}
-                                            </select> </li>
+                                             </select> </li>
                                         </ul>
-                                        <p class="email-friend"><a href="#" class=""><span>Email to a Friend</span></a></p>
-                                    </div>
+                                      </div> --}}
                                 </div>
                             </div>
                         </form>

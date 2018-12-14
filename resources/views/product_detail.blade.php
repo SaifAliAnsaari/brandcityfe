@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('content')
+
 @if (\Session::has('success'))
     <div class="alert alert-success">
         <ul>
@@ -14,6 +15,8 @@
         </ul>
     </div>
 @endif
+
+
 <!-- Breadcrumbs -->
 <div class="breadcrumbs">
     <div class="container">
@@ -40,6 +43,7 @@
 <?php }else { ?>
 <input type="text" value="guest_user" name ="user_id" class="user_id" hidden>
 <?php } 
+   
 ?>
 <div class="container">
         <div class="row">

@@ -26,6 +26,7 @@ class Other_links extends ParentController
      * @return \Illuminate\Http\Response
      */
     public function blog(){
+        setcookie('C-D', "", time() - (86400 * 30), "/");
         //Cookie::queue(  Cookie::forget('PP') );
         //proceed to checkout
         setcookie('PP', "", time() - (86400 * 30), "/");
@@ -52,6 +53,7 @@ class Other_links extends ParentController
     }
 
     public function blog_post(){
+        setcookie('C-D', "", time() - (86400 * 30), "/");
        // Cookie::queue(  Cookie::forget('PP') );
        //proceed to checkout
        setcookie('PP', "", time() - (86400 * 30), "/");
@@ -78,6 +80,7 @@ class Other_links extends ParentController
     }
 
     public function about_us(){
+        setcookie('C-D', "", time() - (86400 * 30), "/");
         //Cookie::queue(  Cookie::forget('PP') );
         //proceed to checkout
         setcookie('PP', "", time() - (86400 * 30), "/");
@@ -104,6 +107,7 @@ class Other_links extends ParentController
     }
 
     public function site_map(){
+        setcookie('C-D', "", time() - (86400 * 30), "/");
        // Cookie::queue(  Cookie::forget('PP') );
        //proceed to checkout
        setcookie('PP', "", time() - (86400 * 30), "/");
@@ -130,6 +134,7 @@ class Other_links extends ParentController
     }
 
     public function contact_us(){
+        setcookie('C-D', "", time() - (86400 * 30), "/");
        // Cookie::queue(  Cookie::forget('PP') );
        //proceed to checkout
        setcookie('PP', "", time() - (86400 * 30), "/");
@@ -156,6 +161,7 @@ class Other_links extends ParentController
     }
 
     public function faq(){
+        setcookie('C-D', "", time() - (86400 * 30), "/");
        // Cookie::queue(  Cookie::forget('PP') );
        //proceed to checkout
        setcookie('PP', "", time() - (86400 * 30), "/");
@@ -181,7 +187,33 @@ class Other_links extends ParentController
         'nav_links' => $this->navigationData]);
     }
 
+    public function error(){
+        setcookie('C-D', "", time() - (86400 * 30), "/");
+        setcookie('PP', "", time() - (86400 * 30), "/");
+        if(!Auth::id()){
+            if(isset($_COOKIE['GI'])){ 
+            }else{
+                $random_token = $this->random_string(50);
+                $insert_token = DB::table('guest_info')->insert([
+                    ['session' => $random_token,
+                    'guest_ip' => $request->ip()]
+                ]);
+                if($insert_token){
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                }
+            }
+        }else{
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
+        }
+        parent::navFunction();
+        return view ('error/error', ['cart_detail' => $this->get_cart_items_detail, 'all_product_cats' => $this->get_all_productCats,
+        'nav_links' => $this->navigationData]);
+    }
+
     public function orders(){
+        setcookie('C-D', "", time() - (86400 * 30), "/");
         //Cookie::queue(  Cookie::forget('PP') );
         //proceed to checkout
         setcookie('PP', "", time() - (86400 * 30), "/");
@@ -224,6 +256,7 @@ class Other_links extends ParentController
     }
 
     public function view_order($order_id){
+        setcookie('C-D', "", time() - (86400 * 30), "/");
        // Cookie::queue(  Cookie::forget('PP') );
        //proceed to checkout
        setcookie('PP', "", time() - (86400 * 30), "/");
