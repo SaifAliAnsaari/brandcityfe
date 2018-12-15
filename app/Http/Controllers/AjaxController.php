@@ -438,7 +438,7 @@ class AjaxController extends Controller
         //echo json_encode($request->address. " - " .$request->shipping_charges ." - " .$request->payment_method);
         if(Auth::id()){
 
-            if($_COOKIE['C-D']){
+            if(isset($_COOKIE['C-D'])){
                 $insert = DB::table('orders')->insertGetId([
                     'customer_id' => Auth::id(),
                     'delivery_address' => $request->address,
@@ -495,7 +495,7 @@ class AjaxController extends Controller
                 }
 
                 if($update_products){
-                    if($_COOKIE['C-D']){
+                    if(isset($_COOKIE['C-D'])){
                         $update_coupon_tab = DB:: table('discount_coupons as dc')
                         ->where('coupon', '=', $_COOKIE['C-D'])
                         ->update(['usage_limit_remaining' => DB::raw('(Select usage_limit_remaining where coupon = "'.$_COOKIE["C-D"].'") - 1' )]);
@@ -511,7 +511,7 @@ class AjaxController extends Controller
                 echo json_encode('failed');
             }
         }else{
-            if($_COOKIE['C-D']){
+            if(isset($_COOKIE['C-D'])){
                 $insert = DB::table('orders')->insertGetId([
                     'customer_id' => DB::raw('(Select id from guest_info where session = "'.$_COOKIE['GI'].'")'),
                     'delivery_address' => $request->address,
@@ -568,7 +568,7 @@ class AjaxController extends Controller
 
                 }
                 if($update_products){
-                    if($_COOKIE['C-D']){
+                    if(isset($_COOKIE['C-D'])){
                         $update_coupon_tab = DB:: table('discount_coupons as dc')
                         ->where('coupon', '=', $_COOKIE['C-D'])
                         ->update(['usage_limit_remaining' => DB::raw('(Select usage_limit_remaining where coupon = "'.$_COOKIE["C-D"].'") - 1' )]);
