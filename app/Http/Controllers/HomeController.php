@@ -561,8 +561,10 @@ class HomeController extends ParentController
         $variants = DB::table('product_variants as pv')
             ->selectRaw('id, product_id, product_sale_price, product_color, product_size,
                 (Select AVG(quality) from ratting where product_id = pv.product_id) as ratting')
-            ->whereRaw('product_id IN (Select id from product_core where product_sku = (Select sku from campaign_products where campaign_id = "'.$campaign_id.'") )')
+            ->whereRaw('product_id IN (Select id from product_core where product_sku IN (Select sku from campaign_products where campaign_id = "'.$campaign_id.'") )')
             ->get();
+
+           // echo "<pre>"; print_r($variants); die;
 
         $products = array();
         $counter = 0;
@@ -587,6 +589,8 @@ class HomeController extends ParentController
             $products[$counter]["variants"] = $v_products;
             $counter ++;
         }
+
+        //echo "<pre>"; print_r($products); die;
 
         return view ('campaigns/campaigns_list', ['cart_detail' => $this->get_cart_items_detail, "brands" => $get_brands, 
                 "colors" => $get_colors, 'all_product_cats' => $this->get_all_productCats, 'nav_links' => $this->navigationData,
