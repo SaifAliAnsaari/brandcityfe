@@ -1041,6 +1041,10 @@
                 $('.search_dropdown_list').fadeOut();
             });
 
+            if($('.hidden_input_for_size').val() == "null"){
+                $('.select_size_detail_page').hide();
+            }
+
         });
 
         function showLoader(){

@@ -223,7 +223,7 @@
                   <div class="toolbar">
                   <div class="row">
                     <div class="col-lg-3 col-md-4">
-                      <div id="sort-by">
+                      {{-- <div id="sort-by">
                         <label class="left">Sort By: </label>
                         <ul>
                           <li><a href="#">Position<span class="right-arrow"></span></a>
@@ -234,7 +234,7 @@
                             </ul>
                           </li>
                         </ul>
-                      </div>
+                      </div> --}}
                     </div>
                     <div class="col-lg-6 col-sm-7 col-md-5">
                       <div class="pager">
@@ -285,7 +285,7 @@
                       </div>
                     </div>
                     <div class="col-lg-3 col-sm-12 col-md-3">
-                      <div id="limiter">
+                      {{-- <div id="limiter">
                         <label>View: </label>
                         <ul>
                           <li><a href="#">09<span class="right-arrow"></span></a>
@@ -297,7 +297,8 @@
                             </ul>
                           </li>
                         </ul>
-                        <a class="button-asc left" href="#" title="Set Descending Direction"><span class="top_arrow"></span></a> </div>
+                        <a class="button-asc left" href="#" title="Set Descending Direction"><span class="top_arrow"></span></a> 
+                        </div> --}}
                     </div>
                   </div>
                 </div>

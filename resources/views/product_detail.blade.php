@@ -265,11 +265,14 @@
                                                     ?>
                                                 
                                                 
-                                                <li><select class="form-control select_size" >
+                                                <li><select class="form-control select_size select_size_detail_page" >
                                                 <?php 
-                                                    foreach($availability as $size){ ?>
+                                                    foreach($availability as $size){ 
+                                                        if(empty($size->product_size)){ ?>
+                                                            <input class = "hidden_input_for_size" type = "text" value = "null" hidden/>
+                                                        <?php }else{?>
                                                         <option id = "<?= $size->id ?>" class = "<?= $size->product_sale_price ?>" ><?= $size->product_size ?></option>
-                                                    <?php }
+                                                    <?php } }
                                                 ?>
                                                  </select> </li>
                                                 
