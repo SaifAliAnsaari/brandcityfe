@@ -73,8 +73,10 @@ class HomeController extends ParentController
        
         $featured_core = DB::table('product_core as pc')
             ->selectRaw('id, product_name, product_discount, product_thumbnail')
-            ->whereRaw('product_sku IN (Select sku from featured_products) AND (Select is_active from product_variants where product_id = pc.id) = 1 AND is_approved = 1')
+            //->whereRaw('product_sku IN (Select sku from featured_products) AND (Select is_active from product_variants where product_id = pc.id) = 1 AND is_approved = 1')
+            ->whereRaw('product_sku IN (Select sku from featured_products) AND id IN (Select product_id from product_variants where is_active = 1) AND is_approved = 1')
             ->get(); 
+            //echo "<pre>"; print_r($featured_core); die;
         $featured_variants = DB::table('product_variants as pv')
             ->selectRaw('id, product_id, product_sale_price, product_color, product_size,
                 (Select AVG(quality) from ratting where product_id = pv.product_id) as ratting')
@@ -102,7 +104,7 @@ class HomeController extends ParentController
             $featured_products[$counter]["variants"] = $v_products;
             $counter ++;
         }
-        //echo "<pre>"; print_r($featured_products); die;
+       // echo "<pre>"; print_r($featured_products); die;
 
         $top_three_products = DB::table('quick_products as qp')
         ->selectRaw('custom_banner, product_id')

@@ -121,7 +121,7 @@
                                                                 class="product-image"><img src="
                                                         <?= Config::get('constants.options.product_img_host_url').$category_data[$j]["image"] ?>
                                                         " alt="Retis lapen casen" style="width: 200px; height: 300px;"></a>
-                                                            <div class="new-label new-top-left">New</div>
+                                                            {{-- <div class="new-label new-top-left">New</div> --}}
                                                             <div class="box-hover">
                                                                 <ul class="add-to-links">
                                                                     <li><a class="link-quickview quickViewModal" id = "<?= $category_data[$j]["id"] ?>">Quick View</a>

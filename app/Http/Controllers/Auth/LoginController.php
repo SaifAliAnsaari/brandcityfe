@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ParentController;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
 
 class LoginController extends ParentController
 {
@@ -38,15 +37,6 @@ class LoginController extends ParentController
     {
         // $this->navFunction();
         $this->middleware('guest')->except('logout');
-    }
-
-    public function authenticated(Request $request, $user)
-    {
-        if (!$user->verified) {
-            auth()->logout();
-            return back()->with('warning', 'You need to confirm your account. We have sent you an activation code, please check your email.');
-        }
-        return redirect()->intended($this->redirectPath());
     }
 
     public function showLoginForm(){
