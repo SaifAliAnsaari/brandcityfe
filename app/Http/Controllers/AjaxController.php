@@ -118,21 +118,63 @@ class AjaxController extends Controller
                         }else{
                             echo json_encode("failed");
                         }  
-                    }else{
-                       $new_quantity = $check_if_product_exist->quantity + $request->quantity;
-                       $update_cart = DB::table('cart')
-                       ->where('customer_id', $request->user_id)->where('product_id', $request->product_id)
-                       ->update(['quantity' => $new_quantity]);
-                       if($update_cart){
-                            echo json_encode('update success');
-                       }else{
-                           echo json_encode('failed');
-                       }
+                    } else{
+                        $new_quantity = $check_if_product_exist->quantity + $request->quantity;
+                       $check_limit_exceed = DB::table('product_variants as pv')
+                        ->select('product_quantity')
+                        ->where('id', '=', $request->product_id)
+                        ->first();
+
+                        if($new_quantity > $check_limit_exceed->product_quantity){
+                            echo json_encode('limit exceed');
+                        }else{
+                            $update_cart = DB::table('cart')
+                            ->where('customer_id', $request->user_id)->where('product_id', $request->product_id)
+                            ->update(['quantity' => $new_quantity]);
+                            if($update_cart){
+                                    echo json_encode('update success');
+                            }else{
+                                echo json_encode('failed');
+                            }
+                        }
+
+
+                      // $new_quantity = $check_if_product_exist->quantity + $request->quantity;
+                      
                     }
                 }else{
                     //Sorry this item is no longer available.
                     echo json_encode("sorry message");
                 }
+
+                // if($check_product_active->is_active > 0){
+                //     //check if product already exist
+                //     $check_if_product_exist = DB::table('cart')->whereRaw('customer_id = "'.$request->user_id.'" AND is_active = 1 AND product_id = '.$request->product_id)->first(); 
+                //     if(empty($check_if_product_exist)){
+                //         $insert_to_cart = DB::table('cart')->insert([
+                //         ['customer_id' => $request->user_id, 'customer_type' => 'logged in user', 'product_id' => $request->product_id,
+                //         'quantity' => $request->quantity, 'is_active' => 1]
+                //         ]);
+                //         if($insert_to_cart){
+                //             echo json_encode("success");
+                //         }else{
+                //             echo json_encode("failed");
+                //         }  
+                //     }else{
+                //        $new_quantity = $check_if_product_exist->quantity + $request->quantity;
+                //        $update_cart = DB::table('cart')
+                //        ->where('customer_id', $request->user_id)->where('product_id', $request->product_id)
+                //        ->update(['quantity' => $new_quantity]);
+                //        if($update_cart){
+                //             echo json_encode('update success');
+                //        }else{
+                //            echo json_encode('failed');
+                //        }
+                //     }
+                // }else{
+                //     //Sorry this item is no longer available.
+                //     echo json_encode("sorry message");
+                // }
 
             }
              
