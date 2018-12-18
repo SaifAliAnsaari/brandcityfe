@@ -139,12 +139,12 @@
                                                             if(empty($availability[0]->product_sale_price)){
                                                                 echo "Incomplete information of this product";
                                                             }else{
-                                                                echo "PKR: ".$availability[0]->product_sale_price;
+                                                                echo "PKR: ".number_format($availability[0]->product_sale_price);
                                                             }
                                                         }else{
                                                             $total_price = $availability[0]->product_sale_price;
-                                                            $discount = $total_price - (($product_core->product_discount / 100) * $total_price);
-                                                            echo "PKR: ".$discount;
+                                                            $discount = $total_price - $product_core->product_discount;
+                                                            echo "PKR: ".number_format($discount);
                                                         }
                                                     ?>
                                                 </span> </p>
@@ -155,7 +155,7 @@
                                                         if(empty($product_core->product_discount)){
                                                             
                                                         }else{
-                                                            echo "PKR: ".$availability[0]->product_sale_price;
+                                                            echo "PKR: ".number_format($availability[0]->product_sale_price);
                                                         }
                                                     ?>
                                                 </span> </p>
@@ -866,7 +866,7 @@
                             <div class="item-inner">
                                 <div class="item-img">
                                     <div class="item-img-info"> <a class="product-image" title="Retis lapen casen" href="/product_detail/<?= $products["id"] ?>">
-                                            <img alt="Retis lapen casen" src="<?= Config::get('constants.options.product_img_host_url').$products["image"] ?>">
+                                            <img alt="Retis lapen casen" src="<?= Config::get('constants.options.product_img_host_url').$products["image"] ?>" style="height: 250px; width: auto">
                                         </a>
                                         <div class="box-hover">
                                             <ul class="add-to-links">
@@ -940,13 +940,13 @@
                                                                 if(sizeof($products["variants"]) == 1){
                                                                     if($products["discount"] == ""){
                                                                         foreach($products["variants"] as $variants){
-                                                                            echo "PKR: ".$variants["price"];
+                                                                            echo "PKR: ".number_format($variants["price"]);
                                                                         }
                                                                     }else{
                                                                         foreach($products["variants"] as $variants){
                                                                             $total_price = $variants["price"];
-                                                                            $discount = $total_price - (($products["discount"] / 100) * $total_price);
-                                                                            echo "PKR: ".$discount;
+                                                                            $discount = $total_price - $products["discount"];
+                                                                            echo "PKR: ".number_format($discount);
                                                                         }
                                                                     }
                                                                 }else{
@@ -962,7 +962,7 @@
                                                                     if($products["discount"] == ""){
                                                                     }else{
                                                                         foreach($products["variants"] as $variants){
-                                                                        echo "PKR: ".$variants["price"];
+                                                                        echo "PKR: ".number_format($variants["price"]);
                                                                         }
                                                                     }
                                                                 }    

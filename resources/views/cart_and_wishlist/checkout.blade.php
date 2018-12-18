@@ -645,7 +645,7 @@
                                                         <li>
                                                             <input type="radio" name="shipping_method" value="200"
                                                                 id="s_method_flatrate_flatrate" checked="checked" class="radio">
-                                                            <label for="s_method_flatrate_flatrate">Fixed <span class="price">RS : 200</span>
+                                                            <label for="s_method_flatrate_flatrate">Fixed <span class="price">PKR : 200</span>
                                                             </label>
                                                         </li>
                                                     </ul>
@@ -827,7 +827,7 @@
                                                                 echo $detail->product_sale_price;
                                                             }else{
                                                                 $total_price = $detail->product_sale_price;
-                                                                $discount = $total_price - (($detail->product_discount / 100) * $total_price);
+                                                                $discount = $total_price - $detail->product_discount;
                                                                 echo $discount;
                                                             }//$detail->product_sale_price ?></span>
                                                                 </span></td>
@@ -839,7 +839,7 @@
                                                                 echo $detail->product_sale_price * $detail->quantity ;
                                                             }else{
                                                                 $total_price = $detail->product_sale_price;
-                                                                $discount = $total_price - (($detail->product_discount / 100) * $total_price);
+                                                                $discount = $total_price - $detail->product_discount;
                                                                 echo $discount * $detail->quantity ;
                                                             }
                                                             ?></span>
@@ -874,7 +874,7 @@
 
 
                         <dl>
-                            <dt class="complete"> Primary Address <span class="separator">|</span> <a href="#billing">Change</a>
+                            <dt class="complete"> Primary Address 
                             </dt>
                             <dd class="complete">
                                 <address>
@@ -885,7 +885,7 @@
                                     <?= "T: " .$user_data->phone ?> <br>
                                 </address>
                             </dd>
-                            <dt class="complete"> Shipping Address <span class="separator">|</span> <a href="#payment">Change</a>
+                            <dt class="complete"> Shipping Address
                             </dt>
                             <dd class="complete">
                                 <address>
@@ -896,10 +896,10 @@
                                     <?= "T: " .$user_data->phone ?> <br>
                                 </address>
                             </dd>
-                            <dt class="complete"> Shipping Method <span class="separator">|</span> <a href="#shipping_method">Change</a>
+                            <dt class="complete"> Shipping Method
                             </dt>
                             <dd class="complete"> Flat Rate - Fixed <br>
-                                <span class="price">$15.00</span> </dd>
+                                <span class="price">PKR 200</span> </dd>
                             <dt> Payment Method </dt>
 
                         </dl>

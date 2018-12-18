@@ -142,13 +142,13 @@
                                                     <div class="access"><a class="btn-remove1 remove_item" id="<?= $detail->id; ?>" title="Remove This Item" >Remove</a> <a class="btn-edit" title="Edit item" href="#"><i
                                                                 class="icon-pencil"></i><span class="hidden">Edit item</span></a>
                                                     </div>
-                                                    <span class="price">RS : <?php
+                                                    <span class="price">PKR : <?php
                                                     if($detail->product_discount == "") {
-                                                        echo $detail->product_sale_price;
+                                                        echo number_format($detail->product_sale_price);
                                                     }else{
                                                         $total_price = $detail->product_sale_price;
-                                                        $discount = $total_price - (($detail->product_discount / 100) * $total_price);
-                                                        echo $discount;
+                                                        $discount = $total_price - $detail->product_discount;
+                                                        echo number_format($discount);
                                                     } ?></span>
                                                     <p class="product-name"><a href="/product_detail/<?= $detail->product_core_id ?>">
                                                             <?= $detail->product_name ?></a> </p>

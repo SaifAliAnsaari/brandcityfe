@@ -314,13 +314,13 @@
                                                 $(".compare_product").attr("id", variant[0].id);
 
                                                 if(core_items.product_discount == null){
-                                                    $(".price_special").text("PKR: " + variant[0].product_sale_price);
+                                                    $(".price_special").text("PKR: " + variant[0].product_sale_price.toLocaleString('en-GB', {maximumFractionDigits: 1}));
                                                     $(".price_reqular").text("");
                                                 }else{
                                                     //$(".product_discount_hidden").text(core_items.product_discount);
-                                                    var discount = variant[0].product_sale_price - ((core_items.product_discount / 100) * variant[0].product_sale_price);
-                                                    $(".price_special").text("PKR: " + discount);
-                                                    $(".price_reqular").text("PKR: " + variant[0].product_sale_price);
+                                                    var discount = variant[0].product_sale_price - core_items.product_discount;
+                                                    $(".price_special").text("PKR: " + discount.toLocaleString('en-GB', {maximumFractionDigits: 1}));
+                                                    $(".price_reqular").text("PKR: " + variant[0].product_sale_price.toLocaleString('en-GB', {maximumFractionDigits: 1}));
                                                 }
 
                                                 size_arr.push({"size" : item.product_size,
@@ -342,13 +342,13 @@
                                                 $(".wishlist").attr("id", item.id);
                                                 $(".compare_product").attr("id", item.id);
                                                 if(core_items.product_discount == null){
-                                                    $(".price_special").text("PKR: " + item.product_sale_price);
+                                                    $(".price_special").text("PKR: " + item.product_sale_price.toLocaleString('en-GB', {maximumFractionDigits: 1}));
                                                     $(".price_reqular").text("");
                                                 }else{
                                                     //$(".product_discount_hidden").text(core_items.product_discount);
-                                                    var discount = item.product_sale_price - ((core_items.product_discount / 100) * item.product_sale_price);
-                                                    $(".price_special").text("PKR: " + discount);
-                                                    $(".price_reqular").text("PKR: " + item.product_sale_price);
+                                                    var discount = item.product_sale_price - core_items.product_discount;
+                                                    $(".price_special").text("PKR: " + discount.toLocaleString('en-GB', {maximumFractionDigits: 1}));
+                                                    $(".price_reqular").text("PKR: " + item.product_sale_price.toLocaleString('en-GB', {maximumFractionDigits: 1}));
                                                 }
                                                 size_arr.push({"size" : item.product_size,
                                                                 "id" : item.id,
@@ -357,7 +357,7 @@
                                             }
                                         });
 
-                                        console.log(size_arr);
+                                        //console.log(size_arr);
                                        
                                         $(size_arr).each(function(i, data){
                                             if(data["size"]){
@@ -386,6 +386,8 @@
             $('.product_subtotal').each(function() {
                 sum += Number($(this).text());
             });
+
+            //alert($('.product_subtotal').text());
             
 
             //Set text on grand price Span
@@ -410,6 +412,7 @@
                                 if(item['status'] == "success"){
                                     var total_after_coupon = sum - item['value'];
                                     $(".grand_total").text("Grand Total - PKR: " + total_after_coupon);
+                                    //toLocaleString('en-GB', {maximumFractionDigits: 1})
                                 }
                             });
                         }
@@ -493,7 +496,7 @@
             });
 
             //Remove one item from cart
-             $(document).on('click', '.remove_item', function () {
+            $(document).on('click', '.remove_item', function () {
                var id = this.id;
                var thisRef = $(this);
                $.confirm({

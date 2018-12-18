@@ -106,7 +106,7 @@
                     <li class="item first">
                       <div class="product-image"> <a href="/product_detail/<?= $campaign_data["id"] ?>" title="HTC Rhyme Sense"> 
                         <img class="small-image" src="<?= Config::get('constants.options.product_img_host_url').$campaign_data["image"] ?>" alt="HTC Rhyme Sense"> </a>
-                       <div class="new-label new-top-left">New</div>
+                       {{-- <div class="new-label new-top-left">New</div> --}}
                        </div>
                       <div class="product-shop">
                         <h2 class="product-name"><a href="product_detail.html" title="HTC Rhyme Sense"><?= $campaign_data["name"] ?></a></h2>
@@ -153,7 +153,7 @@
 
                                             }else{
                                               foreach($campaign_data["variants"] as $variants){
-                                                echo "PKR: ".$variants["price"];
+                                                echo "PKR: ".number_format($variants["price"]);
                                               }
                                             }
                                           }    
@@ -165,13 +165,13 @@
                                         if(sizeof($campaign_data["variants"]) == 1){
                                             if($campaign_data["discount"] == ""){
                                                 foreach($campaign_data["variants"] as $variants){
-                                                    echo "PKR: ".$variants["price"];
+                                                    echo "PKR: ".number_format($variants["price"]);
                                                 }
                                             }else{
                                                 foreach($campaign_data["variants"] as $variants){
                                                     $total_price = $variants["price"];
-                                                    $discount = $total_price - (($campaign_data["discount"] / 100) * $total_price);
-                                                    echo "PKR: ".$discount;
+                                                    $discount = $total_price - $campaign_data["discount"];
+                                                    echo "PKR: ".number_format($discount);
                                                 }
                                             }
                                         }else{

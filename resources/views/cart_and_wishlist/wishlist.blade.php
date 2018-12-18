@@ -63,11 +63,11 @@
                                                                     <span class="price"><?php 
                                                                         $discount = $data->discount;
                                                                         if($discount == ''){
-                                                                            echo "PKR: ".$data->product_sale_price;
+                                                                            echo "PKR: ".number_format($data->product_sale_price);
                                                                         }else{
                                                                             $total_price = $data->product_sale_price;
-                                                                            $discount_amount = $total_price - (($discount / 100) * $total_price);
-                                                                            echo "PKR: ".$discount_amount;
+                                                                            $discount_amount = $total_price - $discount;
+                                                                            echo "PKR: ".number_format($discount_amount);
                                                                         } ?></span> </span> </div>
                                                         </div>
                                                     </td>

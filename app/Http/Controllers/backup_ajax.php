@@ -518,10 +518,10 @@ class AjaxController extends Controller
                                 ['product_id' => $items->product_id,
                                 'quantity' => $items->quantity,
                                 'unit_price' =>  DB::raw('(Case when (SELECT product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'")) IS NULL then (Select product_sale_price from product_variants where id = "'.$items->product_id.'") 
-                                    Else (Select product_sale_price from product_variants where id = "'.$items->product_id.'") - ((Select product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'")))
+                                    Else (Select product_sale_price from product_variants where id = "'.$items->product_id.'") - (((Select product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'")) / 100) * (Select product_sale_price from product_variants where id = "'.$items->product_id.'"))
                                     End)'),
                                 'total_price' => DB::raw('(Case when (SELECT product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'")) IS NULL then (Select product_sale_price from product_variants where id = "'.$items->product_id.'") * "'.$items->quantity.'"
-                                    Else (Select product_sale_price from product_variants where id = "'.$items->product_id.'") - ((Select product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'"))) * "'.$items->quantity.'"
+                                    Else (Select product_sale_price from product_variants where id = "'.$items->product_id.'") - (((Select product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'")) / 100) * (Select product_sale_price from product_variants where id = "'.$items->product_id.'")) * "'.$items->quantity.'"
                                     End)'),
                                 'discount_applied' => DB::raw('(Case when (SELECT product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'")) IS NULL then 0
                                     Else (SELECT product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'"))
@@ -591,14 +591,14 @@ class AjaxController extends Controller
                                 ['product_id' => $items->product_id,
                                 'quantity' => $items->quantity,
                                 'unit_price' =>  DB::raw('(Case when (SELECT product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'")) IS NULL then (Select product_sale_price from product_variants where id = "'.$items->product_id.'") 
-                                Else (Select product_sale_price from product_variants where id = "'.$items->product_id.'") - ((Select product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'")))
-                                End)'),
-                            'total_price' => DB::raw('(Case when (SELECT product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'")) IS NULL then (Select product_sale_price from product_variants where id = "'.$items->product_id.'") * "'.$items->quantity.'"
-                                Else (Select product_sale_price from product_variants where id = "'.$items->product_id.'") - ((Select product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'"))) * "'.$items->quantity.'"
-                                End)'),
-                            'discount_applied' => DB::raw('(Case when (SELECT product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'")) IS NULL then 0
-                                Else (SELECT product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'"))
-                                End)'),  
+                                    Else (Select product_sale_price from product_variants where id = "'.$items->product_id.'") - (((Select product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'")) / 100) * (Select product_sale_price from product_variants where id = "'.$items->product_id.'"))
+                                    End)'),
+                                'total_price' => DB::raw('(Case when (SELECT product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'")) IS NULL then (Select product_sale_price from product_variants where id = "'.$items->product_id.'") * "'.$items->quantity.'"
+                                    Else (Select product_sale_price from product_variants where id = "'.$items->product_id.'") - (((Select product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'")) / 100) * (Select product_sale_price from product_variants where id = "'.$items->product_id.'")) * "'.$items->quantity.'"
+                                    End)'),
+                                'discount_applied' => DB::raw('(Case when (SELECT product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'")) IS NULL then 0
+                                    Else (SELECT product_discount from product_core where id = (Select product_id from product_variants where id = "'.$items->product_id.'"))
+                                    End)'), 
                                 'order_id' => $insert ]
                             ]);
         

@@ -125,8 +125,7 @@
                                         <div class="item-img-info"><a href="/product_detail/<?= $category_data["id"] ?>" title="Retis lapen casen"
                                                 class="product-image"><img src="
                                         <?= Config::get('constants.options.product_img_host_url').$category_data["image"] ?>
-                                        "
-                                                    alt="Retis lapen casen"></a>
+                                        " style="height: 250px; width: auto" alt="Retis lapen casen"></a>
                                             {{-- <div class="new-label new-top-left">New</div> --}}
                                             <div class="box-hover">
                                                 <ul class="add-to-links">
@@ -214,7 +213,7 @@
 
                                                                         }else{
                                                                             foreach($category_data["variants"] as $variants){
-                                                                                echo "PKR: ".$variants["price"];
+                                                                                echo "PKR: ".number_format($variants["price"]);
                                                                             }
                                                                         }
                                                                     }    
@@ -226,13 +225,13 @@
                                                                     if(sizeof($category_data["variants"]) == 1){
                                                                         if($category_data["discount"] == ""){
                                                                             foreach($category_data["variants"] as $variants){
-                                                                                echo "PKR: ".$variants["price"];
+                                                                                echo "PKR: ".number_format($variants["price"]);
                                                                             }
                                                                         }else{
                                                                             foreach($category_data["variants"] as $variants){
                                                                                 $total_price = $variants["price"];
-                                                                                $discount = $total_price - (($category_data["discount"] / 100) * $total_price);
-                                                                                echo "PKR: ".$discount;
+                                                                                $discount = $total_price - $category_data["discount"];
+                                                                                echo "PKR: ".number_format($discount);
                                                                             }
                                                                         }
                                                                     }else{

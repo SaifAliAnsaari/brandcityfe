@@ -65,12 +65,12 @@
                                                 </a> </h2>
                                         </td>
                                         <td class="a-center"><a title="Edit item parameters" class="edit-bnt" href="#configure/id/15945/"></a></td>
-                                        <td class="a-right"><span class="cart-price"> <span class="price">RS : <?php
+                                        <td class="a-right"><span class="cart-price"> <span class="price">PKR : <?php
                                         if($detail->product_discount == "") {
                                             echo $detail->product_sale_price;
                                         }else{
                                             $total_price = $detail->product_sale_price;
-                                            $discount = $total_price - (($detail->product_discount / 100) * $total_price);
+                                            $discount = $total_price - $detail->product_discount;
                                             echo $discount;
                                         }//$detail->product_sale_price ?></span>
                                             </span></td>
@@ -82,7 +82,7 @@
                                             echo $detail->product_sale_price * $detail->quantity ;
                                         }else{
                                             $total_price = $detail->product_sale_price;
-                                            $discount = $total_price - (($detail->product_discount / 100) * $total_price);
+                                            $discount = $total_price - $detail->product_discount;
                                             echo $discount * $detail->quantity ;
                                         }
                                         ?></span>
@@ -612,7 +612,7 @@
                                                                                                     if($product["discount"] == ""){
                                                                                                     }else{
                                                                                                         foreach($product["variants"] as $variants){
-                                                                                                        echo "PKR: ".$variants["price"];
+                                                                                                        echo "PKR: ".number_format($variants["price"]);
                                                                                                         }
                                                                                                     }
                                                                                                 }    
@@ -624,13 +624,13 @@
                                                                                                     if(sizeof($product["variants"]) == 1){
                                                                                                         if($product["discount"] == ""){
                                                                                                             foreach($product["variants"] as $variants){
-                                                                                                                echo "PKR: ".$variants["price"];
+                                                                                                                echo "PKR: ".number_format($variants["price"]);
                                                                                                             }
                                                                                                         }else{
                                                                                                             foreach($product["variants"] as $variants){
                                                                                                                 $total_price = $variants["price"];
-                                                                                                                $discount = $total_price - (($product["discount"] / 100) * $total_price);
-                                                                                                                echo "PKR: ".$discount;
+                                                                                                                $discount = $total_price - $product["discount"];
+                                                                                                                echo "PKR: ".number_format($discount);
                                                                                                             }
                                                                                                         }
                                                                                                     }else{

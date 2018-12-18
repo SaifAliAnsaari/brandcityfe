@@ -163,7 +163,7 @@
                                             <?php 
                                             if (empty($hot_deal->product_discount)){ ?>
                                             <div class="price-box"> <span class="regular-price"> <span class="price">PKR: 
-                                                        <?= $hot_deal->product_sale_price ?></span>
+                                                        <?= number_format($hot_deal->product_sale_price) ?></span>
                                                 </span>
                                             </div>
                                             <?php }else{
@@ -171,12 +171,12 @@
                                                  $discount = $total_price - (($hot_deal->product_discount / 100) * $total_price); ?>
                                             <div class="price-box"> <span class="price">PKR: 
                                                     <strike>
-                                                        <?= $total_price ?> </strike>
+                                                        <?= number_format($total_price) ?> </strike>
                                                 </span>
 
                                             </div>
                                             <div class="price-box"> <span class="regular-price"> <span class="price">PKR: 
-                                                        <?= $discount ?></span>
+                                                        <?= number_format($discount) ?></span>
                                                 </span>
                                             </div>
                                             <?php }
@@ -291,46 +291,47 @@
                         <li><a data-toggle="tab" href="#tab-3">Computer</a> </li>
                         <li><a data-toggle="tab" href="#tab-4">TV & Audio</a> </li>
                         <li><a data-toggle="tab" href="#tab-5">Accessories</a> </li> --}}
-                        <?php 
-                           
-                        ?>
+                        
                         <?php
-                            if(empty($latest_cat)){
-
-                            }else{
+                       // print_r(sizeof($custom_cat_1)); die;
+                            if(!sizeof($custom_cat_names) == 1){
+                                
+                            }else{ 
                                 $test = array(); 
                                 $counter = 0;
-                                foreach ($latest_cat as $data) { 
-                                    $test[$counter] = $data['name'];
+                                 
+                                foreach ($custom_cat_names as $data) { 
+                                    $test[$counter] = $data->category_name;
                                     $counter++;
                                 }
+
+                                 if(sizeof($test) == 1){ ?>
+                                <li class="active"><a data-toggle="tab" href="#tab-1"><?= $test[0]; ?></a> </li>
+                                <?php }else if(sizeof($test) == 2){ ?>
+                                    <li class="active"><a data-toggle="tab" href="#tab-1"><?= $test[0]; ?></a> </li>
+                                    <li><a data-toggle="tab" href="#tab-2"><?= $test[1]; ?></a> </li>
+                                <?php }else if(sizeof($test) == 3){ ?>
+                                    <li class="active"><a data-toggle="tab" href="#tab-1"><?= $test[0]; ?></a> </li>
+                                    <li><a data-toggle="tab" href="#tab-2"><?= $test[1]; ?></a> </li>
+                                    <li><a data-toggle="tab" href="#tab-3"><?= $test[2]; ?></a> </li>
+                                <?php }else if(sizeof($test) == 4){ ?>
+                                    <li class="active"><a data-toggle="tab" href="#tab-1"><?= $test[0]; ?></a> </li>
+                                    <li><a data-toggle="tab" href="#tab-2"><?= $test[1]; ?></a> </li>
+                                    <li><a data-toggle="tab" href="#tab-3"><?= $test[2]; ?></a> </li>
+                                    <li><a data-toggle="tab" href="#tab-4"><?= $test[3]; ?></a> </li>
+                                <?php }
                                 
                             }
-                            //echo sizeof($test);
+                             
                         ?>
-                        <?php
-                            if(sizeof($test) == 1){ ?>
-                                <li class="active"><a data-toggle="tab" href="#tab-1"><?= $test[0]; ?></a> </li>
-                            <?php }else if(sizeof($test) == 2){ ?>
-                                <li class="active"><a data-toggle="tab" href="#tab-1"><?= $test[0]; ?></a> </li>
-                                <li><a data-toggle="tab" href="#tab-2"><?= $test[1]; ?></a> </li>
-                            <?php }else if(sizeof($test) == 3){ ?>
-                                <li class="active"><a data-toggle="tab" href="#tab-1"><?= $test[0]; ?></a> </li>
-                                <li><a data-toggle="tab" href="#tab-2"><?= $test[1]; ?></a> </li>
-                                <li><a data-toggle="tab" href="#tab-3"><?= $test[2]; ?></a> </li>
-                            <?php }else if(sizeof($test) == 4){ ?>
-                                <li class="active"><a data-toggle="tab" href="#tab-1"><?= $test[0]; ?></a> </li>
-                                <li><a data-toggle="tab" href="#tab-2"><?= $test[1]; ?></a> </li>
-                                <li><a data-toggle="tab" href="#tab-3"><?= $test[2]; ?></a> </li>
-                                <li><a data-toggle="tab" href="#tab-4"><?= $test[3]; ?></a> </li>
-                            <?php }
-                        ?>
+                        
                         
                        
                         
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
+                
 
             </div>
             <div class="product-bestseller">
@@ -344,10 +345,10 @@
                                     <ul class="products-grid">
                                             <?php
                                
-                                            if($new_pro_1->isEmpty()){
+                                            if(!sizeof($custom_cat_1) == 1 ){
             
                                             }else{
-                                                foreach($new_pro_1 as $product){
+                                                foreach($custom_cat_1 as $product){
                                                     //echo $product->product_id;
                                                  ?>
                                                    <li class="item col-lg-3 col-md-3 col-sm-4 col-xs-6">
@@ -400,7 +401,7 @@
                                                                                                         if($product->discount == ""){
                                         
                                                                                                         }else{
-                                                                                                            echo "PKR: ".$product->product_sale_price;
+                                                                                                            echo "PKR: ".number_format($product->product_sale_price);
                                                                                                         }
                                                                                                             
                                                                                                             ?>
@@ -411,11 +412,11 @@
                                                                                                                 
                                                                                                                     //echo "$".$data->price;
                                                                                                                     if($product->discount == ""){
-                                                                                                                        echo "PKR: ".$product->product_sale_price;
+                                                                                                                        echo "PKR: ".number_format($product->product_sale_price);
                                                                                                                     }else{
                                                                                                                         $total_price = $product->product_sale_price;
                                                                                                                         $discount = $total_price - (($product->discount / 100) * $total_price);
-                                                                                                                        echo "PKR: ".$discount;
+                                                                                                                        echo "PKR: ".number_format($discount);
                                                                                                                     }
                                                                                                                
                                                                                                             ?>
@@ -447,10 +448,10 @@
                                     <ul class="products-grid">
                                             <?php
                                
-                                            if($new_pro_2->isEmpty()){
+                                            if(!sizeof($custom_cat_2) == 1){
             
                                             }else{
-                                                foreach($new_pro_2 as $product){
+                                                foreach($custom_cat_2 as $product){
                                                  ?>
                                                              <li class="item col-lg-3 col-md-3 col-sm-4 col-xs-6">
                                                                     <div class="item-inner">
@@ -502,7 +503,7 @@
                                                                                                         if($product->discount == ""){
                                         
                                                                                                         }else{
-                                                                                                            echo "PKR: ".$product->product_sale_price;
+                                                                                                            echo "PKR: ".number_format($product->product_sale_price);
                                                                                                         }
                                                                                                             
                                                                                                             ?>
@@ -513,11 +514,11 @@
                                                                                                                 
                                                                                                                     //echo "$".$data->price;
                                                                                                                     if($product->discount == ""){
-                                                                                                                        echo "PKR: ".$product->product_sale_price;
+                                                                                                                        echo "PKR: ".number_format($product->product_sale_price);
                                                                                                                     }else{
                                                                                                                         $total_price = $product->product_sale_price;
                                                                                                                         $discount = $total_price - (($product->discount / 100) * $total_price);
-                                                                                                                        echo "PKR: ".$discount;
+                                                                                                                        echo "PKR: ".number_format($discount);
                                                                                                                     }
                                                                                                                
                                                                                                             ?>
@@ -549,10 +550,10 @@
                                     <ul class="products-grid">
                                             <?php
                                
-                                            if($new_pro_3->isEmpty()){
+                                            if(!sizeof($custom_cat_3) == 1){
             
                                             }else{
-                                                foreach($new_pro_3 as $product){
+                                                foreach($custom_cat_3 as $product){
                                                     
                                                 
                                                  ?>
@@ -606,7 +607,7 @@
                                                                                                         if($product->discount == ""){
                                         
                                                                                                         }else{
-                                                                                                            echo "PKR: ".$product->product_sale_price;
+                                                                                                            echo "PKR: ".number_format($product->product_sale_price);
                                                                                                         }
                                                                                                             
                                                                                                             ?>
@@ -617,11 +618,11 @@
                                                                                                                 
                                                                                                                     //echo "$".$data->price;
                                                                                                                     if($product->discount == ""){
-                                                                                                                        echo "PKR: ".$product->product_sale_price;
+                                                                                                                        echo "PKR: ".number_format($product->product_sale_price);
                                                                                                                     }else{
                                                                                                                         $total_price = $product->product_sale_price;
                                                                                                                         $discount = $total_price - (($product->discount / 100) * $total_price);
-                                                                                                                        echo "PKR: ".$discount;
+                                                                                                                        echo "PKR: ".number_format($discount);
                                                                                                                     }
                                                                                                                
                                                                                                             ?>
@@ -653,10 +654,10 @@
                                     <ul class="products-grid">
                                             <?php
                                
-                                            if($new_pro_4->isEmpty()){
+                                            if(!sizeof($custom_cat_4) == 1){
             
                                             }else{
-                                                foreach($new_pro_4 as $product){
+                                                foreach($custom_cat_4 as $product){
                                                     
                                                 
                                                  ?>
@@ -710,7 +711,7 @@
                                                                                                         if($product->discount == ""){
                                         
                                                                                                         }else{
-                                                                                                            echo "PKR: ".$product->product_sale_price;
+                                                                                                            echo "PKR: ".number_format($product->product_sale_price);
                                                                                                         }
                                                                                                             
                                                                                                             ?>
@@ -719,11 +720,11 @@
                                                                                                         Price</span> <span class="price">
                                                                                                         <?php
                                                                                                             if($product->discount == ""){
-                                                                                                                echo "PKR: ".$product->product_sale_price;
+                                                                                                                echo "PKR: ".number_format($product->product_sale_price);
                                                                                                             }else{
                                                                                                                 $total_price = $product->product_sale_price;
                                                                                                                 $discount = $total_price - (($product->discount / 100) * $total_price);
-                                                                                                                echo "PKR: ".$discount;
+                                                                                                                echo "PKR: ".number_format($discount);
                                                                                                             }
                                                                                                                
                                                                                                             ?>
@@ -1231,13 +1232,13 @@
                                                                                             if(sizeof($products["variants"]) == 1){
                                                                                                 if($products["discount"] == ""){
                                                                                                     foreach($products["variants"] as $variants){
-                                                                                                        echo "PKR: ".$variants["price"];
+                                                                                                        echo "PKR: ".number_format($variants["price"]);
                                                                                                     }
                                                                                                 }else{
                                                                                                     foreach($products["variants"] as $variants){
                                                                                                         $total_price = $variants["price"];
                                                                                                         $discount = $total_price - (($products["discount"] / 100) * $total_price);
-                                                                                                        echo "PKR: ".$discount;
+                                                                                                        echo "PKR: ".number_format($discount);
                                                                                                     }
                                                                                                 }
                                                                                             }else{
@@ -1253,7 +1254,7 @@
                                                                                                 if($products["discount"] == ""){
                                                                                                 }else{
                                                                                                     foreach($products["variants"] as $variants){
-                                                                                                    echo "PKR: ".$variants["price"];
+                                                                                                    echo "PKR: ".number_format($variants["price"]);
                                                                                                     }
                                                                                                 }
                                                                                             }    

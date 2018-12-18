@@ -217,7 +217,7 @@
 
                                                                                         }else{
                                                                                             foreach($category_data[$j]["variants"] as $variants){
-                                                                                                echo "PKR: ".$variants["price"];
+                                                                                                echo "PKR: ".number_format($variants["price"]);
                                                                                             }
                                                                                         }
                                                                                     }    
@@ -229,13 +229,13 @@
                                                                                     if(sizeof($category_data[$j]["variants"]) == 1){
                                                                                         if($category_data[$j]["discount"] == ""){
                                                                                             foreach($category_data[$j]["variants"] as $variants){
-                                                                                                echo "PKR: ".$variants["price"];
+                                                                                                echo "PKR: ".number_format($variants["price"]);
                                                                                             }
                                                                                         }else{
                                                                                             foreach($category_data[$j]["variants"] as $variants){
                                                                                                 $total_price = $variants["price"];
-                                                                                                $discount = $total_price - (($category_data[$j]["discount"] / 100) * $total_price);
-                                                                                                echo "PKR: ".$discount;
+                                                                                                $discount = $total_price - $category_data[$j]["discount"];
+                                                                                                echo "PKR: ".number_format($discount);
                                                                                             }
                                                                                         }
                                                                                     }else{
