@@ -355,7 +355,7 @@ class AjaxController extends Controller
         //     ->get();
 
         $pCore = DB::table('product_core')
-        ->selectRaw('id, product_name, product_brand, product_discount, product_thumbnail, product_description, 
+        ->selectRaw('id, product_name, product_brand, product_discount, product_thumbnail, product_short_description, 
             (Select AVG(quality) from ratting where product_id = "'.$request->id.'") as average_rating,
             (Select COUNT(*) from ratting where product_id = "'.$request->id.'") as rate_counts')
         ->where('id', '=', $request->id)

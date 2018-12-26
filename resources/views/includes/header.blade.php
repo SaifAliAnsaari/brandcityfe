@@ -37,8 +37,14 @@
                                 </ul>
                             </div>
                             <!-- End Header Company -->
-                            <?php if($user = Auth::user()){ ?>
-                            <div class="login"><a href="/logout"><span class="hidden-xs">Log out</span></a> </div>
+                            <?php if($user = Auth::user()){
+                                $name = Auth::user()->first_name. " " . Auth::user()->last_name; ?>
+                            <div class="dropdown block-company-wrapper hidden-xs"> <a role="button" data-toggle="dropdown"
+                                 class="block-company dropdown-toggle" href=""> {{ $name }} <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li role="presentation"><a href="/logout"> Logout </a> </li>
+                                </ul>
+                            </div>
                             <?php } else{ ?>
                             <div class="login"><a href="/login"><span class="hidden-xs">Log In</span></a> </div>
                             <?php } ?>

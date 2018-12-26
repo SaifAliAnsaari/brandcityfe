@@ -105,7 +105,7 @@
                                 <li class="control">
                                         <label for="phone">Phone Number<em class="required">*</em></label>
                                         <div class="input-box">
-                                            <input id="phone" type="text" class="input-text form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}"
+                                            <input id="phone" type="text" maxlength="11" class="input-text form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}"
                                                 name="phone" value="{{ old('phone') }}" required>
     
                                             @if ($errors->has('phone'))

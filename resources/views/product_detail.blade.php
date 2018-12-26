@@ -184,7 +184,7 @@
                                     <div class="short-description">
                                         <h2>Quick Overview</h2>
                                         <span style="display:block;text-overflow: ellipsis; width: 300px; overflow: hidden; white-space: nowrap;">
-                                            <?= $product_core->product_description ?>
+                                            <?= $product_core->product_short_description ?>
                                         </span>
                                     </div>
                                     <span id="limitExceed" style="display:none; color: red; margin: 20px 0px">Unfortunately We don't have enough stock for this product</span>
@@ -306,6 +306,7 @@
                                     Description </a> </li>
                             <li><a href="#product_tabs_tags" data-toggle="tab">Specs</a></li>
                             <li> <a href="#reviews_tabs" data-toggle="tab">Reviews</a> </li>
+                            <li> <a href="#tags" data-toggle="tab">Tags</a> </li>
                         </ul>
                         <div id="productTabContent" class="tab-content">
                             <div class="tab-pane fade in active" id="product_tabs_description">
@@ -837,6 +838,19 @@
                                     <div class="clear"></div>
                                 </div>
                             </div>
+                            <div class="tab-pane fade" id="tags">
+                                <div class="std">
+                                        <?php 
+                                            if(!empty($tags)){ 
+                                                foreach($tags as $tags){ ?>
+                                            <p>
+                                                <?= $tags->product_tag ?>
+                                            </p>
+                                            <?php } }
+                                        ?>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>

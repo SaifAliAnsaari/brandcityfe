@@ -145,7 +145,7 @@ class Categories extends ParentController
         ->first();
 
         $core = DB::table('product_core')
-        ->selectRaw('id, product_name, product_discount, product_thumbnail, product_description')
+        ->selectRaw('id, product_name, product_discount, product_thumbnail, product_short_description')
         ->whereRaw('product_category_id = (SELECT id FROM product_categories WHERE category_name = "'.$category_name.'") AND is_approved = 1')
         ->paginate(6);
 
@@ -162,7 +162,7 @@ class Categories extends ParentController
             $products[$counter]["name"] = $core_pro->product_name;
             $products[$counter]["discount"] = $core_pro->product_discount;
             $products[$counter]["image"] = $core_pro->product_thumbnail;
-            $products[$counter]["description"] = $core_pro->product_description;
+            $products[$counter]["description"] = $core_pro->product_short_description;
             $v_products = array();
             foreach($variants as $variants_pro){
                 if($variants_pro->product_id == $core_pro->id){
@@ -542,7 +542,7 @@ class Categories extends ParentController
             if($split_val[1] == '999.99'){
 
                 $core = DB::table('product_core as pc')
-                ->selectRaw('id, product_name, product_discount, product_thumbnail, product_description')
+                ->selectRaw('id, product_name, product_discount, product_thumbnail, product_short_description')
                 ->whereRaw('id IN (Select product_id from product_variants where product_sale_price  <= "'.$split_val[1].'" AND is_active > 0) AND is_approved = 1 ')
                 ->paginate(6);
     
@@ -559,7 +559,7 @@ class Categories extends ParentController
                     $products[$counter]["name"] = $core_pro->product_name;
                     $products[$counter]["discount"] = $core_pro->product_discount;
                     $products[$counter]["image"] = $core_pro->product_thumbnail;
-                    $products[$counter]["description"] = $core_pro->product_description;
+                    $products[$counter]["description"] = $core_pro->product_short_description;
                     $v_products = array();
                     foreach($variants as $variants_pro){
                         if($variants_pro->product_id == $core_pro->id){
@@ -578,7 +578,7 @@ class Categories extends ParentController
 
             }else{
                 $core = DB::table('product_core as pc')
-                ->selectRaw('id, product_name, product_discount, product_thumbnail, product_description')
+                ->selectRaw('id, product_name, product_discount, product_thumbnail, product_short_description')
                 ->whereRaw('id IN (Select product_id from product_variants where product_sale_price  >= "'.$split_val[1].'" AND is_active > 0) AND is_approved = 1 ')
                 ->paginate(3);
     
@@ -595,7 +595,7 @@ class Categories extends ParentController
                     $products[$counter]["name"] = $core_pro->product_name;
                     $products[$counter]["discount"] = $core_pro->product_discount;
                     $products[$counter]["image"] = $core_pro->product_thumbnail;
-                    $products[$counter]["description"] = $core_pro->product_description;
+                    $products[$counter]["description"] = $core_pro->product_short_description;
                     $v_products = array();
                     foreach($variants as $variants_pro){
                         if($variants_pro->product_id == $core_pro->id){
@@ -617,7 +617,7 @@ class Categories extends ParentController
            
         }else if($split_val[0] == 'brand'){
             $core = DB::table('product_core as pc')
-                ->selectRaw('id, product_name, product_discount, product_thumbnail, product_description')
+                ->selectRaw('id, product_name, product_discount, product_thumbnail, product_short_description')
                 ->whereRaw('id IN (Select product_id from product_variants where is_active > 0) AND product_brand = "'.$split_val[1].'" AND is_approved = 1 ')
                 ->paginate(3);
     
@@ -634,7 +634,7 @@ class Categories extends ParentController
                     $products[$counter]["name"] = $core_pro->product_name;
                     $products[$counter]["discount"] = $core_pro->product_discount;
                     $products[$counter]["image"] = $core_pro->product_thumbnail;
-                    $products[$counter]["description"] = $core_pro->product_description;
+                    $products[$counter]["description"] = $core_pro->product_short_description;
                     $v_products = array();
                     foreach($variants as $variants_pro){
                         if($variants_pro->product_id == $core_pro->id){
@@ -653,7 +653,7 @@ class Categories extends ParentController
 
         }else if($split_val[0] == 'color'){
             $core = DB::table('product_core as pc')
-            ->selectRaw('id, product_name, product_discount, product_thumbnail, product_description')
+            ->selectRaw('id, product_name, product_discount, product_thumbnail, product_short_description')
             ->whereRaw('id IN (Select product_id from product_variants where product_color = "'.$split_val[1].'" AND is_active > 0) AND is_approved = 1 ')
             ->paginate(3);
 
@@ -670,7 +670,7 @@ class Categories extends ParentController
                 $products[$counter]["name"] = $core_pro->product_name;
                 $products[$counter]["discount"] = $core_pro->product_discount;
                 $products[$counter]["image"] = $core_pro->product_thumbnail;
-                $products[$counter]["description"] = $core_pro->product_description;
+                $products[$counter]["description"] = $core_pro->product_short_description;
                 $v_products = array();
                 foreach($variants as $variants_pro){
                     if($variants_pro->product_id == $core_pro->id){
@@ -689,7 +689,7 @@ class Categories extends ParentController
            
         }else if($split_val[0] == 'discount'){
             $core = DB::table('product_core as pc')
-                ->selectRaw('id, product_name, product_discount, product_thumbnail, product_description')
+                ->selectRaw('id, product_name, product_discount, product_thumbnail, product_short_description')
                 ->whereRaw('id IN (Select product_id from product_variants where is_active > 0) AND product_discount <= "'.$split_val[1].'" AND is_approved = 1')
                 ->paginate(3);
     
@@ -706,7 +706,7 @@ class Categories extends ParentController
                     $products[$counter]["name"] = $core_pro->product_name;
                     $products[$counter]["discount"] = $core_pro->product_discount;
                     $products[$counter]["image"] = $core_pro->product_thumbnail;
-                    $products[$counter]["description"] = $core_pro->product_description;
+                    $products[$counter]["description"] = $core_pro->product_short_description;
                     $v_products = array();
                     foreach($variants as $variants_pro){
                         if($variants_pro->product_id == $core_pro->id){

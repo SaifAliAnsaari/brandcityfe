@@ -248,7 +248,7 @@ class HomeController extends ParentController
 
         //Selected product_detail
         $pCore = DB::table('product_core')
-            ->selectRaw('id, product_name, product_brand, product_discount, product_thumbnail, product_description, product_type_id,
+            ->selectRaw('id, product_name, product_brand, product_discount, product_thumbnail, product_short_description, product_description, product_type_id,
                 (Select AVG(quality) from ratting where product_id = "'.$product_id.'") as average_rating,
                 (Select COUNT(*) from ratting where product_id = "'.$product_id.'") as rate_counts')
             ->whereRaw('id = "'.$product_id.'" AND is_approved = 1')
@@ -260,6 +260,9 @@ class HomeController extends ParentController
                 ->get();
 
         //echo "<pre>"; print_r($pCore); die;
+        $tags = DB::table('product_tags')
+            ->select('product_tag')
+            ->where('product_id', '=', $product_id)->get();
 
 
         //Agar Core khali nae hai to related products ani chaiya warna error page
@@ -335,7 +338,7 @@ class HomeController extends ParentController
             return redirect('/error');
        }else{
         return view('product_detail', ["product_core" => $pCore, "product_images" => $product_images, "specs" => $specs,
-        "availability" => $variant, "categories" => $categories, "product_core_id" => $product_id,
+        "availability" => $variant, "categories" => $categories, "product_core_id" => $product_id, "tags" => $tags,
         "related_products" => $products, 'cart_detail' => $this->get_cart_items_detail,
         'all_product_cats' => $this->get_all_productCats, 'my_rating' => $select_my_rate, 'product_reviews' => $product_reviews, 'nav_links' => $this->navigationData]);
        }
@@ -554,7 +557,7 @@ class HomeController extends ParentController
         $get_colors = DB::table('product_variants')->select('product_color')->groupBy('product_color')->orderBy('id', 'desc')->limit(5)->get(); 
 
         $core = DB::table('product_core')
-        ->selectRaw('id, product_name, product_discount, product_thumbnail, product_description')
+        ->selectRaw('id, product_name, product_discount, product_thumbnail, product_short_description')
         ->whereRaw('product_sku IN (Select sku from campaign_products where campaign_id = "'.$campaign_id.'") AND id IN (Select product_id from product_variants where is_active = 1) AND is_approved = 1')
         ->paginate(6);
 
@@ -575,7 +578,7 @@ class HomeController extends ParentController
             $products[$counter]["name"] = $core_pro->product_name;
             $products[$counter]["discount"] = $core_pro->product_discount;
             $products[$counter]["image"] = $core_pro->product_thumbnail;
-            $products[$counter]["description"] = $core_pro->product_description;
+            $products[$counter]["description"] = $core_pro->product_short_description;
             $v_products = array();
             foreach($variants as $variants_pro){
                 if($variants_pro->product_id == $core_pro->id){

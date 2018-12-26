@@ -134,8 +134,6 @@
                 fullScreenOffsetContainer: ''
             });
 
-           
-
             //Add to cart
             $(document).on('click', '.btn-cart', function () {
                 
@@ -288,7 +286,7 @@
                                     var variant = item.variant;
                                     $(core).each(function(i, core_items){
                                         $('.fancy_box_product_name').text(core_items.product_name);
-                                        $('.fancy_box_description').html($.parseHTML(core_items.product_description));
+                                        $('.fancy_box_description').html($.parseHTML(core_items.product_short_description));
                                         $(".rate_counts").text(core_items.rate_counts + " Review(s)");
                                         var rate = (core_items.average_rating / 5) * 100;
                                         $(".fancy_box_rating").width(rate);
@@ -841,6 +839,9 @@
                if($(this).val() == "new_add"){
                 $('.continue_checkout').hide();
                 $('#billing-new-address-form').show();
+               }else{
+                $('.continue_checkout').show();
+                $('#billing-new-address-form').hide();
                }
             });
 
@@ -1073,6 +1074,8 @@
             }
             return "";
         }
+
+
 
     </script>
 

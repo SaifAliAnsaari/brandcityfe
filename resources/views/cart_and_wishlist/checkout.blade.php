@@ -137,7 +137,7 @@
                                                                     <label>Phone <span class="required">*</span></label> 
                                                                 </li>
                                                                 <li>
-                                                                    <input required type="text" title="phone" name="phone"
+                                                                    <input required type="text" maxlength="11" title="phone" name="phone"
                                                                         class="input-text">
                                                                 </li>
                                                                 <li>

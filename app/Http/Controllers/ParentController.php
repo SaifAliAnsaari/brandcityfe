@@ -12,6 +12,7 @@ class ParentController extends Controller
 
     public $get_all_productCats;
     public $get_cart_items_detail;
+    public $user_name;
     public $get_cart_items;
     public $navigationData;
 
@@ -83,6 +84,7 @@ class ParentController extends Controller
             // ->get(); 
 
         }else{
+        
         $queryParam = '(SELECT product_id from cart where customer_id = '.Auth::id().' and is_active = 1)';
 
         $this->get_cart_items_detail = DB::table('product_variants AS pc')->selectRaw('id, product_sale_price, product_quantity,
