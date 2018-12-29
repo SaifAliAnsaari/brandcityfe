@@ -127,12 +127,12 @@
                         foreach($category_data as $category_data){ ?>
 
                     <li class="item first">
-                      <div class="product-image"> <a href="/product_detail/<?= $category_data["id"] ?>" title="HTC Rhyme Sense"> 
-                        <img class="small-image" src="<?= Config::get('constants.options.product_img_host_url').$category_data["image"] ?>" alt="HTC Rhyme Sense"> </a>
+                      <div class="product-image"> <a href="/product_detail/<?= $category_data["id"] ?>" title="<?= $category_data["name"] ?>"> 
+                        <img class="small-image" src="<?= Config::get('constants.options.product_img_host_url').$category_data["image"] ?>" alt="<?= $category_data["name"] ?>"> </a>
                        {{-- <div class="new-label new-top-left">New</div> --}}
                        </div>
                       <div class="product-shop">
-                        <h2 class="product-name"><a href="product_detail.html" title="HTC Rhyme Sense"><?= $category_data["name"] ?></a></h2>
+                        <h2 class="product-name"><a href="product_detail.html" title="<?= $category_data["name"] ?>"> <?= $category_data["name"] ?></a></h2>
                         <div class="ratings">
                           <div class="rating-box">
                               <?php

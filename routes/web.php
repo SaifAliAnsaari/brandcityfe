@@ -59,6 +59,7 @@ Route::get('/faq', 'Other_links@faq')->name('faq');
 Route::get('/orders', 'Other_links@orders')->name('orders');
 Route::get('/view_order/{order_id}', 'Other_links@view_order')->name('view_order');
 Route::get('/error', 'Other_links@error')->name('error');
+Route::get('/reviews/{product_id}', 'Other_links@reviews')->name('reviews');
 
 //Ajax Calls
 Route::post('response_add_to_cart', 'AjaxController@response_add_to_cart');

@@ -132,10 +132,10 @@
                                             <li class="item col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                                 <div class="item-inner">
                                                     <div class="item-img">
-                                                        <div class="item-img-info"><a href="/product_detail/<?= $category_data[$j]["id"] ?>" title="Retis lapen casen"
+                                                        <div class="item-img-info"><a href="/product_detail/<?= $category_data[$j]["id"] ?>" title="<?= $category_data[$j]["name"] ?>"
                                                                 class="product-image"><img src="
                                                         <?= Config::get('constants.options.product_img_host_url').$category_data[$j]["image"] ?>
-                                                        " alt="Retis lapen casen" style="height: 250px; width: auto"></a>
+                                                        " alt="<?= $category_data[$j]["name"] ?>" style="height: 250px; width: auto"></a>
                                                             {{-- <div class="new-label new-top-left">New</div> --}}
                                                             <div class="box-hover">
                                                                 <ul class="add-to-links">

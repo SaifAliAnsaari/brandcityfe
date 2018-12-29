@@ -128,7 +128,7 @@ class HomeController extends ParentController
                 (Select product_thumbnail from product_core where id = pv.product_id) as image,
                 (Select product_name from product_core where id = pv.product_id) as name,
                 (Select product_discount from product_core where id = pv.product_id) as discount,
-                (Select AVG(quality) from ratting where product_id = pv.id) as ratting')
+                (Select AVG(quality) from ratting where product_id = pv.product_id) as ratting')
             ->whereRaw('product_id IN (Select id from product_core where product_category_id = "'.$custom_categories->category_1.'" AND is_approved = 1) AND is_active = 1')
             ->orderby('id', 'desc')
             ->limit(4)
@@ -140,7 +140,7 @@ class HomeController extends ParentController
                 (Select product_thumbnail from product_core where id = pv.product_id) as image,
                 (Select product_name from product_core where id = pv.product_id) as name,
                 (Select product_discount from product_core where id = pv.product_id) as discount,
-                (Select AVG(quality) from ratting where product_id = pv.id) as ratting')
+                (Select AVG(quality) from ratting where product_id = pv.product_id) as ratting')
             ->whereRaw('product_id IN (Select id from product_core where product_category_id = "'.$custom_categories->category_2.'" AND is_approved = 1) AND is_active = 1')
             ->orderby('id', 'desc')
             ->limit(4)
@@ -152,7 +152,7 @@ class HomeController extends ParentController
                 (Select product_thumbnail from product_core where id = pv.product_id) as image,
                 (Select product_name from product_core where id = pv.product_id) as name,
                 (Select product_discount from product_core where id = pv.product_id) as discount,
-                (Select AVG(quality) from ratting where product_id = pv.id) as ratting')
+                (Select AVG(quality) from ratting where product_id = pv.product_id) as ratting')
             ->whereRaw('product_id IN (Select id from product_core where product_category_id = "'.$custom_categories->category_3.'" AND is_approved = 1) AND is_active = 1')
             ->orderby('id', 'desc')
             ->limit(4)
@@ -164,7 +164,7 @@ class HomeController extends ParentController
                 (Select product_thumbnail from product_core where id = pv.product_id) as image,
                 (Select product_name from product_core where id = pv.product_id) as name,
                 (Select product_discount from product_core where id = pv.product_id) as discount,
-                (Select AVG(quality) from ratting where product_id = pv.id) as ratting')
+                (Select AVG(quality) from ratting where product_id = pv.product_id) as ratting')
             ->whereRaw('product_id IN (Select id from product_core where product_category_id = "'.$custom_categories->category_4.'" AND is_approved = 1) AND is_active = 1')
             ->orderby('id', 'desc')
             ->limit(4)
@@ -178,7 +178,7 @@ class HomeController extends ParentController
             $custom_cat_four = array();
         }
 
-        //echo "<pre>"; print_r($custom_cat_names); die;
+       // echo "<pre>"; print_r($custom_cat_one); die;
  
         $featured_banner = DB::table('product_core as pc')
             ->selectRaw('id, product_name, (Select new_product_banner_img from home_misc) as image')
@@ -305,10 +305,25 @@ class HomeController extends ParentController
 
         //echo "<pre>"; print_r($products); die;
 
-        $specs = DB::table('product_spec_sheet as pss')
-            ->selectRaw('id, (SELECT specification from product_type_specs where id = pss.spec_id) as specification, IFNULL(description, "NA") as description')->where('product_id', $product_id)->get();
+        // $specs = DB::table('product_spec_sheet as pss')
+        //     ->selectRaw('id, (SELECT specification from product_type_specs where id = pss.spec_id) as specification, IFNULL(description, "NA") as description')->where('product_id', $product_id)->get();
 
-        // echo "<pre>"; print_r($specs); die;
+        if(!empty($pCore)){
+            $type_id = DB::table('product_core')->select('product_type_id')->where('id', $product_id)->first()->product_type_id;
+
+            $headers = DB::table('product_spec_headers as psh')->select('id', 'header_name')->where('type_id', $type_id)->get();
+
+            $data = array();
+            $counter = 0;
+            foreach ($headers as $header) {
+                $data[$counter]['header'] = $header->header_name;
+                
+                $data[$counter]['specs'] = DB::table('product_type_specs as pts')->select('id', 'specification', DB::raw('(SELECT description from product_spec_sheet where product_id = '.$product_id.' and spec_id = pts.id) as description'))->where('header_id', $header->id)->get();
+                $counter++;
+            }
+        }
+
+        //echo "<pre>"; print_r($data); die;
 
         $product_images = DB::table('product_images')->where ('product_id', '=', $product_id)->get(); 
 
@@ -337,7 +352,7 @@ class HomeController extends ParentController
        if(empty($pCore) || !$pCore){
             return redirect('/error');
        }else{
-        return view('product_detail', ["product_core" => $pCore, "product_images" => $product_images, "specs" => $specs,
+        return view('product_detail', ["product_core" => $pCore, "product_images" => $product_images, "specs" => $data,
         "availability" => $variant, "categories" => $categories, "product_core_id" => $product_id, "tags" => $tags,
         "related_products" => $products, 'cart_detail' => $this->get_cart_items_detail,
         'all_product_cats' => $this->get_all_productCats, 'my_rating' => $select_my_rate, 'product_reviews' => $product_reviews, 'nav_links' => $this->navigationData]);

@@ -119,11 +119,10 @@
                             <div class="item-img">
                                 <div class="item-img-info">
 
-                                    <a href="/product_detail/<?= $hot_deal->id ?>" title="Retis lapen casen" class="product-image">
+                                    <a href="/product_detail/<?= $hot_deal->id ?>" title="<?= $hot_deal->product_name ?>" class="product-image">
                                         <img src="
                                         <?= Config::get('constants.options.product_img_host_url').$hot_deal->product_thumbnail?>
-                                        "
-                                            alt="Retis lapen casen"> </a>
+                                        " alt="<?= $hot_deal->product_name ?>"> </a>
                                     <div class="hot-label hot-top-left">Hot Deal</div>
                                     <div class="box-hover">
                                         <ul class="add-to-links">
@@ -139,7 +138,7 @@
                             </div>
                             <div class="item-info">
                                 <div class="info-inner">
-                                    <div class="item-title"> <a href="/product_detail/<?= $hot_deal->id ?>" title="Retis lapen casen">
+                                    <div class="item-title"> <a href="/product_detail/<?= $hot_deal->id ?>" title="<?= $hot_deal->product_name ?>">
                                             <?= $hot_deal->product_name ?> </a> </div>
                                     <div class="item-content">
                                         <div class="rating">
@@ -355,8 +354,8 @@
                                                                     <div class="item-inner">
                                                                         <div class="item-img">
                                                                             <div class="item-img-info">
-                                                                                <a class="product-image" title="Retis lapen casen" href="/product_detail/<?= $product->core_id ?>">
-                                                                                    <img alt="Retis lapen casen" style = "width:200px; height:300px;"
+                                                                                <a class="product-image" title="<?= $product->name ?>" href="/product_detail/<?= $product->core_id ?>">
+                                                                                    <img alt="<?= $product->name ?>" style = "width:200px; height:300px;"
                                                                                      src="<?= Config::get('constants.options.product_img_host_url').$product->image ?>">
                                                                                 </a>
                                                                                 <div class="box-hover">
@@ -373,7 +372,7 @@
                                                                         </div>
                                                                         <div class="item-info">
                                                                             <div class="info-inner">
-                                                                                <div class="item-title"> <a title="Retis lapen casen" href="/product_detail/<?= $product->core_id ?>">
+                                                                                <div class="item-title"> <a title="<?= $product->name ?>" href="/product_detail/<?= $product->core_id ?>">
                                                                                        <?= $product->name ?> </a> </div>
                                                                                 <div class="item-content">
                                                                                     <div class="rating">
@@ -457,8 +456,8 @@
                                                                     <div class="item-inner">
                                                                         <div class="item-img">
                                                                             <div class="item-img-info">
-                                                                                <a class="product-image" title="Retis lapen casen" href="/product_detail/<?= $product->core_id ?>">
-                                                                                    <img alt="Retis lapen casen" style = "width:200px; height:300px;"
+                                                                                <a class="product-image" title="<?= $product->name ?>" href="/product_detail/<?= $product->core_id ?>">
+                                                                                    <img alt="<?= $product->name ?>" style = "width:200px; height:300px;"
                                                                                      src="<?= Config::get('constants.options.product_img_host_url').$product->image ?>">
                                                                                 </a>
                                                                                 <div class="box-hover">
@@ -475,7 +474,7 @@
                                                                         </div>
                                                                         <div class="item-info">
                                                                             <div class="info-inner">
-                                                                                <div class="item-title"> <a title="Retis lapen casen" href="/product_detail/<?= $product->core_id ?>">
+                                                                                <div class="item-title"> <a title="<?= $product->name ?>" href="/product_detail/<?= $product->core_id ?>">
                                                                                        <?= $product->name ?> </a> </div>
                                                                                 <div class="item-content">
                                                                                     <div class="rating">
@@ -561,8 +560,8 @@
                                                                     <div class="item-inner">
                                                                         <div class="item-img">
                                                                             <div class="item-img-info">
-                                                                                <a class="product-image" title="Retis lapen casen" href="/product_detail/<?= $product->core_id ?>">
-                                                                                    <img alt="Retis lapen casen" style = "width:200px; height:300px;"
+                                                                                <a class="product-image" title="<?= $product->name ?>" href="/product_detail/<?= $product->core_id ?>">
+                                                                                    <img alt="<?= $product->name ?>" style = "width:200px; height:300px;"
                                                                                      src="<?= Config::get('constants.options.product_img_host_url').$product->image ?>">
                                                                                 </a>
                                                                                 <div class="box-hover">
@@ -579,7 +578,7 @@
                                                                         </div>
                                                                         <div class="item-info">
                                                                             <div class="info-inner">
-                                                                                <div class="item-title"> <a title="Retis lapen casen" href="/product_detail/<?= $product->core_id ?>">
+                                                                                <div class="item-title"> <a title="<?= $product->name ?>" href="/product_detail/<?= $product->core_id ?>">
                                                                                        <?= $product->name ?> </a> </div>
                                                                                 <div class="item-content">
                                                                                     <div class="rating">
@@ -665,8 +664,8 @@
                                                                     <div class="item-inner">
                                                                         <div class="item-img">
                                                                             <div class="item-img-info">
-                                                                                <a class="product-image" title="Retis lapen casen" href="/product_detail/<?= $product->core_id ?>">
-                                                                                    <img alt="Retis lapen casen" style = "width:200px; height:300px;"
+                                                                                <a class="product-image" title="<?= $product->name ?>" href="/product_detail/<?= $product->core_id ?>">
+                                                                                    <img alt="<?= $product->name ?>" style = "width:200px; height:300px;"
                                                                                      src="<?= Config::get('constants.options.product_img_host_url').$product->image ?>">
                                                                                 </a>
                                                                                 <div class="box-hover">
@@ -683,7 +682,7 @@
                                                                         </div>
                                                                         <div class="item-info">
                                                                             <div class="info-inner">
-                                                                                <div class="item-title"> <a title="Retis lapen casen" href="/product_detail/<?= $product->core_id ?>">
+                                                                                <div class="item-title"> <a title="<?= $product->name ?>" href="/product_detail/<?= $product->core_id ?>">
                                                                                        <?= $product->name ?> </a> </div>
                                                                                 <div class="item-content">
                                                                                     <div class="rating">
@@ -1158,8 +1157,8 @@
                                                  <div class="item">
                                                         <div class="item-inner">
                                                             <div class="item-img">
-                                                                <div class="item-img-info"> <a class="product-image" title="Retis lapen casen" href="/product_detail/<?= $products["id"] ?>">
-                                                                        <img alt="Retis lapen casen" style = "width:200px; height:300px;" src="<?= Config::get('constants.options.product_img_host_url').$products["image"] ?>">
+                                                                <div class="item-img-info"> <a class="product-image" title="<?= $products['name'] ?>" href="/product_detail/<?= $products["id"] ?>">
+                                                                        <img alt="<?= $products['name'] ?>" style = "width:200px; height:300px;" src="<?= Config::get('constants.options.product_img_host_url').$products["image"] ?>">
                                                                     </a>
                                                                     <div class="box-hover">
                                                                         <ul class="add-to-links">
@@ -1193,7 +1192,7 @@
                                                             </div>
                                                             <div class="item-info">
                                                                 <div class="info-inner">
-                                                                    <div class="item-title"> <a title="Retis lapen casen" href="/product_detail/<?= $products["id"] ?>">
+                                                                    <div class="item-title"> <a title="<?= $products['name'] ?>" href="/product_detail/<?= $products["id"] ?>">
                                                                             <?= $products["name"] ?> </a> </div>
                                                                     <div class="rating">
                                                                         <div class="ratings">

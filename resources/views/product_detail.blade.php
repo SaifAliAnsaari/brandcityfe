@@ -317,8 +317,8 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="product_tabs_tags">
-                                <div class="box-collateral box-tags">
-                                    <div class="table-responsive">
+                                <div class="box-collateral box-tags" style = "padding:5px;">
+                                    {{-- <div class="table-responsive">
                                         <table class="table table-striped compare-table">
                                             <colgroup>
                                                 <col width="1">
@@ -326,17 +326,36 @@
                                                 <col width="50%">
                                             </colgroup>
                                             <tbody>
-                                                @foreach($specs as $spec)
+                                                <tr> --}}
+                                                    @if(!empty($specs))
+                                                        <?php $counter = 0; ?>
+                                                        @foreach ($specs as $data)
+                                                            <span style="padding: 10px 10px; display: block; background: #fbf9f9; border: 1px solid #dcd4d4; font-weight: 400;">{{ $data['header'] }}</span>
+                                                            @foreach ($data['specs'] as $spec)
+                                                                <div class="row" style="margin-top: 10px; margin-left:5px;">
+                                                                    <div class="col-md-4">
+                                                                        <span style="line-height: 45px;"> {{$spec->specification}} </span>
+                                                                    </div>
+                                                                    <div class="col-md-7">
+                                                                        <input  value="{{ $spec->description }}" disabled class = "form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <?php $counter++; ?>
+                                                            @endforeach
+                                                        @endforeach
+                                                    @endif
+                                                {{-- </tr> --}}
+                                                {{-- @foreach($specs as $spec)
                                                 <tr>
                                                 <th>{{$spec->specification}}</th>
                                                     <td>
                                                         <div>{!!$spec->description!!}</div>
                                                     </td>
                                                 </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                @endforeach --}}
+                                            {{-- </tbody>
+                                        </table> 
+                                    </div>--}}
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="reviews_tabs">
@@ -832,8 +851,12 @@
                                                
                                             </ul>
                                         </div>
-                                        <div class="actions"> <a class="button view-all" id="revies-button" href="#"><span><span>View
-                                                        all</span></span></a> </div>
+                                        <?php 
+                                         if(!$product_reviews->isEmpty()){  ?>
+                                            <div class="actions"> <a class="button view-all" id="revies-button" href="/reviews/<?= $product_core_id ?>"><span><span>View
+                                                    all</span></span></a> </div>
+                                        <?php }
+                                        ?>
                                     </div>
                                     <div class="clear"></div>
                                 </div>

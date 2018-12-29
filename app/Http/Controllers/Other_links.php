@@ -305,5 +305,40 @@ class Other_links extends ParentController
         return view ('other_links/view_order', ['cart_detail' => $this->get_cart_items_detail, 'all_product_cats' => $this->get_all_productCats,
             'nav_links' => $this->navigationData, 'order_data' => $select_data]);
     }
+
+    public function reviews($product_id){
+        setcookie('C-D', "", time() - (86400 * 30), "/");
+       //proceed to checkout
+       setcookie('PP', "", time() - (86400 * 30), "/");
+        if(!Auth::id()){
+            if(isset($_COOKIE['GI'])){ 
+            }else{
+                $random_token = $this->random_string(50);
+                $insert_token = DB::table('guest_info')->insert([
+                    ['session' => $random_token,
+                    'guest_ip' => $request->ip()]
+                ]);
+                if($insert_token){
+                    setcookie('GI', $random_token, time() + (86400 * 30), "/");
+                    //Cookie::queue(Cookie::make('GI', $random_token, 10080));
+                }
+            }
+        }else{
+            //Cookie::queue(  Cookie::forget('GI') );
+            setcookie('GI', "", time() - (86400 * 30), "/");
+        }
+       
+        $get_reviews = DB::table("ratting")
+        ->where("product_id", $product_id)
+        ->get();
+
+        if($get_reviews->isEmpty()){
+            return redirect('/error');
+        }
+
+        parent::navFunction();
+        return view ('other_links/reviews', ['cart_detail' => $this->get_cart_items_detail, 'all_product_cats' => $this->get_all_productCats,
+        'nav_links' => $this->navigationData, "reviews" => $get_reviews]);
+    }
     
 }
