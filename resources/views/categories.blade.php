@@ -54,9 +54,9 @@
                                     if(!empty($cat_img)){ ?>
                                         <div class="item"> <a ><img alt="" src="<?= Config::get('constants.options.category_img_host_url').$cat_img->category_image ?>"></a>
                                             <div class="cat-img-title cat-bg cat-box">
-                                                <div class="small-tag">Street Style</div>
+                                                {{-- <div class="small-tag">Street Style</div>
                                                 <h2 class="cat-heading">New Season</h2>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p> --}}
                                             </div>
                                         </div>
                                    <?php }

@@ -185,10 +185,10 @@
                 var user_id = $('.user_id').val();
                 var quantity = $('.qty-fancy').val();
                 var thisRef = $(this);
-                $('.fancybox_cart_button').attr('disabled', 'disabled');
-                $('.fancybox_cart_button').text('PROCESSING');
                 if (product_id && quantity != 0) {
                     showLoader();
+                    $('.fancybox_cart_button').attr('disabled', 'disabled');
+                    $('.fancybox_cart_button').text('PROCESSING');
                     $.ajax({
                         type: "POST",
                         url: '/response_add_to_cart',
@@ -219,7 +219,7 @@
                         }
                     });
                 }else{
-                    alert("Invalid information");
+                    alert("Invalid quantity");
                 }
             });
 
