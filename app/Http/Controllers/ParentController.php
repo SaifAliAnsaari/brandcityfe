@@ -135,7 +135,7 @@ class ParentController extends Controller
             $subCounter = 0;
             $mainCounter++;
         }
-
+        //echo "<pre>"; print_r($this->navigationData); die;
 
     }
 

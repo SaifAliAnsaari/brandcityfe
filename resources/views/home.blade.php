@@ -109,7 +109,7 @@
             </div>
             <div class="col-md-3 hot-deal">
                 <?php if(empty($hot_deal)){
-                    echo "No hot deal";
+                   // echo "No hot deal";
                 }else{
                      ?>
 
