@@ -107,12 +107,14 @@
                     </div>
                 </div>
             </div>
+            
+            
             <div class="col-md-3 hot-deal">
                 <?php if(empty($hot_deal)){
                    // echo "No hot deal";
                 }else{
                      ?>
-
+                <input id="hidden_end_tmer" hidden type="text" value="<?= $hot_deal->hot_deal_deadline ?>"/>
                 <ul class="products-grid">
                     <li class="right-space two-height item">
                         <div class="item-inner">
@@ -123,7 +125,7 @@
                                         <img src="
                                         <?= Config::get('constants.options.product_img_host_url').$hot_deal->product_thumbnail?>
                                         " alt="<?= $hot_deal->product_name ?>"> </a>
-                                    <div class="hot-label hot-top-left">Hot Deal</div>
+                                    <div class="hot-label hot-top-left">Hot Deal (<?= $hot_deal->hot_deal_deadline ?>)</div>
                                     <div class="box-hover">
                                         <ul class="add-to-links">
                                             <li><a class="link-quickview quickViewModal" id = "<?= $hot_deal->id ?>">Quick View</a> </li>

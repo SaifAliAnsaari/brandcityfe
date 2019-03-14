@@ -57,16 +57,14 @@ class HomeController extends ParentController
         }
             
         parent::navFunction();
-        $get_campaign = DB::table('campaign_management')->select()->orderBy('id', 'desc')->limit(2)->get();  
+        $get_campaign = DB::table('campaign_management')->select()->orderBy('id', 'desc')->get(); 
+        //limit(2)-> 
         //echo "<pre>"; print_r($get_campaign); die;
     
         $get_hot_deal = DB::table('product_core as pc')
-            ->selectRaw('id, product_thumbnail, product_name, product_discount, 
-                (Select product_sale_price from product_variants where product_id = pc.id limit  1) as product_sale_price,
-                (Select AVG(quality) from ratting where product_id = (Select id from product_variants where product_id = pc.id)) as average_rating,
-                (Select id from product_variants where product_id = pc.id limit  1) as product_variant_id')
+            ->selectRaw('id, product_thumbnail, product_name, CONCAT(DATE(hot_deal_deadline), " ", DATE_FORMAT(hot_deal_deadline, "%r")) as hot_deal_deadline, product_discount, (Select product_sale_price from product_variants where product_id = pc.id limit  1) as product_sale_price,(Select AVG(quality) from ratting where product_id = (Select id from product_variants where product_id = pc.id)) as average_rating,(Select id from product_variants where product_id = pc.id limit  1) as product_variant_id')
             ->limit(1)
-            ->whereRaw('hot_deal = 1 AND (Select is_active from product_variants where product_id = pc.id) = 1 AND is_approved = 1')
+            ->whereRaw('hot_deal = 1 AND (Select is_active from product_variants where product_id = pc.id) = 1 AND is_approved = 1 and hot_deal_deadline > DATE_ADD(NOW(), INTERVAL 5 HOUR)')
             ->first();
         //echo "<pre>";print_r($get_hot_deal); die;
         

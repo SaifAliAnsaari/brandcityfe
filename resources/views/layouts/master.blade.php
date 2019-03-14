@@ -1081,8 +1081,18 @@
 
     <!-- Hot Deals Timer 1-->
     <script>
-        var dthen1 = new Date("12/25/17 11:59:00 PM");
-        start = "08/04/15 03:02:11 AM";
+        var dt = new Date();
+        var dthen1 = dt.getFullYear()+'-'+(("0" + (dt.getMonth() + 1)).slice(-2))+'-'+(("0" + (dt.getDate())).slice(-2));
+        var hour = dt.getHours();
+        var minutes = dt.getMinutes();
+        var ampm = hour >= 12 ? 'PM' : 'AM';
+        hour = hour % 12;
+        hour = hour ? hour : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strTime = dthen1 + " " + hour + ':' + minutes + ':' + (("0" + (dt.getSeconds())).slice(-2)) + ' ' + ampm;
+        debugger;
+        var dthen1 = new Date($('#hidden_end_tmer').val());
+        start = strTime;
         start_date = Date.parse(start);
         var dnow1 = new Date(start_date);
         if (CountStepper > 0)
@@ -1090,7 +1100,6 @@
         else
             ddiff = new Date((dthen1) - (dnow1));
         gsecs1 = Math.floor(ddiff.valueOf() / 1000);
-
         var iid1 = "countbox_1";
         CountBack_slider(gsecs1, "countbox_1", 1);
     </script>
