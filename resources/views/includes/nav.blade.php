@@ -15,7 +15,7 @@
                                 
                                 @foreach ($nav_links as $nav)
                                
-                                <li> <a ><i class="fa fa-mobile-phone"></i> {{ $nav["name"] }}</a>
+                                <li> <a ><i class="fa "></i> {{ $nav["name"] }}</a>
                                     <div class="wrap-popup">
                                         <div class="popup">
                                             <div class="row">

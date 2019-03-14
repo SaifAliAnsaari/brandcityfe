@@ -1090,7 +1090,7 @@
         hour = hour ? hour : 12; // the hour '0' should be '12'
         minutes = minutes < 10 ? '0'+minutes : minutes;
         var strTime = dthen1 + " " + hour + ':' + minutes + ':' + (("0" + (dt.getSeconds())).slice(-2)) + ' ' + ampm;
-        debugger;
+      
         var dthen1 = new Date($('#hidden_end_tmer').val());
         start = strTime;
         start_date = Date.parse(start);
