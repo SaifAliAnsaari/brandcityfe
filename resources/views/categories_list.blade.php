@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <ul>
-                        <li style="color: black; font-size:11px;"> Home <span>/</span> </li>
+                        <a href="/"><li style="color: black; font-size:11px;"> Home <span>/</span> </li></a>
                         <li style="color: black; font-size:11px;">
                             <?= $categories->main_category ?> <span>/</span> </li>
                         <li style="color: black; font-size:11px;">

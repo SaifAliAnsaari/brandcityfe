@@ -29,6 +29,14 @@
     <!-- Google Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:700,600,800,400' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Poppins:400,300,500,600,700' rel='stylesheet' type='text/css'>
+    
+    <style type="text/css">
+    	.product-image img{
+    		width: auto !important;
+    		height: auto !important;
+    	}
+    </style>
+
 </head>
 
 <body class="cms-index-index cms-home-page">
@@ -537,6 +545,17 @@
  
             //Search Items
             $('.search_dropdown').keyup(function(){
+                if($(this).val() == " " || !$(this).val()){
+                    $(this).val("");
+                    $('.search_dropdown_list').hide();
+                    $('.search_dropdown_list').html('');
+                    return;
+                }
+                if($(this).val().length < 3){
+                    $('.search_dropdown_list').hide();
+                    $('.search_dropdown_list').html('');
+                    return;
+                }
                 var query_val = $(this).val();
                 var category = $('#cat').val();
                 if(query_val != ""){ 
@@ -550,14 +569,11 @@
                         },
                         success: function (response) {
                             var result = JSON.parse(response); 
-                            //console.log(response); 
-                                $('.search_dropdown_list').fadeIn();
-                                $('.search_dropdown_list').html(result);
-                           
+                            $('.search_dropdown_list').fadeIn();
+                            $('.search_dropdown_list').html(result);
                         }
                     });
                 }
-               
             });
 
             //DropDown (Search)

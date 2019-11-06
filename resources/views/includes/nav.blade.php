@@ -108,7 +108,7 @@
                             maxlength="128">
                         <button type="submit" title="Search" class="search-btn-bg" id="submit-button"><span>Search</span></button>
                         <div class ="row col-md-5"> </div>
-                        <div class ="row col-md-7 search_dropdown_list"> </div>
+                        <div class ="row col-md-7 search_dropdown_list" style="max-height: 200px; overflow: auto;"> </div>
                     </form>
                 </div>
             </div>
